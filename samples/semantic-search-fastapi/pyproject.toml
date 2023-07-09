@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "semantic-search-fastapi"
+version = "0.1.0"
+description = "A FastAPI-based API server for semantic search"
+authors = ["YeonwooSung <neos960518@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "semantic_search_fastapi"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.95.1"
+pydantic = "^1.10.7"
+pip-audit = "^2.5.5"
+
+[tool.poetry.group.dev.dependencies]
+elasticsearch = "^8.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
