@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "clip-search"
+version = "0.1.0"
+description = ""
+authors = ["YeonwooSung <neos960518@gmail.com>"]
+readme = "README.md"
+packages = [{include = "clip_search"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+torch = "^2.0.1"
+datasets = "^2.13.1"
+transformers = "^4.31.0"
+sentence-transformers = "^2.2.2"
+gradio = "^3.38.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
