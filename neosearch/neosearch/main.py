@@ -6,6 +6,7 @@ sys.path.append(".")
 sys.path.append("..")
 
 # custom modules
+from neosearch.ai.sbert import init_sbert_ray_serve
 from neosearch.app import init_app
 from neosearch.utils import Logger
 
@@ -16,6 +17,7 @@ app = init_app(use_rate_limitter=True)
 @app.on_event("startup")
 async def startup_event():
     Logger().get_logger()  # init logger before app starts up
+    init_sbert_ray_serve()  # init ray serve
 
 # shutdown event
 @app.on_event("shutdown")

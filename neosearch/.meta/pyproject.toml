@@ -13,6 +13,7 @@ pyspark = "^3.4.1"
 transformers = "^4.30.2"
 tokenizers = "^0.13.3"
 slowapi = "^0.1.8"
+ray = {extras = ["serve"], version = "^2.7.0"}
 
 
 [build-system]
