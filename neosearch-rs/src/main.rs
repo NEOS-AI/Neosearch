@@ -1,15 +1,17 @@
 #[cfg(feature = "mkl")]
 extern crate intel_mkl_src;
 
-// #[cfg(feature = "accelerate")]
+#[cfg(feature = "accelerate")]
 extern crate accelerate_src;
 
 use candle_transformers::models::jina_bert::{BertModel, Config};
 
 use anyhow::Error as E;
-use candle::{DType, Module, Tensor};
+use candle_core::{DType, Module, Result, Tensor};
 use candle_nn::VarBuilder;
 use clap::Parser;
+
+mod utils;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -62,8 +64,10 @@ impl Args {
                 ))
                 .get("tokenizer.json")?,
         };
-        let device = candle_examples::device(self.cpu)?;
+
+        let device = utils::device(self.cpu)?;
         let config = Config::v2_base();
+
         let tokenizer = tokenizers::Tokenizer::from_file(tokenizer).map_err(E::msg)?;
         let vb = unsafe { VarBuilder::from_mmaped_safetensors(&[model], DType::F32, &device)? };
         let model = BertModel::new(vb, &config)?;
@@ -139,7 +143,7 @@ fn main() -> anyhow::Result<()> {
                 let tokens = tokens.get_ids().to_vec();
                 Tensor::new(tokens.as_slice(), device)
             })
-            .collect::<candle::Result<Vec<_>>>()?;
+            .collect::<Result<Vec<_>>>()?;
 
         let token_ids = Tensor::stack(&token_ids, 0)?;
         println!("running inference on batch {:?}", token_ids.shape());
@@ -175,6 +179,6 @@ fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
-pub fn normalize_l2(v: &Tensor) -> candle::Result<Tensor> {
+pub fn normalize_l2(v: &Tensor) -> Result<Tensor> {
     v.broadcast_div(&v.sqr()?.sum_keepdim(1)?.sqrt()?)
 }
