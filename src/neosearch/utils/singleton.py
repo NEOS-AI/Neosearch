@@ -1,7 +1,7 @@
 class Singleton(type):
     """The singleton metaclass."""
 
-    _instances = {}
+    _instances: dict = {}
 
     def __call__(cls, *args, **kwargs):
         """Override to create only one instance ever.
