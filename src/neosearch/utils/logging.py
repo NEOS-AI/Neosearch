@@ -100,34 +100,97 @@ class Logger(metaclass=Singleton):
                 if self.use_rotate_file_handler:
                     from logging.handlers import RotatingFileHandler
 
-                    file_handler = RotatingFileHandler(
+                    rotate_file_handler = RotatingFileHandler(
                         f"{self.log_name}.log",
                         maxBytes=self.rotate_max_byte,
                         backupCount=self.rotate_backup_count,
                     )
-                    file_handler.setLevel(self.log_level)
-                    file_handler.setFormatter(formatter)
+                    rotate_file_handler.setLevel(self.log_level)
+                    rotate_file_handler.setFormatter(formatter)
+
+                    logger.addHandler(rotate_file_handler)
                 else:
                     file_handler = logging.FileHandler(f"{self.log_name}.log")
                     file_handler.setLevel(self.log_level)
                     file_handler.setFormatter(formatter)
-                logger.addHandler(file_handler)
+
+                    logger.addHandler(file_handler)
 
             self.logger = logger
             return logger
         return self.logger
 
-    def log_debug(self, msg: str):
+    def log_debug(self, msg: str) -> None:
+        """
+        Log debug message.
+
+        Args:
+            msg (str): Message to log
+
+        Raises:
+            AssertionError: If logger is not initialized
+        """
+        if self.logger is None:
+            self.get_logger()
+            assert isinstance(self.logger, logging.Logger)
         self.executor.submit(self.logger.debug, msg)
 
-    def log_info(self, msg: str):
+    def log_info(self, msg: str) -> None:
+        """
+        Log info message.
+
+        Args:
+            msg (str): Message to log
+
+        Raises:
+            AssertionError: If logger is not initialized
+        """
+        if self.logger is None:
+            self.get_logger()
+            assert isinstance(self.logger, logging.Logger)
         self.executor.submit(self.logger.info, msg)
 
-    def log_warning(self, msg: str):
+    def log_warning(self, msg: str) -> None:
+        """
+        Log warning message.
+
+        Args:
+            msg (str): Message to log
+
+        Raises:
+            AssertionError: If logger is not initialized
+        """
+        if self.logger is None:
+            self.get_logger()
+            assert isinstance(self.logger, logging.Logger)
         self.executor.submit(self.logger.warning, msg)
 
-    def log_error(self, msg: str):
+    def log_error(self, msg: str) -> None:
+        """
+        Log error message.
+
+        Args:
+            msg (str): Message to log
+
+        Raises:
+            AssertionError: If logger is not initialized
+        """
+        if self.logger is None:
+            self.get_logger()
+            assert isinstance(self.logger, logging.Logger)
         self.executor.submit(self.logger.error, msg)
 
-    def log_critical(self, msg: str):
+    def log_critical(self, msg: str) -> None:
+        """
+        Log critical message.
+
+        Args:
+            msg (str): Message to log
+
+        Raises:
+            AssertionError: If logger is not initialized
+        """
+        if self.logger is None:
+            self.get_logger()
+            assert isinstance(self.logger, logging.Logger)
         self.executor.submit(self.logger.critical, msg)
