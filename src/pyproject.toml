@@ -15,6 +15,12 @@ tokenizers = "^0.13.3"
 slowapi = "^0.1.8"
 ray = {extras = ["serve"], version = "^2.7.0"}
 sentence-transformers = "^2.2.2"
+sqlalchemy = "^2.0.23"
+asyncpg = "^0.29.0"
+pgvector = "^0.2.4"
+cloud-sql-python-connector = "^1.4.3"
+pytest = "^7.4.3"
+google-cloud-firestore = "^2.13.1"
 
 
 [build-system]
