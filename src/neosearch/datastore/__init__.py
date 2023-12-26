@@ -1,7 +1,7 @@
 from typing import Union
 
 # custom modules
-from . import providers
+from . import providers, vectordb
 from .datastore import Client, create
 
 
@@ -11,4 +11,10 @@ Config = Union[
     providers.cloudsql_postgres.Config,
 ]
 
-__ALL__ = [Client, Config, create, providers]
+__ALL__ = [
+    Client,
+    Config,
+    create,
+    providers,
+    vectordb
+]

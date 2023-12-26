@@ -21,6 +21,7 @@ pgvector = "^0.2.4"
 cloud-sql-python-connector = "^1.4.3"
 pytest = "^7.4.3"
 google-cloud-firestore = "^2.13.1"
+faiss-cpu = "^1.7.4"
 
 
 [build-system]
