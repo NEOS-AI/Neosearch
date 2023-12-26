@@ -1,8 +1,8 @@
 from typing import Union
 
 # custom modules
-from . import providers, vectordb
-from .datastore import Client, create
+from neosearch.datastore import providers, vectordb
+from neosearch.datastore.datastore import Client, create
 
 
 Config = Union[
