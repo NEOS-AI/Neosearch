@@ -9,7 +9,7 @@ packages = [{include = "semantic_search_fastapi"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = "^0.95.1"
+fastapi = "^0.109.0"
 pydantic = "^1.10.7"
 pip-audit = "^2.5.5"
 
