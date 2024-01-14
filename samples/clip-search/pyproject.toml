@@ -10,9 +10,9 @@ packages = [{include = "clip_search"}]
 python = "^3.11"
 torch = "^2.0.1"
 datasets = "^2.13.1"
-transformers = "^4.31.0"
+transformers = "^4.36.0"
 sentence-transformers = "^2.2.2"
-gradio = "^3.38.0"
+gradio = "^4.11.0"
 
 
 [build-system]
