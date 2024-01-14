@@ -14,6 +14,8 @@ def encode_with_sbert(text):
 async def execute_sbert_encode(text):
     sbert = SentenceBert()  # get singleton instance
 
+    #TODO find way to async communication between ray serve and fastapi
+
     # init asyncio event loop and process pool
     loop = asyncio.get_event_loop()
     pool = sbert.get_process_pool()
