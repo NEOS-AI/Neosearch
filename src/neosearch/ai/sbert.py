@@ -38,8 +38,9 @@ class SentenceBert(metaclass=Singleton):
         return self.pool
 
 
-def init_sbert_ray_serve():
-    ray.init()
-    serve.start()
+def init_sbert_ray_serve(init_ray:bool = True):
+    if init_ray:
+        ray.init()
+        serve.start()
     serve.create_backend("sbert", SentenceBert)
     serve.create_endpoint("sbert", backend="sbert", route="/sbert")

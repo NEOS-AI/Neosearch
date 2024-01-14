@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.gzip import GZipMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
@@ -27,9 +26,6 @@ def init_app(use_rate_limitter:bool=False):
     # add custom middlewares
     app.add_middleware(RequestLogger)
     app.add_middleware(RequestID)
-
-    # set up static files (css, js, images, etc.)
-    app.mount("/public", StaticFiles(directory="public"), name="public")
 
     return app
 
