@@ -1,4 +1,3 @@
-from concurrent.futures import ProcessPoolExecutor
 from sentence_transformers import SentenceTransformer
 import torch
 import ray
@@ -31,11 +30,6 @@ class SentenceBert(metaclass=Singleton):
         if self.model is None:
             self.init_model()
         return self.model
-
-    def get_process_pool(self) -> ProcessPoolExecutor:
-        if self.pool is None:
-            self.pool = ProcessPoolExecutor(max_workers=1, initializer=self.get_model)
-        return self.pool
 
 
 def init_sbert_ray_serve(init_ray:bool = True):
