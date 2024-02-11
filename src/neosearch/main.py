@@ -1,11 +1,12 @@
 from fastapi import Request
 import sys
+from ray import serve
 
 # configure the directory name functions as a package
 sys.path.append("..")
 
 # custom modules
-from neosearch.ai.sbert import init_sbert_ray_serve  # noqa: E402
+from neosearch.ai.sbert import sbert_app  # noqa: E402
 from neosearch.app import init_app  # noqa: E402
 from neosearch.utils import Logger  # noqa: E402
 
@@ -17,7 +18,16 @@ logger = Logger()
 @app.on_event("startup")
 async def startup_event() -> None:
     logger.get_logger()  # init logger before app starts up
-    init_sbert_ray_serve()  # init ray serve
+
+    #TODO find way to run ray serve with custom grpc options
+
+    # start ray serve with custom http options
+    serve.start(http_options={"host": "0.0.0.0", "port": 10518})
+
+    # deploy sbert app
+    serve.create_backend("sbert", sbert_app)
+    serve.create_endpoint("sbert", backend="sbert")
+
 
 # shutdown event
 @app.on_event("shutdown")

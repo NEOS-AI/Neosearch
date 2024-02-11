@@ -1,26 +1,24 @@
 from sentence_transformers import SentenceTransformer
 import torch
-import ray
 from ray import serve
-
-# custom modules
-from neosearch.utils import Singleton
+import starlette.requests
 
 
-class SentenceBert(metaclass=Singleton):
-    def __init__(self) -> None:
-        self.init_model()
+@serve.deployment
+class SentenceBert:
+    def __init__(self, model_name: str) -> None:
+        self.init_model(model_name)
         self.pool = None
 
-    def init_model(self) -> None:
+    def init_model(self, model_name) -> None:
         device = torch.deivce(
             "cuda" if torch.cuda.is_available() else (
                 "metal" if torch.metal.is_available() else "cpu"
             )
         )
-        self.model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1').to(device)
+        self.model = SentenceTransformer(model_name).to(device)
 
-    async def __call__(self, request):
+    async def __call__(self, request: starlette.requests.Request):
         text = await request.body()
         with torch.no_grad():
             vector = self.model.encode(text)
@@ -32,9 +30,5 @@ class SentenceBert(metaclass=Singleton):
         return self.model
 
 
-def init_sbert_ray_serve(init_ray:bool = True):
-    if init_ray:
-        ray.init()
-        serve.start()
-    serve.create_backend("sbert", SentenceBert)
-    serve.create_endpoint("sbert", backend="sbert", route="/sbert")
+model_name = "multi-qa-MiniLM-L6-cos-v1"
+sbert_app = SentenceBert.bind(model_name)

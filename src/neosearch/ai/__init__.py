@@ -1,8 +1,8 @@
-from .sbert import SentenceBert, init_sbert_ray_serve
+from .sbert import SentenceBert, sbert_app
 
 
 __all__ = [
     # sbert.py
     "SentenceBert",
-    "init_sbert_ray_serve",
+    "sbert_app",
 ]
