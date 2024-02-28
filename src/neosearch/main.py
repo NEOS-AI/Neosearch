@@ -1,13 +1,13 @@
 from dotenv import load_dotenv
 import sys
-
-load_dotenv()
-
 import logging
 import os
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+# Load environment variables
+load_dotenv()
 
 # Add the root directory to the path so that we can import the settings
 sys.path.append(".")
