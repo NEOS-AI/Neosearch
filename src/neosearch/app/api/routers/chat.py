@@ -1,5 +1,3 @@
-from typing import List
-from pydantic import BaseModel
 from fastapi.responses import StreamingResponse
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from llama_index.core.chat_engine.types import BaseChatEngine
@@ -7,24 +5,16 @@ from llama_index.core.llms import ChatMessage, MessageRole
 
 # custom module
 from neosearch.app.engine import get_chat_engine
+from neosearch.app.models.chat_models import ChatData
 
 # Create a router for the chat endpoint
 chat_router = r = APIRouter()
 
 
-class _Message(BaseModel):
-    role: MessageRole
-    content: str
-
-
-class _ChatData(BaseModel):
-    messages: List[_Message]
-
-
 @r.post("")
 async def chat(
     request: Request,
-    data: _ChatData,
+    data: ChatData,
     chat_engine: BaseChatEngine = Depends(get_chat_engine),
 ):
     # check preconditions and get last message
