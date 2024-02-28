@@ -4,8 +4,11 @@ from fastapi.responses import StreamingResponse
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from llama_index.core.chat_engine.types import BaseChatEngine
 from llama_index.core.llms import ChatMessage, MessageRole
-from app.engine import get_chat_engine
 
+# custom module
+from neosearch.app.engine import get_chat_engine
+
+# Create a router for the chat endpoint
 chat_router = r = APIRouter()
 
 

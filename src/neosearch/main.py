@@ -13,8 +13,9 @@ from fastapi.middleware.cors import CORSMiddleware
 sys.path.append(".")
 sys.path.append("..")
 
-from app.api.routers.chat import chat_router
-from app.settings import init_settings
+# custom module
+from neosearch.app.api.routers.chat import chat_router
+from neosearch.app.settings import init_settings
 
 
 app = FastAPI()

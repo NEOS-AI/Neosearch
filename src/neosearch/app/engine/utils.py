@@ -1,7 +1,7 @@
 import os
 from llama_index.vector_stores.postgres import PGVectorStore
 from urllib.parse import urlparse
-from app.engine.constants import PGVECTOR_SCHEMA, PGVECTOR_TABLE
+from neosearch.app.engine.constants import PGVECTOR_SCHEMA, PGVECTOR_TABLE
 
 
 def init_pg_vector_store_from_env():

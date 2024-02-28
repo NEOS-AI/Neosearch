@@ -1,6 +1,6 @@
 import logging
 from llama_index.core.indices.vector_store import VectorStoreIndex
-from app.engine.utils import init_pg_vector_store_from_env
+from neosearch.app.engine.utils import init_pg_vector_store_from_env
 
 logger = logging.getLogger("uvicorn")
 

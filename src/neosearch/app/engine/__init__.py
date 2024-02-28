@@ -1,4 +1,4 @@
-from app.engine.index import get_index
+from neosearch.app.engine.index import get_index
 
 
 def get_chat_engine():
