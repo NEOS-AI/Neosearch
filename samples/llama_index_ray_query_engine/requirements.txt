@@ -1,5 +1,0 @@
-llama_index
-pdf2image
-ray[data,serve]
-sentence_transformers
-transformers
