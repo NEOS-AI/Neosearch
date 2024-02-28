@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+import sys
 
 load_dotenv()
 
@@ -7,6 +8,11 @@ import os
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+# Add the root directory to the path so that we can import the settings
+sys.path.append(".")
+sys.path.append("..")
+
 from app.api.routers.chat import chat_router
 from app.settings import init_settings
 
