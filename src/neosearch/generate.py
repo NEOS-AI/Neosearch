@@ -1,8 +1,14 @@
 from dotenv import load_dotenv
+import os
 import sys
 import logging
+from llama_index.core import (SimpleDirectoryReader, StorageContext,
+                              VectorStoreIndex)
 from llama_index.core.indices import VectorStoreIndex
+from llama_index.core.node_parser import SentenceWindowNodeParser
 from llama_index.core.storage import StorageContext
+from llama_index.embeddings.openai import OpenAIEmbedding
+from llama_index.vector_stores.milvus import MilvusVectorStore
 
 sys.path.append("..")
 load_dotenv()
@@ -13,6 +19,46 @@ from neosearch.app.engine.utils import init_pg_vector_store_from_env  # noqa: E4
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
+
+
+def generate_datasource_milvus(embed_model):
+    try:
+        milvus_uri = os.getenv("MILVUS_URI")
+        milvus_api_key = os.getenv("MILVUS_API_KEY")
+        milvus_collection = os.getenv("MILVUS_COLLECTION")
+        milvus_dimension = int(os.getenv("MILVUS_DIMENSION"))
+
+        if not all([milvus_uri, milvus_api_key, milvus_collection, milvus_dimension]):
+            raise ValueError("Missing required environment variables.")
+
+        # Create MilvusVectorStore 
+        vector_store = MilvusVectorStore(
+            uri=milvus_uri,
+            token=milvus_api_key,
+            collection_name=milvus_collection,
+            dim=milvus_dimension, # mandatory for new collection creation
+            overwrite=True, # mandatory for new collection creation 
+        )
+
+        # Create StorageContext
+        storage_context = StorageContext.from_defaults(vector_store=vector_store)
+
+        # create the sentence window node parser
+        node_parser = SentenceWindowNodeParser.from_defaults(
+            window_size=3,
+            window_metadata_key="window",
+            original_text_metadata_key="original_text",
+        )
+
+        documents = SimpleDirectoryReader("data").load_data()
+        nodes = node_parser.get_nodes_from_documents(documents)
+        index = VectorStoreIndex(nodes, storage_context=storage_context, embed_model=embed_model)  # noqa: E501
+
+        return index
+    except (KeyError, ValueError) as e:
+        raise ValueError(f"Invalid environment variables: {e}")
+    except ConnectionError as e:
+        raise ConnectionError(f"Failed to connect to Milvus: {e}")
 
 
 def generate_datasource():
