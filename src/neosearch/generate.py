@@ -1,14 +1,15 @@
 from dotenv import load_dotenv
-
-load_dotenv()
-
+import sys
 import logging
 from llama_index.core.indices import VectorStoreIndex
 from llama_index.core.storage import StorageContext
 
-from neosearch.app.engine.loader import get_documents
-from neosearch.app.settings import init_settings
-from neosearch.app.engine.utils import init_pg_vector_store_from_env
+sys.path.append("..")
+load_dotenv()
+
+from neosearch.app.engine.loader import get_documents  # noqa: E402
+from neosearch.app.settings import init_settings  # noqa: E402
+from neosearch.app.engine.utils import init_pg_vector_store_from_env  # noqa: E402
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
