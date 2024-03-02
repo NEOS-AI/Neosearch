@@ -18,17 +18,11 @@ sys.path.append("..")
 
 # custom module
 from neosearch.app.api.routers.chat import chat_router  # noqa: E402
-from neosearch.app.settings import (  # noqa: E402
-    init_settings,
-    lifespan,
-    get_version_from_pyproject_toml
-)
+from neosearch.app.settings import init_settings, init_app  # noqa: E402
 from neosearch.app.utils.logging import Logger  # noqa: E402
 
 
-_version = get_version_from_pyproject_toml()
-app = FastAPI(title="NeoSearch", version=_version, lifespan=lifespan)
-
+app: FastAPI = init_app()
 init_settings()
 
 environment = os.getenv("ENVIRONMENT", "dev")  # Default to 'development' if not set

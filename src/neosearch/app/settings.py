@@ -1,5 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.gzip import GZipMiddleware
+from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 import os
 from functools import cache
 from pathlib import Path
@@ -10,6 +12,7 @@ from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core.settings import Settings
 
 # custom module
+from neosearch.app.middlewares import RequestLogger, RequestID
 from neosearch.app.utils.logging import Logger
 from neosearch.app.utils.gc_tuning import gc_optimization_on_startup
 
@@ -62,3 +65,20 @@ async def lifespan(app: FastAPI):
     yield
 
     #TODO: Add code to clean up the app context
+
+
+def init_app() -> FastAPI:
+    _version = get_version_from_pyproject_toml()
+    app = FastAPI(title="NeoSearch", version=_version, lifespan=lifespan)
+
+    # add middlewares
+    app.add_middleware(
+        ProxyHeadersMiddleware, trusted_hosts="*"
+    )  # add proxy headers to prevent logging IP address of the proxy server instead of the client
+    app.add_middleware(GZipMiddleware, minimum_size=500)  # add gzip compression
+
+    # add custom middlewares
+    app.add_middleware(RequestLogger)
+    app.add_middleware(RequestID)
+
+    return app
