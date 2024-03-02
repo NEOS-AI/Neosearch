@@ -5,6 +5,7 @@ from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 import os
 from functools import cache
 from pathlib import Path
+from traceloop.sdk import Traceloop
 import toml
 
 # custom module
@@ -46,6 +47,9 @@ async def lifespan(app: FastAPI):
     logger.get_logger()
     # gc optimization
     gc_optimization_on_startup()
+
+    # set up traceloop (OpenTelemetry for LLM)
+    Traceloop.init(app_name="NeoSearch", disable_batch=False)
 
     #TODO open redis connection for lifespan
     yield
