@@ -18,7 +18,8 @@ sys.path.append("..")
 
 # custom module
 from neosearch.app.api.routers.chat import chat_router  # noqa: E402
-from neosearch.app.settings import init_settings, init_app  # noqa: E402
+from neosearch.app.settings import init_settings  # noqa: E402
+from neosearch.app.server import init_app  # noqa: E402
 from neosearch.app.utils.logging import Logger  # noqa: E402
 
 
