@@ -55,7 +55,7 @@ async def exception_handler(request, exc):
 @app.exception_handler(StarletteHTTPException)
 async def starlette_http_exception_handler(request, exc):
     await log_http_exception(request, exc)
-    return {"detail": exc.detail}, exc.status_code
+    return PlainTextResponse(str(exc.detail), status_code=exc.status_code)
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
@@ -64,8 +64,9 @@ async def http_exception_handler(request, exc):
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
+    exc.detail = exc.errors()
     await log_http_exception(request, exc)
-    return PlainTextResponse(str(exc), status_code=400)
+    return {"detail": exc.detail}, 400
 
 async def log_http_exception(request, exc):
     logger.log_warning(f"method={request.method} | {request.url} | {request.state.request_id} | {exc.status_code} | details: {exc.detail}")
