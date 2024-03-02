@@ -8,6 +8,7 @@ from pathlib import Path
 import toml
 
 from llama_index.llms.openai import OpenAI
+from llama_index.llms import Ollama
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core.settings import Settings
 
@@ -15,13 +16,24 @@ from llama_index.core.settings import Settings
 from neosearch.app.middlewares import RequestLogger, RequestID
 from neosearch.app.utils.logging import Logger
 from neosearch.app.utils.gc_tuning import gc_optimization_on_startup
+from neosearch.app.utils.configs import Configs
 
 logger = Logger()
-
+config = Configs()
 
 def init_settings():
-    model = os.getenv("MODEL", "gpt-4")
-    Settings.llm = OpenAI(model=model)
+    llm_config = config.get_llm_configs()
+    llm_type = llm_config.get("type", "openai")
+
+    if llm_type == "openai":
+        model = os.getenv("OPENAI_MODEL", "gpt-4")
+        Settings.llm = OpenAI(model=model)
+    elif llm_type == "ollama":
+        model = os.getenv("OLLAMA_MODEL", "mixtral")
+        Settings.llm = Ollama(model=model, request_timeout=30.0)
+    else:
+        raise ValueError(f"Invalid LLM type: {llm_type}")
+
     Settings.embed_model = OpenAIEmbedding(
         model="text-embedding-3-small", embed_batch_size=100
     )
