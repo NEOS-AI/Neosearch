@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "neosearch"
-version = "0.1.0"
+version = "0.1.2"
 description = ""
 authors = [ "Yeonwoo Sung <neos960518@gmail.com>" ]
 readme = "README.md"
@@ -11,6 +11,9 @@ python = ">=3.10,<3.13"
 fastapi = "^0.109.1"
 python-dotenv = "^1.0.0"
 llama-index = "^0.10.7"
+llama-index-vector-stores-milvus = "^0.1.4"
+llama-index-llms-ollama = "^0.1.2"
+pyyaml = "^6.0.1"
 
 [tool.poetry.dependencies.uvicorn]
 extras = [ "standard" ]
