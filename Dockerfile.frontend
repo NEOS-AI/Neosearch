@@ -1,0 +1,13 @@
+FROM python:3
+
+ENV VERSION 0.1.0
+
+WORKDIR /app
+
+COPY neosearch-frontend .
+
+# Install dependencies
+RUN npm install
+
+# Expose port for networking
+EXPOSE 3000

@@ -2,9 +2,9 @@ FROM python:3
 
 ENV VERSION 0.1.0
 
-WORKDIR /neosearch
+WORKDIR /app
 
-COPY src/neosearch .
+COPY neosearch .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
