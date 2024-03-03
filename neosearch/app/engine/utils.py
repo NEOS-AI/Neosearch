@@ -22,7 +22,7 @@ class VectorStoreContainer(metaclass=Singleton):
     This class ensures that only one instance of the vector store is created and shared across the application.
 
     As postgres creates a new process for each connection, we should avoid creating multiple connection pools.
-    """
+    """  # noqa: E501
     def __init__(self):
         self._build_vector_store()
 

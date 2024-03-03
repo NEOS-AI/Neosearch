@@ -4,7 +4,7 @@ from llama_index.core.chat_engine.types import BaseChatEngine
 from llama_index.core.llms import ChatMessage, MessageRole
 
 # custom module
-from neosearch.app.engine import get_chat_engine
+from neosearch.app.engine.chat_engine import get_chat_engine
 from neosearch.app.models.chat_models import ChatData
 
 # Create a router for the chat endpoint
