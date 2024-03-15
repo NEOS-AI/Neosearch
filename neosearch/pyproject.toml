@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "neosearch"
-version = "0.1.6"
+version = "0.1.7"
 description = ""
 authors = [ "Yeonwoo Sung <neos960518@gmail.com>" ]
 readme = "README.md"
