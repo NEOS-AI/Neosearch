@@ -1,11 +1,12 @@
 from llama_index.core.retrievers import BaseRetriever
-from llama_index.core.query_engine import CustomQueryEngine
+from llama_index.core.query_engine import CustomQueryEngine, TransformQueryEngine
 from llama_index.core import get_response_synthesizer
 from llama_index.core.response_synthesizers import BaseSynthesizer
 from llama_index.llms.openai import OpenAI
 from llama_index.core import PromptTemplate
 from llama_index.core.retrievers import VectorIndexAutoRetriever
 from llama_index.core.vector_stores import VectorStoreInfo
+from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 
 
 # custom modules
@@ -13,11 +14,19 @@ from neosearch.app.engine.index import get_index
 from neosearch.app.engine.retriever.base import get_base_retriever
 
 
-def get_query_engine() -> CustomQueryEngine:
-    return RAGQueryEngine()
+def get_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
+    query_engine = RAGQueryEngine()
+    if use_hyde:
+        hyde = HyDEQueryTransform(include_original=True)
+        query_engine = TransformQueryEngine(query_engine, hyde)
+    return query_engine
 
-def get_string_query_engine() -> CustomQueryEngine:
-    return RAGStringQueryEngine()
+def get_string_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
+    query_engine = RAGStringQueryEngine()
+    if use_hyde:
+        hyde = HyDEQueryTransform(include_original=True)
+        query_engine = TransformQueryEngine(query_engine, hyde)
+    return query_engine
 
 
 class RAGQueryEngine(CustomQueryEngine):
