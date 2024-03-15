@@ -1,5 +1,7 @@
 # llama_index_ray
 
+[blog post link](https://www.anyscale.com/blog/build-and-scale-a-powerful-query-engine-with-llamaindex-ray)
+
 ## Overview of Ray and LlamaIndex
 An example on how to use LlamaIndex with Ray for productionizing LLM applications.
 
