@@ -7,7 +7,7 @@ from llama_index.core.retrievers import (
 )
 
 
-class CustomHybridRetriever(BaseRetriever):
+class KeywordHybridRetriever(BaseRetriever):
     def __init__(
         self,
         vector_retriever: VectorIndexRetriever,
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     # define custom retriever
     vector_retriever = VectorIndexRetriever(index=vector_index, similarity_top_k=2)
     keyword_retriever = KeywordTableSimpleRetriever(index=keyword_index)
-    retriever = CustomHybridRetriever(vector_retriever, keyword_retriever)
+    retriever = KeywordHybridRetriever(vector_retriever, keyword_retriever)
 
     # define response synthesizer
     response_synthesizer = get_response_synthesizer()
