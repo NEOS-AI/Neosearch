@@ -21,6 +21,8 @@ pgvecto-rs = {extras = ["sdk"], version = "^0.1.4"}
 llama-index-retrievers-bm25 = "^0.1.3"
 sentence-transformers = "^2.5.1"
 ray = {extras = ["serve"], version = "^2.9.3"}
+slowapi = "^0.1.9"
+traceloop-sdk = "^0.14.5"
 
 [tool.poetry.dependencies.uvicorn]
 extras = [ "standard" ]

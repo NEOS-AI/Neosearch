@@ -1,4 +1,4 @@
-from llama_index.llms import Ollama
+from llama_index.llms.ollama import Ollama
 from llama_index.core.settings import Settings
 import os
 
