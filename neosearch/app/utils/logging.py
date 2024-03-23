@@ -5,7 +5,7 @@ import logging
 import os
 
 # custom module
-from neosearch.utils.singleton import Singleton
+from neosearch.app.utils.singleton import Singleton
 
 
 # constants

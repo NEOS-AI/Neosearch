@@ -3,14 +3,14 @@ from llama_index.core.settings import Settings
 import os
 
 # custom modules
-from neosearch.app.utils.configs import Configs
+from neosearch.app.utils.configs import Config
 
 from .openai import init_openai
 from .ollama import init_ollama
 from .llamacpp import init_llamacpp
 
 
-config = Configs()
+config = Config()
 
 # key-value pair for LLM settings
 LLM_SETTINGS_KV = {

@@ -6,7 +6,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 
 # custom modules
-from neosearch.utils.logging import Logger
+from neosearch.app.utils.logging import Logger
 
 logger = Logger()
 

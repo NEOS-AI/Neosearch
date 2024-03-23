@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 # custom modules
-from neosearch.utils.logging import Logger
+from neosearch.app.utils.logging import Logger
 
 
 logger = Logger()

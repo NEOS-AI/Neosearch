@@ -6,7 +6,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from fastapi.middleware.cors import CORSMiddleware
 import traceback
 
 # Load environment variables
@@ -28,17 +27,6 @@ init_settings()
 
 environment = os.getenv("ENVIRONMENT", "dev")  # Default to 'development' if not set
 logger = Logger()
-
-if environment == "dev":
-    logger.get_logger()
-    logger.log_warning("Running in development mode - allowing CORS for all origins")
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
 
 app.include_router(chat_router, prefix="/api/chat")
 

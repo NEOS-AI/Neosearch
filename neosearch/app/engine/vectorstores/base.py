@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 # custom module
 from neosearch.app.utils.singleton import Singleton
 
 
-class BaseVectorStore(ABC, metaclass=Singleton):
+class BaseVectorStore(metaclass=Singleton):
     @abstractmethod
     def _build_vector_store(self):
         pass
