@@ -1,6 +1,6 @@
 {
   "name": "neosearch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "dev": "cross-env NEXT_PUBLIC_CHAT_API=http://localhost:8000/api/chat next dev",
     "build": "next build",
