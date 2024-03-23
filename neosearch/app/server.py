@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 import os
@@ -57,7 +58,12 @@ async def lifespan(app: FastAPI):
     #TODO: Add code to clean up the app context
 
 
-def init_app() -> FastAPI:
+def init_app(
+    use_cors: bool = False,
+    cors_headers: list = ["*"],
+    cors_methods: list = ["*"],
+    cors_origins: list = ["*"],
+) -> FastAPI:
     _version = get_version_from_pyproject_toml()
     app = FastAPI(title="NeoSearch", version=_version, lifespan=lifespan)
 
@@ -70,5 +76,14 @@ def init_app() -> FastAPI:
     # add custom middlewares
     app.add_middleware(RequestLogger)
     app.add_middleware(RequestID)
+
+    if use_cors:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=cors_origins,
+            allow_credentials=True,
+            allow_methods=cors_methods,
+            allow_headers=cors_headers,
+        )
 
     return app
