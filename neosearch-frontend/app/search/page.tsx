@@ -3,6 +3,7 @@ import { Result } from "@/app/components/result";
 import { Search } from "@/app/components/search";
 import { Title } from "@/app/components/title";
 import { useSearchParams } from "next/navigation";
+
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const query = decodeURIComponent(searchParams.get("q") || "");
