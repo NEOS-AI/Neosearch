@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
 import React, { FC, useState } from "react";
 
+
 export const Search: FC = () => {
   const [value, setValue] = useState("");
   const router = useRouter();
@@ -27,7 +28,7 @@ export const Search: FC = () => {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           autoFocus
-          placeholder="Ask Lepton AI anything ..."
+          placeholder="Ask Neosearch anything ..."
           className="px-2 pr-6 w-full rounded-md flex-1 outline-none bg-white"
         />
         <button
