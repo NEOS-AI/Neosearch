@@ -18,6 +18,8 @@ export const parseStreaming = async (
   let uint8Array = new Uint8Array();
   let chunks = "";
   let sourcesEmitted = false;
+
+  // fetch API call to get query result
   const response = await fetch(`/query`, {
     method: "POST",
     headers: {
@@ -30,10 +32,14 @@ export const parseStreaming = async (
       search_uuid,
     }),
   });
+
+  // if response status is not 200, call onError callback
   if (response.status !== 200) {
     onError?.(response.status);
     return;
   }
+
+  // parse markdown text
   const markdownParse = (text: string) => {
     onMarkdown(
       text
@@ -43,6 +49,8 @@ export const parseStreaming = async (
         .replace(/\[[cC]itation:(\d+)]/g, "[citation]($1)"),
     );
   };
+
+  // fetch stream from response
   fetchStream(
     response,
     (chunk) => {
