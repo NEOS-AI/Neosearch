@@ -6,15 +6,14 @@ import os
 
 # custom module
 from neosearch.app.utils.singleton import Singleton
-
-
-# constants
-_DEFAULT_LOG_NAME = "neosearch"
-_DEFAULT_LOG_LEVEL = "DEBUG"
-_DEFAULT_CONSOLE_LOG_LEVEL = "WARNING"
-_DEFAULT_MAX_BYTES = 10485760
-_DEFAULT_BACKUP_COUNT = 10
-_DEFAULT_LOGGING_WORKERS = 1
+from neosearch.app.utils.constants import (
+    LOG_DEFAULT_CONSOLE_LOG_LEVEL,
+    LOG_DEFAULT_LOG_LEVEL,
+    LOG_DEFAULT_LOG_NAME,
+    LOG_DEFAULT_MAX_BYTES,
+    LOG_DEFAULT_BACKUP_COUNT,
+    LOG_DEFAULT_LOGGING_WORKERS,
+)
 
 
 class Logger(metaclass=Singleton):
@@ -24,8 +23,8 @@ class Logger(metaclass=Singleton):
         self,
         use_file_handler: bool = True,
         use_rotate_file_handler=True,
-        rotate_max_byte: int = _DEFAULT_MAX_BYTES,
-        rotate_backup_count: int = _DEFAULT_BACKUP_COUNT,
+        rotate_max_byte: int = LOG_DEFAULT_MAX_BYTES,
+        rotate_backup_count: int = LOG_DEFAULT_BACKUP_COUNT,
         log_module_name: bool = False,
         log_thread_ids: bool = False,
     ) -> None:
@@ -34,14 +33,14 @@ class Logger(metaclass=Singleton):
 
         Use the proxy pattern to create a singleton logger when it is actually required.
         """
-        self.log_name = os.getenv("LOG_NAME", _DEFAULT_LOG_NAME)
+        self.log_name = os.getenv("LOG_NAME", LOG_DEFAULT_LOG_NAME)
 
         # [DEBUG, INFO, WARNING, ERROR, CRITICAL]
         self.log_level = os.getenv(
-            "LOG_LEVEL", _DEFAULT_LOG_LEVEL
+            "LOG_LEVEL", LOG_DEFAULT_LOG_LEVEL
         )
         self.console_log_level = os.getenv(
-            "CONSOLE_LOG_LEVEL", _DEFAULT_CONSOLE_LOG_LEVEL
+            "CONSOLE_LOG_LEVEL", LOG_DEFAULT_CONSOLE_LOG_LEVEL
         )
 
         self.log_module_name = log_module_name
@@ -53,9 +52,7 @@ class Logger(metaclass=Singleton):
         self.rotate_max_byte = rotate_max_byte
         self.rotate_backup_count = rotate_backup_count
 
-        self.executor = concurrent.futures.ThreadPoolExecutor(
-            max_workers=_DEFAULT_LOGGING_WORKERS
-        )
+        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=LOG_DEFAULT_LOGGING_WORKERS)  # noqa: E501
 
     def get_logger(self) -> logging.Logger:
         """
