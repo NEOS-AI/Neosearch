@@ -12,7 +12,6 @@ import traceback
 load_dotenv()
 
 # Add the root directory to the path so that we can import the settings
-sys.path.append(".")
 sys.path.append("..")
 
 # custom module
