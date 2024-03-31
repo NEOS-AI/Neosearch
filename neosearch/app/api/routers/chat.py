@@ -1,9 +1,10 @@
 from fastapi.responses import StreamingResponse
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, Request
 from llama_index.core.chat_engine.types import BaseChatEngine
-from llama_index.core.llms import ChatMessage, MessageRole
+from llama_index.core.llms import ChatMessage
 
 # custom module
+from neosearch.app.api.utils.chat import validate_chat_data
 from neosearch.app.engine.rag_engine.chat_engine import get_chat_engine
 from neosearch.app.models.chat_models import ChatData
 from neosearch.app.utils.logging import Logger
@@ -22,13 +23,7 @@ async def chat(
     chat_engine: BaseChatEngine = Depends(get_chat_engine),
 ):
     req_id = request.state.request_id
-
-    # check preconditions and get last message
-    if len(data.messages) == 0:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No messages provided",)  # noqa: E501
-    lastMessage = data.messages.pop()
-    if lastMessage.role != MessageRole.USER:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Last message must be from user",)  # noqa: E501
+    lastMessage = await validate_chat_data(data)
 
     # convert messages coming from the request to type ChatMessage
     messages = [

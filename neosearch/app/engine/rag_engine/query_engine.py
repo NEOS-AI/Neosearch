@@ -14,14 +14,14 @@ from neosearch.app.engine.index import get_index
 from neosearch.app.engine.retriever.base import get_base_retriever
 
 
-def get_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
+def get_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
     query_engine = RAGQueryEngine()
     if use_hyde:
         hyde = HyDEQueryTransform(include_original=True)
         query_engine = TransformQueryEngine(query_engine, hyde)
     return query_engine
 
-def get_string_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
+def get_string_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
     query_engine = RAGStringQueryEngine()
     if use_hyde:
         hyde = HyDEQueryTransform(include_original=True)
