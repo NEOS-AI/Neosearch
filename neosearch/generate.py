@@ -13,9 +13,9 @@ from llama_index.vector_stores.milvus import MilvusVectorStore
 sys.path.append("..")
 load_dotenv()
 
-from neosearch.app.engine.loader import get_documents  # noqa: E402
-from neosearch.app.settings import init_settings  # noqa: E402
-from neosearch.app.engine.utils import init_pg_vector_store_from_env  # noqa: E402
+from neosearch.engine.loader import get_documents  # noqa: E402
+from neosearch.settings import init_settings  # noqa: E402
+from neosearch.engine.utils import init_pg_vector_store_from_env  # noqa: E402
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()

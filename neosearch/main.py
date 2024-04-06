@@ -12,14 +12,13 @@ import traceback
 load_dotenv()
 
 # Add the root directory to the path so that we can import the settings
-sys.path.append(".")
 sys.path.append("..")
 
 # custom module
-from neosearch.app.api.routers.chat import chat_router  # noqa: E402
-from neosearch.app.settings import init_settings  # noqa: E402
+from neosearch.api.routers.chat import chat_router  # noqa: E402
+from neosearch.settings import init_settings  # noqa: E402
 from neosearch.app.server import init_app  # noqa: E402
-from neosearch.app.utils.logging import Logger  # noqa: E402
+from neosearch.utils.logging import Logger  # noqa: E402
 
 
 app: FastAPI = init_app()

@@ -1,3 +1,3 @@
 # Neosearch
 
-LLM powered neural search.
+AI-based search engine done right.

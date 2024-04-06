@@ -1,3 +1,6 @@
 __pycache__
 storage
 .env
+
+# sample query response
+sample_query_response.txt
