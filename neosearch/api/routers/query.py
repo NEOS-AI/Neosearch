@@ -27,3 +27,13 @@ async def query_for_search(
     # query to the engine
     response = await query_engine.aquery(query.query)
     logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Query response generated")  # noqa: E501
+
+    # stream response
+    async def event_generator():
+        async for token in response.async_response_gen():
+            # If client closes connection, stop sending events
+            if await request.is_disconnected():
+                break
+            yield token
+
+    return StreamingResponse(event_generator(), media_type="text/plain")
