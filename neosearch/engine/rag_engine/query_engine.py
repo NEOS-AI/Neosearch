@@ -1,3 +1,5 @@
+from typing import Any, Coroutine
+from llama_index.core.base.response.schema import AsyncStreamingResponse, PydanticResponse, Response, StreamingResponse
 from llama_index.core.retrievers import BaseRetriever
 from llama_index.core.query_engine import CustomQueryEngine, TransformQueryEngine
 from llama_index.core import get_response_synthesizer
@@ -56,6 +58,12 @@ class RAGQueryEngine(CustomQueryEngine):
         response_obj = self.response_synthesizer.synthesize(query_str, nodes)
         return response_obj
 
+    async def acustom_query(self, query_str: str):
+        # return super().acustom_query(query_str)
+        nodes = self.retriever.retrieve(query_str)
+        response_obj = self.response_synthesizer.synthesize(query_str, nodes)
+        return response_obj
+
 
 class RAGStringQueryEngine(CustomQueryEngine):
     """RAG String Query Engine."""
@@ -93,6 +101,16 @@ class RAGStringQueryEngine(CustomQueryEngine):
         )
 
     def custom_query(self, query_str: str):
+        nodes = self.retriever.retrieve(query_str)
+
+        context_str = "\n\n".join([n.node.get_content() for n in nodes])
+        response = self.llm.complete(
+            self.qa_prompt.format(context_str=context_str, query_str=query_str)
+        )
+
+        return str(response)
+
+    async def acustom_query(self, query_str: str):
         nodes = self.retriever.retrieve(query_str)
 
         context_str = "\n\n".join([n.node.get_content() for n in nodes])
