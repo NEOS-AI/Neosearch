@@ -1,4 +1,3 @@
-from llama_index.core.retrievers import BaseRetriever
 from llama_index.core.retrievers import (
     BaseRetriever,
     VectorIndexRetriever,
@@ -10,6 +9,13 @@ from llama_index.core.settings import Settings
 
 
 class HybridRetriever(BaseRetriever):
+    """
+    A retriever that combines the results of a vector retriever and a BM25 retriever.
+
+    Attributes:
+        vector_retriever (VectorIndexRetriever): A retriever that uses a vector index.
+        bm25_retriever (BM25Retriever): A retriever that uses BM25.
+    """
     def __init__(
         self,
         vector_retriever: VectorIndexRetriever,

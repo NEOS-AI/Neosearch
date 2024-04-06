@@ -3,7 +3,7 @@ from llama_index.core.settings import Settings
 import os
 
 # custom modules
-from neosearch.app.utils.configs import Config
+from neosearch.utils.configs import Config
 
 from .openai import init_openai
 from .ollama import init_ollama

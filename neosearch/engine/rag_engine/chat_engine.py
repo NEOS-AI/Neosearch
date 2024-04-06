@@ -2,7 +2,7 @@ from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 from llama_index.core.query_engine import TransformQueryEngine
 
 # custom module
-from neosearch.app.engine.index import get_index
+from neosearch.engine.index import get_index
 
 
 def get_chat_engine(use_hyde: bool = True):

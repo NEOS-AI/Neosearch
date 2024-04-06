@@ -1,7 +1,7 @@
 
 # custom module
-from neosearch.app.engine.vectorstores.pg_vector_stores import PgVectorStoreContainer
-from neosearch.app.engine.vectorstores.pgrs_vector_stores import PgRsVectorStoreContainer
+from neosearch.engine.vectorstores.pg_vector_stores import PgVectorStoreContainer
+from neosearch.engine.vectorstores.pgrs_vector_stores import PgRsVectorStoreContainer
 
 
 def init_pg_vector_store_from_env():

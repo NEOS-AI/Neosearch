@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 # custom module
-from neosearch.app.utils.singleton import Singleton
+from neosearch.utils.singleton import Singleton
 
 
 class BaseVectorStore(metaclass=Singleton):

@@ -10,8 +10,8 @@ from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 
 
 # custom modules
-from neosearch.app.engine.index import get_index
-from neosearch.app.engine.retriever.base import get_base_retriever
+from neosearch.engine.index import get_index
+from neosearch.engine.retriever.base import get_base_retriever
 
 
 def get_query_engine(use_hyde: bool = True) -> CustomQueryEngine:

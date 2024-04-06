@@ -1,27 +1,29 @@
-"""Adds uuid to the request header for debugging."""
+"""Provides request logging functionality"""
 
-from uuid import uuid4
-from fastapi import Request
+import time
+from fastapi import Request, Response
+from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import JSONResponse
 
 # custom modules
-from neosearch.app.utils.logging import Logger
+from neosearch.utils.logging import Logger
+
 
 logger = Logger()
 
 
-class RequestID(BaseHTTPMiddleware):
-    """Add a uuid to the request header.
+class RequestLogger(BaseHTTPMiddleware):
+    """
+    To log every request with custom logger.
 
     Args:
         app (fastapi.Request): Instance of a FastAPI class.
     """
 
-    def __init__(self, app):
+    def __init__(self, app) -> None:
         super().__init__(app)
 
-    async def dispatch(self, request: Request, call_next):
+    async def dispatch(self, request: Request, call_next) -> Response:
         """
         Implement the dispatch method.
 
@@ -31,10 +33,12 @@ class RequestID(BaseHTTPMiddleware):
         """
 
         try:
-            request_id = uuid4()
-            request.state.request_id = request_id
+            start = time.time()
             response = await call_next(request)
-            response.headers["request_id"] = str(request_id)
+            end = time.time()
+            logger.log_info(
+                f"method={request.method} | {request.url} | {request.state.request_id} | {response.status_code} | {end - start}s"
+            )
             return response
         except Exception as e:
             logger.log_warning(

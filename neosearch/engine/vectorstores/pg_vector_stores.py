@@ -1,15 +1,14 @@
 import os
-from llama_index.vector_stores.pgvecto_rs import PGVectoRsStore
+from llama_index.vector_stores.postgres import PGVectorStore
 from urllib.parse import urlparse
-from pgvecto_rs.sdk import PGVectoRs
 
 # custom module
-from neosearch.app.engine.constants import PGVECTOR_SCHEMA, PGVECTOR_TABLE
-from neosearch.app.engine.vectorstores.base import BaseVectorStore
-from neosearch.app.utils.singleton import Singleton
+from neosearch.engine.constants import PGVECTOR_SCHEMA, PGVECTOR_TABLE
+from neosearch.engine.vectorstores.base import BaseVectorStore
+from neosearch.utils.singleton import Singleton
 
 
-class PgRsVectorStoreContainer(BaseVectorStore, metaclass=Singleton):
+class PgVectorStoreContainer(BaseVectorStore, metaclass=Singleton):
     """
     A singleton class to hold the vector store instance.
 
@@ -19,8 +18,7 @@ class PgRsVectorStoreContainer(BaseVectorStore, metaclass=Singleton):
 
     As postgres creates a new process for each connection, we should avoid creating multiple connection pools.
     """  # noqa: E501
-    def __init__(self, collection_name: str = PGVECTOR_TABLE):
-        self.collection_name = collection_name
+    def __init__(self):
         self._build_vector_store()
 
     def _build_vector_store(self):
@@ -38,13 +36,15 @@ class PgRsVectorStoreContainer(BaseVectorStore, metaclass=Singleton):
             original_scheme, "postgresql+asyncpg://"
         )
 
-        url = f"{self.conn_string}/{PGVECTOR_SCHEMA}"
-        self.client = PGVectoRs(
-            db_url=url,
-            collection_name=self.collection_name,
-            dimension=1536,  # Using OpenAI’s text-embedding-ada-002
+        self.store = PGVectorStore(
+            connection_string=self.conn_string,
+            async_connection_string=self.async_conn_string,
+            schema_name=PGVECTOR_SCHEMA,
+            table_name=PGVECTOR_TABLE,
+            embed_dim=1536,
+            # hybrid_search=True,
+            # text_search_config="english",
         )
-        self.store = PGVectoRsStore(self.client)
 
     def get_store(self):
         return self.store

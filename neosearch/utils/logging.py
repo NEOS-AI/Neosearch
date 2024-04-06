@@ -5,8 +5,8 @@ import logging
 import os
 
 # custom module
-from neosearch.app.utils.singleton import Singleton
-from neosearch.app.utils.constants import (
+from neosearch.utils.singleton import Singleton
+from neosearch.utils.constants import (
     LOG_DEFAULT_CONSOLE_LOG_LEVEL,
     LOG_DEFAULT_LOG_LEVEL,
     LOG_DEFAULT_LOG_NAME,

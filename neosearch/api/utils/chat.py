@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from llama_index.core.llms import MessageRole
 
 # custom imports
-from neosearch.app.models.chat_models import ChatData
+from neosearch.models.chat_models import ChatData
 
 
 async def validate_chat_data(data: ChatData):

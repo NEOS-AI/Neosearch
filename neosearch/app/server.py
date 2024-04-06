@@ -10,9 +10,9 @@ from traceloop.sdk import Traceloop
 import toml
 
 # custom module
-from neosearch.app.middlewares import RequestLogger, RequestID
-from neosearch.app.utils.logging import Logger
-from neosearch.app.utils.gc_tuning import gc_optimization_on_startup
+from neosearch.middlewares import RequestLogger, RequestID
+from neosearch.utils.logging import Logger
+from neosearch.utils.gc_tuning import gc_optimization_on_startup
 
 
 logger = Logger()

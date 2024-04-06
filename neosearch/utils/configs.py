@@ -1,7 +1,7 @@
 import yaml
 
 # custom imports
-from neosearch.app.utils.singleton import Singleton
+from neosearch.utils.singleton import Singleton
 
 
 def get_config():

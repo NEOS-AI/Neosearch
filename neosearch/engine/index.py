@@ -1,8 +1,8 @@
 from llama_index.core.indices.vector_store import VectorStoreIndex
 
 # custom module
-from neosearch.app.engine.utils import init_pg_vector_store_from_env
-from neosearch.app.utils.logging import Logger
+from neosearch.engine.utils import init_pg_vector_store_from_env
+from neosearch.utils.logging import Logger
 
 logger = Logger()
 

@@ -4,10 +4,10 @@ from llama_index.core.chat_engine.types import BaseChatEngine
 from llama_index.core.llms import ChatMessage
 
 # custom module
-from neosearch.app.api.utils.chat import validate_chat_data
-from neosearch.app.engine.rag_engine.chat_engine import get_chat_engine
-from neosearch.app.models.chat_models import ChatData
-from neosearch.app.utils.logging import Logger
+from neosearch.api.utils.chat import validate_chat_data
+from neosearch.engine.rag_engine.chat_engine import get_chat_engine
+from neosearch.models.chat_models import ChatData
+from neosearch.utils.logging import Logger
 
 
 logger = Logger()
