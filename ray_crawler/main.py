@@ -1,4 +1,5 @@
 import sys
+from ray import serve
 
 sys.path.append("..")
 
@@ -14,6 +15,7 @@ def url_crawl_test():
 def main():
     # Deploy the Ray Serve application.
     deployment = EmbeddingDeployment.bind()
+    serve.run(deployment)
 
 if __name__ == "__main__":
     main()

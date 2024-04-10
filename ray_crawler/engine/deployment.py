@@ -7,7 +7,7 @@ from starlette.requests import Request
 from ray_crawler.engine.embeddings import get_embedding_model
 
 
-@serve.deployment
+@serve.deployment(route_prefix="/embed")
 class EmbeddingDeployment:
     def __init__(self, model_name: str = "sentence-transformers/all-mpnet-base-v2"):
         self.embedding_model = get_embedding_model(model_name)
