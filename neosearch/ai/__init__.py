@@ -1,8 +1,8 @@
-from .sbert import SentenceBert, sbert_app
+from .sbert import SentenceBert, get_sbert_app
 
 
 __all__ = [
     # sbert.py
     "SentenceBert",
-    "sbert_app",
+    "get_sbert_app",
 ]

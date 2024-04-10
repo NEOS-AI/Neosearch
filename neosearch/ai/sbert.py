@@ -30,5 +30,6 @@ class SentenceBert:
         return self.model
 
 
-model_name = "multi-qa-MiniLM-L6-cos-v1"
-sbert_app = SentenceBert.bind(model_name)
+def get_sbert_app(model_name: str = "multi-qa-MiniLM-L6-cos-v1"):
+    sbert_app = SentenceBert.bind(model_name)
+    return sbert_app
