@@ -17,6 +17,16 @@ def get_rag_searcher() -> "RagSearcher":
 
 
 class RagSearcher:
+    """
+    RAG searcher class.
+    Uses the API call to the external search engine to get the search results.
+
+    Attributes:
+        backend (str): The backend to use for the search.
+        max_concurrency (int): The maximum concurrency for the search.
+        search_function (function): The search function to use.
+    """
+
     def __init__(
         self,
         backend: str = "SEARCHAPI",
