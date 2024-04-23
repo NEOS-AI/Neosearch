@@ -9,7 +9,6 @@ from neosearch.api.utils.rag_search import (
     search_with_searchapi,
 )
 from neosearch.constants.rag_search import RAG_SEARCH_HANDLER_MAX_CONCURRENCY
-from neosearch.utils.singleton import Singleton
 
 
 def get_rag_searcher() -> "RagSearcher":
@@ -17,7 +16,7 @@ def get_rag_searcher() -> "RagSearcher":
     return RagSearcher()
 
 
-class RagSearcher(metaclass=Singleton):
+class RagSearcher:
     def __init__(
         self,
         backend: str = "SEARCHAPI",
@@ -65,3 +64,9 @@ class RagSearcher(metaclass=Singleton):
             )
         else:
             raise RuntimeError("Backend must be LEPTON, BING, GOOGLE, SERPER or SEARCHAPI.")
+
+
+    def search(self, query: str):
+        #TODO use self.max_concurrency to keep the search concurrent
+        #TODO search with the backend
+        return self.search_function(query)
