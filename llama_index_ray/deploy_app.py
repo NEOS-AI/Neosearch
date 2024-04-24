@@ -13,11 +13,12 @@ from starlette.requests import Request
 
 from ray import serve
 
-import os
+
 if "OPENAI_API_KEY" not in os.environ:
     raise RuntimeError("Please add the OPENAI_API_KEY environment variable to run this script. Run the following in your terminal `export OPENAI_API_KEY=...`")
 
 openai_api_key = os.environ["OPENAI_API_KEY"]
+
 
 @serve.deployment
 class QADeployment:

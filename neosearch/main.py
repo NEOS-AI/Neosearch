@@ -16,6 +16,8 @@ sys.path.append("..")
 
 # custom module
 from neosearch.api.routers.chat import chat_router  # noqa: E402
+from neosearch.api.routers.query import query_router  # noqa: E402
+from neosearch.api.routers.search import search_router  # noqa: E402
 from neosearch.settings import init_settings  # noqa: E402
 from neosearch.app.server import init_app  # noqa: E402
 from neosearch.utils.logging import Logger  # noqa: E402
@@ -28,6 +30,8 @@ environment = os.getenv("ENVIRONMENT", "dev")  # Default to 'development' if not
 logger = Logger()
 
 app.include_router(chat_router, prefix="/api/chat")
+app.include_router(query_router, prefix="/api/query")
+app.include_router(search_router, prefix="/api/search")
 
 
 #

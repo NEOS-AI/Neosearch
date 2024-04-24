@@ -138,3 +138,6 @@ debug.env
 
 #ctags
 tags
+
+# MacOS
+.DS_Store
