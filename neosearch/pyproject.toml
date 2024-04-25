@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "neosearch"
-version = "0.1.9"
+version = "0.1.10"
 description = ""
 authors = [ "Yeonwoo Sung <neos960518@gmail.com>" ]
 readme = "README.md"
@@ -23,6 +23,7 @@ sentence-transformers = "^2.5.1"
 ray = {extras = ["serve"], version = "^2.9.3"}
 slowapi = "^0.1.9"
 traceloop-sdk = "^0.14.5"
+orjson = "^3.10.1"
 
 [tool.poetry.dependencies.uvicorn]
 extras = [ "standard" ]

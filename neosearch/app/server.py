@@ -2,12 +2,17 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 import os
 from functools import cache
 from pathlib import Path
 from traceloop.sdk import Traceloop
 import toml
+import orjson
+
+from starlette.responses import JSONResponse
+from sqlalchemy.ext.associationproxy import _AssociationList
 
 # custom module
 from neosearch.middlewares import RequestLogger, RequestID
@@ -43,6 +48,20 @@ def get_version_from_pyproject_toml() -> str:
         return os.getenv("VERSION", "x.x.x")
 
 
+
+def default(obj):
+    if isinstance(obj, _AssociationList):
+        return list(obj)
+    raise TypeError
+
+
+class ORJSONResponse(JSONResponse):
+    media_type = "application/json"
+
+    def render(self, content) -> bytes:
+        return orjson.dumps(content, default=default)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.get_logger()
@@ -65,7 +84,12 @@ def init_app(
     cors_origins: list = ["*"],
 ) -> FastAPI:
     _version = get_version_from_pyproject_toml()
-    app = FastAPI(title="NeoSearch", version=_version, lifespan=lifespan)
+    app = FastAPI(
+        title="NeoSearch",
+        version=_version,
+        lifespan=lifespan,
+        default_response_class=ORJSONResponse,
+    )
 
     # add middlewares
     app.add_middleware(
