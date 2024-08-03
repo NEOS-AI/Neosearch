@@ -2,6 +2,7 @@ import sys
 import ray
 from ray import serve
 import torch
+import multiprocessing
 
 sys.path.append("..")
 
@@ -40,10 +41,11 @@ def main(
 
 
 if __name__ == "__main__":
+    num_of_cpus = multiprocessing.cpu_count()
     cuda_available = torch.cuda.is_available()
     if cuda_available:
         # get num of gpus
-        num_gpus = torch.cuda.device_count()
-        main(num_gpus=num_gpus)
+        num_of_gpus = torch.cuda.device_count()
+        main(num_cpus=num_of_cpus, num_gpus=num_of_gpus)
     else:
-        main()
+        main(num_cpus=num_of_cpus)
