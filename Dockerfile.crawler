@@ -1,13 +1,13 @@
-FROM python:3
+FROM python:3.11
 
-ENV VERSION 0.1.0
+ENV VERSION 0.1.1
 
 WORKDIR /app
 
-COPY neosearch .
+COPY ray_crawler .
 
-# move to neosearch directory
-WORKDIR /app/neosearch
+# move to the ray_crawler directory
+WORKDIR /app/ray_crawler
 
 RUN pip install poetry
 RUN sh export_requirements_txt_from_poetry.sh
@@ -16,8 +16,9 @@ RUN pip uninstall -y poetry
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port for networking
-EXPOSE 8000
-
-# Run the server
+# run the crawler
+RUN ray start --head
 CMD ["python", "main.py"]
+
+# Expose port for networking
+EXPOSE 8265

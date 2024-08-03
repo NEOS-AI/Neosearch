@@ -6,8 +6,14 @@ WORKDIR /app
 
 COPY neosearch-frontend .
 
+# move to neosearch-frontend directory
+WORKDIR /app/neosearch-frontend
+
 # Install dependencies
 RUN npm install
 
 # Expose port for networking
 EXPOSE 3000
+
+# run the frontend
+CMD ["npm", "start"]
