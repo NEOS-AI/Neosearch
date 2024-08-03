@@ -21,4 +21,4 @@ RUN ray start --head
 CMD ["python", "main.py"]
 
 # Expose port for networking
-EXPOSE 8000
+EXPOSE 8265
