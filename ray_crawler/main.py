@@ -31,6 +31,9 @@ def main(
     num_gpus: int = 0
 ) -> None:
     if use_custom_server:
+        # Set PyTorch internal threads to 1 to avoid thread contention.
+        torch.set_num_threads(1)
+
         # init ray with the custom configuration
         ray.init(
             num_cpus=num_cpus,
