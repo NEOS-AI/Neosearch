@@ -1,4 +1,4 @@
-from llama_index import ServiceContext
+from llama_index.core import ServiceContext
 from ray import serve
 
 from starlette.requests import Request
@@ -7,7 +7,7 @@ from starlette.requests import Request
 from ray_crawler.engine.embeddings import get_embedding_model
 
 
-@serve.deployment(route_prefix="/embed")
+@serve.deployment
 class EmbeddingDeployment:
     def __init__(self, model_name: str = "sentence-transformers/all-mpnet-base-v2"):
         self.embedding_model = get_embedding_model(model_name)

@@ -15,7 +15,13 @@ def url_crawl_test():
 def deploy_embedding_server():
     # Deploy the Ray Serve application.
     deployment = EmbeddingDeployment.bind()
-    serve.run(deployment)
+    serve.run(
+        deployment,
+        blocking=False,
+        name="embedding_server",
+        route_prefix="/embed"
+    )
+
 
 def main(use_custom_server: bool = False):
     if use_custom_server:
