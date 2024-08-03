@@ -16,5 +16,9 @@ RUN pip uninstall -y poetry
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# run the crawler
+RUN ray start --head
+CMD ["python", "main.py"]
+
 # Expose port for networking
 EXPOSE 8000

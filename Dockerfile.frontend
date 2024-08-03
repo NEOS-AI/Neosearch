@@ -14,3 +14,6 @@ RUN npm install
 
 # Expose port for networking
 EXPOSE 3000
+
+# run the frontend
+CMD ["npm", "start"]
