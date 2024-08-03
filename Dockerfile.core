@@ -6,6 +6,9 @@ WORKDIR /app
 
 COPY neosearch .
 
+# move to neosearch directory
+WORKDIR /app/neosearch
+
 RUN pip install poetry
 RUN sh export_requirements_txt_from_poetry.sh
 RUN pip uninstall -y poetry
