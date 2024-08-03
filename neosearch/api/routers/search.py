@@ -14,7 +14,7 @@ from neosearch.utils.logging import Logger
 logger = Logger()
 
 # Create a router for the chat endpoint
-chat_router = r = APIRouter()
+search_router = r = APIRouter()
 
 @r.post("")
 async def query_for_search(

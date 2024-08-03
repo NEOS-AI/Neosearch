@@ -7,7 +7,6 @@ from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 import os
 from functools import cache
 from pathlib import Path
-from traceloop.sdk import Traceloop
 import toml
 import orjson
 
@@ -21,6 +20,14 @@ from neosearch.utils.gc_tuning import gc_optimization_on_startup
 
 
 logger = Logger()
+
+# Traceloop (OpenTelemetry for LLM) setup
+trace_loop_api_key = os.getenv("TRACELOOP_API_KEY", None)
+if trace_loop_api_key is not None:
+    logger.log_info("Traceloop API key found. Traceloop will be enabled.")
+
+    from traceloop.sdk import Traceloop
+
 
 @cache
 def project_root() -> Path:
@@ -68,8 +75,9 @@ async def lifespan(app: FastAPI):
     # gc optimization
     gc_optimization_on_startup()
 
-    # set up traceloop (OpenTelemetry for LLM)
-    Traceloop.init(app_name="NeoSearch", disable_batch=False)
+    if trace_loop_api_key is not None:
+        # set up traceloop (OpenTelemetry for LLM)
+        Traceloop.init(app_name="NeoSearch", disable_batch=False)
 
     #TODO open redis connection for lifespan
     yield
