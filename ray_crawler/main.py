@@ -1,11 +1,13 @@
 import sys
+import ray
 from ray import serve
+import torch
 
 sys.path.append("..")
 
 # custom modules
-from ray_crawler.engine.deployment import EmbeddingDeployment
-from ray_crawler.utils import extract_url_content
+from engine.deployment import EmbeddingDeployment
+from utils import extract_url_content
 
 
 def url_crawl_test():
@@ -23,11 +25,27 @@ def deploy_embedding_server():
     )
 
 
-def main(use_custom_server: bool = False):
+def main(
+    use_custom_server: bool = True,
+    num_cpus: int = 2,
+    num_gpus: int = 0
+) -> None:
     if use_custom_server:
+        # init ray with the custom configuration
+        ray.init(
+            num_cpus=num_cpus,
+            num_gpus=num_gpus,
+        )
+
         deploy_embedding_server()
     #TODO crawl, extract, and index the content of the URL
 
 
 if __name__ == "__main__":
-    main()
+    cuda_available = torch.cuda.is_available()
+    if cuda_available:
+        # get num of gpus
+        num_gpus = torch.cuda.device_count()
+        main(num_gpus=num_gpus)
+    else:
+        main()
