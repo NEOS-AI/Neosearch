@@ -1,0 +1,20 @@
+FROM python:3.11
+
+ENV VERSION 0.1.0
+
+WORKDIR /app
+
+COPY ray_crawler .
+
+# move to the ray_crawler directory
+WORKDIR /app/ray_crawler
+
+RUN pip install poetry
+RUN sh export_requirements_txt_from_poetry.sh
+RUN pip uninstall -y poetry
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port for networking
+EXPOSE 8000
