@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ray_crawler"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["YeonwooSung <neos960518@gmail.com>"]
 readme = "README.md"
