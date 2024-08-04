@@ -15,34 +15,37 @@ def url_crawl_test():
     url = "https://namu.wiki/w/%EC%95%84%EB%9D%BC%ED%95%98%EC%8B%9C%20%ED%83%80%EB%B9%84"
     print(extract_url_content(url))
 
-def deploy_embedding_server():
+def deploy_embedding_server(
+    blocking: bool = False,
+    name: str = "embedding_server",
+    route_prefix: str = "/embed"
+) -> None:
     # Deploy the Ray Serve application.
     deployment = EmbeddingDeployment.bind()
     serve.run(
         deployment,
-        blocking=False,
-        name="embedding_server",
-        route_prefix="/embed"
+        blocking=blocking,
+        name=name,
+        route_prefix=route_prefix
     )
 
 
-def main(
-    use_custom_server: bool = True,
+def init_and_deploy_hpc_nodes(
     num_cpus: int = 2,
-    num_gpus: int = 0
+    num_gpus: int = 0,
+    avoid_thread_contention: bool = True
 ) -> None:
-    if use_custom_server:
+    if avoid_thread_contention:
         # Set PyTorch internal threads to 1 to avoid thread contention.
         torch.set_num_threads(1)
 
-        # init ray with the custom configuration
-        ray.init(
-            num_cpus=num_cpus,
-            num_gpus=num_gpus,
-        )
+    # init ray with the custom configuration
+    ray.init(
+        num_cpus=num_cpus,
+        num_gpus=num_gpus,
+    )
 
-        deploy_embedding_server()
-    #TODO crawl, extract, and index the content of the URL
+    deploy_embedding_server()
 
 
 if __name__ == "__main__":
@@ -51,6 +54,14 @@ if __name__ == "__main__":
     if cuda_available:
         # get num of gpus
         num_of_gpus = torch.cuda.device_count()
-        main(num_cpus=num_of_cpus, num_gpus=num_of_gpus)
+        init_and_deploy_hpc_nodes(
+            num_cpus=num_of_cpus,
+            num_gpus=num_of_gpus,
+            avoid_thread_contention=True
+        )
     else:
-        main(num_cpus=num_of_cpus)
+        init_and_deploy_hpc_nodes(
+            num_cpus=num_of_cpus, avoid_thread_contention=True
+        )
+
+    #TODO crawl, extract, and index the content of the URL
