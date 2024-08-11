@@ -18,7 +18,7 @@ from neosearch.utils.logging import Logger
 logger = Logger()
 
 
-def search_with_bing(query: str, subscription_key: str):
+def search_with_bing(query: str, subscription_key: str) -> list:
     """
     Search with bing and return the contexts.
     """
@@ -41,7 +41,7 @@ def search_with_bing(query: str, subscription_key: str):
     return contexts
 
 
-def search_with_google(query: str, subscription_key: str, cx: str):
+def search_with_google(query: str, subscription_key: str, cx: str) -> list:
     """
     Search with google and return the contexts.
     """
@@ -66,7 +66,7 @@ def search_with_google(query: str, subscription_key: str, cx: str):
     return contexts
 
 
-def search_with_serper(query: str, subscription_key: str):
+def search_with_serper(query: str, subscription_key: str) -> list:
     """
     Search with serper and return the contexts.
     """
@@ -123,7 +123,7 @@ def search_with_serper(query: str, subscription_key: str):
         return []
 
 
-def search_with_searchapi(query: str, subscription_key: str):
+def search_with_searchapi(query: str, subscription_key: str) -> list:
     """
     Search with SearchApi.io and return the contexts.
     """

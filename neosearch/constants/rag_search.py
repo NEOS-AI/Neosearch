@@ -30,7 +30,7 @@ _default_query = "Who said 'live long and prosper'?"
 # to the model on how to generate the answer. Of course, different models may
 # behave differently, and we haven't tuned the prompt to make it optimal - this
 # is left to you, application creators, as an open problem.
-_rag_query_text = """
+rag_query_text = """
 You are a large language AI assistant built by Lepton AI. You are given a user question, and please write clean, concise and accurate answer to the question. You will be given a set of related contexts to the question, each starting with a reference number like [[citation:x]], where x is a number. Please use the context and cite the context at the end of each sentence if applicable.
 
 Your answer must be correct, accurate and written by an expert using an unbiased and professional tone. Please limit to 1024 tokens. Do not give any information that is not related to the question, and do not repeat. Say "information is missing on" followed by the related topic, if the given context do not provide sufficient information.
@@ -44,6 +44,15 @@ Here are the set of contexts:
 Remember, don't blindly repeat the contexts verbatim. And here is the user question:
 """
 
+base_rag_query_text = """Context information is below.
+---------------------
+{context_str}
+---------------------
+Given the context information and not prior knowledge, answer the query.
+Query: {query_str}
+Answer: """
+
+
 # A set of stop words to use - this is not a complete set, and you may want to
 # add more given your observation.
 stop_words = [
@@ -55,6 +64,7 @@ stop_words = [
     "End.",
 ]
 
+
 # This is the prompt that asks the model to generate related questions to the
 # original question and the contexts.
 # Ideally, one want to include both the original question and the answer from the
@@ -65,7 +75,7 @@ stop_words = [
 # consecutive requests to the model: one for the answer, and one for the related
 # questions. This is not ideal, but it is a good tradeoff between response time
 # and quality.
-_more_questions_prompt = """
+more_questions_prompt = """
 You are a helpful assistant that helps the user to ask related questions, based on user's original question and the related contexts. Please identify worthwhile topics that can be follow-ups, and write questions no longer than 20 words each. Please make sure that specifics, like events, names, locations, are included in follow up questions so they can be asked standalone. For example, if the original question asks about "the Manhattan project", in the follow up question, do not just say "the project", but use the full name "the Manhattan project". Your related questions must be in the same language as the original question.
 
 Here are the contexts of the question:

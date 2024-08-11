@@ -5,8 +5,7 @@ from typing import Union
 
 # custom module
 from neosearch.api.utils.query import validate_query_data
-from neosearch.app.rag import get_rag_searcher, RagSearcher
-from neosearch.engine.rag_engine.query_engine import get_query_engine
+from neosearch.engine.rag_engine.query_engine import get_search_query_engine
 from neosearch.models.query_models import QueryData
 from neosearch.utils.logging import Logger
 
@@ -23,13 +22,10 @@ async def query_for_search(
     query_engine: Union[
         CustomQueryEngine,
         TransformQueryEngine
-    ] = Depends(get_query_engine),
-    rag_searcher: RagSearcher = Depends(get_rag_searcher),
+    ] = Depends(get_search_query_engine),
 ):
     req_id = request.state.request_id
     query = await validate_query_data(data)
-
-    #TODO use rag_searcher to search results from external search engines
 
     # query to the engine
     response = await query_engine.aquery(query.query)
