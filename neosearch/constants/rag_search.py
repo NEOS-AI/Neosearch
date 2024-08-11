@@ -64,6 +64,7 @@ stop_words = [
     "End.",
 ]
 
+
 # This is the prompt that asks the model to generate related questions to the
 # original question and the contexts.
 # Ideally, one want to include both the original question and the answer from the

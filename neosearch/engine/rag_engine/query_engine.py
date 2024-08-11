@@ -17,9 +17,19 @@ from neosearch.engine.index import get_index
 from neosearch.engine.retriever.base import get_base_retriever
 from neosearch.app.rag import get_rag_searcher, RagSearcher
 from neosearch.constants.rag_search import rag_query_text, base_rag_query_text
+from neosearch.constants.retriever import (
+    VECTOR_INDEX_SIM_TOP_K,
+    VECTOR_INDEX_EMPTY_QUERY_TOP_K,
+    VECTOR_INDEX_VERBOSE
+)
+from neosearch.utils.logging import Logger
+
+
+logger = Logger()
 
 
 def get_search_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
+    logger.log_debug(f"Creating search query engine (with_hyde={use_hyde})")
     engine = RAGStringQueryEngine(use_base_retriever=False, use_search_results=True)
     if use_hyde:
         hyde = HyDEQueryTransform(include_original=True)
@@ -27,7 +37,11 @@ def get_search_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
     return engine
 
 
-def get_query_engine(use_hyde: bool = True, use_str_formatted_query_engine: bool = True) -> CustomQueryEngine:
+def get_query_engine(
+    use_hyde: bool = True,
+    use_str_formatted_query_engine: bool = True
+) -> CustomQueryEngine:
+    logger.log_debug(f"Creating query engine (with_hyde={use_hyde}, use_str_formatted_query_engine={use_str_formatted_query_engine})")  # noqa: E501
     if use_str_formatted_query_engine:
         return get_string_query_engine(use_hyde)
 
@@ -38,6 +52,7 @@ def get_query_engine(use_hyde: bool = True, use_str_formatted_query_engine: bool
     return query_engine
 
 def get_string_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
+    logger.log_debug(f"Creating string query engine (with_hyde={use_hyde})")
     query_engine = RAGStringQueryEngine()
     if use_hyde:
         hyde = HyDEQueryTransform(include_original=True)
@@ -73,12 +88,14 @@ class RAGQueryEngine(CustomQueryEngine):
 
 
     def custom_query(self, query_str: str):
+        logger.log_debug(f"RAGQueryEngine.custom_query :: Querying for: <QUERY>{query_str}</QUERY>")
         nodes = self.retriever.retrieve(query_str)
         response_obj = self.response_synthesizer.synthesize(query_str, nodes)
         return response_obj
 
 
     async def acustom_query(self, query_str: str):
+        logger.log_debug(f"RAGQueryEngine.acustom_query :: Querying for: <QUERY>{query_str}</QUERY>")
         nodes = await self.retriever.aretrieve(query_str)
         response_obj = self.response_synthesizer.synthesize(query_str, nodes)
         return response_obj
@@ -99,17 +116,19 @@ class RAGStringQueryEngine(CustomQueryEngine):
         use_search_results: bool = False,
     ):
         if use_base_retriever:
+            logger.log_debug("RAGStringQueryEngine :: Using base retriever")
             self.retriever = get_base_retriever()
         else:
             if vector_store_info is None:
                 raise ValueError("vector_store_info must be provided if use_base_retriever is False.")
 
+            logger.log_debug(f"RAGStringQueryEngine :: Using vector retriever ({vector_store_info})")
             self.retriever = VectorIndexAutoRetriever(
                 get_index(),
                 vector_store_info=vector_store_info,
-                similarity_top_k=2,
-                empty_query_top_k=10,  # if only metadata filters are specified, this is the limit
-                verbose=True,
+                similarity_top_k=VECTOR_INDEX_SIM_TOP_K,
+                empty_query_top_k=VECTOR_INDEX_EMPTY_QUERY_TOP_K,  # if only metadata filters are specified, this is the limit
+                verbose=VECTOR_INDEX_VERBOSE,
             )
 
         self.llm = OpenAI()
