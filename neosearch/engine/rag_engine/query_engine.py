@@ -14,9 +14,21 @@ from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 # custom modules
 from neosearch.engine.index import get_index
 from neosearch.engine.retriever.base import get_base_retriever
+from neosearch.app.rag import get_rag_searcher, RagSearcher
 
 
-def get_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
+def get_search_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
+    engine = RAGStringQueryEngine(use_base_retriever=False, use_search_results=True)
+    if use_hyde:
+        hyde = HyDEQueryTransform(include_original=True)
+        engine = TransformQueryEngine(engine, hyde)
+    return engine
+
+
+def get_query_engine(use_hyde: bool = True, use_str_formatted_query_engine: bool = True) -> CustomQueryEngine:
+    if use_str_formatted_query_engine:
+        return get_string_query_engine(use_hyde)
+
     query_engine = RAGQueryEngine()
     if use_hyde:
         hyde = HyDEQueryTransform(include_original=True)
@@ -40,7 +52,7 @@ class RAGQueryEngine(CustomQueryEngine):
     def __init__(
         self,
         use_base_retriever: bool = True,
-        vector_store_info: Union[VectorStoreInfo, None] = None
+        vector_store_info: Union[VectorStoreInfo, None] = None,
     ):
         if use_base_retriever:
             self.retriever = get_base_retriever()
@@ -65,8 +77,7 @@ class RAGQueryEngine(CustomQueryEngine):
 
 
     async def acustom_query(self, query_str: str):
-        # return super().acustom_query(query_str)
-        nodes = self.retriever.retrieve(query_str)
+        nodes = await self.retriever.aretrieve(query_str)
         response_obj = self.response_synthesizer.synthesize(query_str, nodes)
         return response_obj
 
@@ -79,7 +90,12 @@ class RAGStringQueryEngine(CustomQueryEngine):
     llm: OpenAI
     qa_prompt: PromptTemplate
 
-    def __init__(self, use_base_retriever: bool = True, vector_store_info: VectorStoreInfo = None):
+    def __init__(
+        self,
+        use_base_retriever: bool = True,
+        vector_store_info: VectorStoreInfo = None,
+        use_search_results: bool = False,
+    ):
         if use_base_retriever:
             self.retriever = get_base_retriever()
         else:
@@ -105,23 +121,63 @@ class RAGStringQueryEngine(CustomQueryEngine):
             "Query: {query_str}\n"
             "Answer: "
         )
+        self.search_qa_prompt = PromptTemplate(
+            "Default context information is below.\n"
+            "---------------------\n"
+            "{context_str}\n"
+            "---------------------\n"
+            "Search context information is below.\n"
+            "---------------------\n"
+            "{search_results_str}\n"
+            "---------------------\n"
+            "Given the context information and not prior knowledge, "
+            "answer the query.\n"
+            "Query: {query_str}\n"
+            "Answer: "
+        )
+        self.use_search_results = use_search_results
+
+        # rag searcher (should not be shared across instances)
+        self.rag_searcher: RagSearcher = get_rag_searcher()
+
 
     def custom_query(self, query_str: str) -> str:
         nodes = self.retriever.retrieve(query_str)
 
         context_str = "\n\n".join([n.node.get_content() for n in nodes])
-        response = self.llm.complete(
-            self.qa_prompt.format(context_str=context_str, query_str=query_str)
-        )
+        if self.use_search_results:
+            search_results = self.rag_searcher.search(query_str)
+            search_results_str = "\n\n".join([str(r) for r in search_results])
+            response = self.llm.complete(
+                self.search_qa_prompt.format(context_str=context_str, search_results_str=search_results_str, query_str=query_str)
+            )
+        else:
+            response = self.llm.complete(
+                self.qa_prompt.format(context_str=context_str, query_str=query_str)
+            )
 
         return str(response)
 
+
     async def acustom_query(self, query_str: str) -> Coroutine[Any, Any, str]:
-        nodes = self.retriever.retrieve(query_str)
+        nodes = await self.retriever.aretrieve(query_str)
 
         context_str = "\n\n".join([n.node.get_content() for n in nodes])
-        response = await self.llm.acomplete(
-            self.qa_prompt.format(context_str=context_str, query_str=query_str)
-        )
+        if self.use_search_results:
+            search_results = await self.rag_searcher.search(query_str) #TODO async support
+            search_results_str = "\n\n".join([str(r) for r in search_results])
+            response = await self.llm.acomplete(
+                self.search_qa_prompt.format(
+                    context_str=context_str,
+                    search_results_str=search_results_str,
+                    query_str=query_str
+                )
+            )
+        else:
+            response = await self.llm.acomplete(
+                self.qa_prompt.format(
+                    context_str=context_str, query_str=query_str
+                )
+            )
 
         return str(response)
