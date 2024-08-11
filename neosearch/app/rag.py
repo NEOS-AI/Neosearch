@@ -13,7 +13,9 @@ from neosearch.constants.rag_search import RAG_SEARCH_HANDLER_MAX_CONCURRENCY
 
 def get_rag_searcher() -> "RagSearcher":
     """Get the RAG searcher."""
-    return RagSearcher()
+    searcher = RagSearcher()
+    searcher.init()
+    return searcher
 
 
 class RagSearcher:
@@ -76,7 +78,7 @@ class RagSearcher:
             raise RuntimeError("Backend must be LEPTON, BING, GOOGLE, SERPER or SEARCHAPI.")
 
 
-    def search(self, query: str):
+    async def search(self, query: str) -> list:
         #TODO use self.max_concurrency to keep the search concurrent
         #TODO search with the backend
         return self.search_function(query)

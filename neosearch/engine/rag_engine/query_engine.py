@@ -1,5 +1,5 @@
-from typing import Any, Coroutine
-from llama_index.core.base.response.schema import AsyncStreamingResponse, PydanticResponse, Response, StreamingResponse
+from typing import Any, Coroutine, Union
+# from llama_index.core.base.response.schema import AsyncStreamingResponse, PydanticResponse, Response, StreamingResponse
 from llama_index.core.retrievers import BaseRetriever
 from llama_index.core.query_engine import CustomQueryEngine, TransformQueryEngine
 from llama_index.core import get_response_synthesizer
@@ -37,7 +37,11 @@ class RAGQueryEngine(CustomQueryEngine):
     retriever: BaseRetriever
     response_synthesizer: BaseSynthesizer
 
-    def __init__(self, use_base_retriever: bool = True, vector_store_info: VectorStoreInfo = None):
+    def __init__(
+        self,
+        use_base_retriever: bool = True,
+        vector_store_info: Union[VectorStoreInfo, None] = None
+    ):
         if use_base_retriever:
             self.retriever = get_base_retriever()
         else:
@@ -53,10 +57,12 @@ class RAGQueryEngine(CustomQueryEngine):
             )
         self.response_synthesizer = get_response_synthesizer()
 
+
     def custom_query(self, query_str: str):
         nodes = self.retriever.retrieve(query_str)
         response_obj = self.response_synthesizer.synthesize(query_str, nodes)
         return response_obj
+
 
     async def acustom_query(self, query_str: str):
         # return super().acustom_query(query_str)
@@ -100,7 +106,7 @@ class RAGStringQueryEngine(CustomQueryEngine):
             "Answer: "
         )
 
-    def custom_query(self, query_str: str):
+    def custom_query(self, query_str: str) -> str:
         nodes = self.retriever.retrieve(query_str)
 
         context_str = "\n\n".join([n.node.get_content() for n in nodes])
@@ -110,11 +116,11 @@ class RAGStringQueryEngine(CustomQueryEngine):
 
         return str(response)
 
-    async def acustom_query(self, query_str: str):
+    async def acustom_query(self, query_str: str) -> Coroutine[Any, Any, str]:
         nodes = self.retriever.retrieve(query_str)
 
         context_str = "\n\n".join([n.node.get_content() for n in nodes])
-        response = self.llm.complete(
+        response = await self.llm.acomplete(
             self.qa_prompt.format(context_str=context_str, query_str=query_str)
         )
 

@@ -29,7 +29,10 @@ async def query_for_search(
     req_id = request.state.request_id
     query = await validate_query_data(data)
 
-    #TODO use rag_searcher to search results from external search engines
+    # use rag_searcher to search results from external search engines
+    search_results = await rag_searcher.search(query)
+
+    #TODO adapt search results to the query engine
 
     # query to the engine
     response = await query_engine.aquery(query.query)
