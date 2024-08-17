@@ -249,3 +249,54 @@ output:
 ```
 
 As we can see, results with the word keyboard scored higher than results with an embedding of [1,2,3] because we placed a weight of 0.9 on the BM25 scores.
+
+### Performance Improvements
+
+In the [section 1-1](#key-points-for-fts), we mentioned the importance of using `limit_rows` and `offset_rows` instead of `LIMIT` and `OFFSET`.
+For the Hybrid search query above, you might be tempted to use `LIMIT` to limit the number of results.
+
+Clearly, ParadeDB provides an argument `bm25_limit_n` and `similarity_limit_n` to limit the number of results for BM25 and similarity queries respectively.
+Default values are 100 for both arguments.
+By tuning these arguments, you can improve the performance of your hybrid search queries.
+
+```sql
+SELECT * FROM search_idx.score_hybrid(
+    bm25_query => 'description:keyboard OR category:electronics',
+    similarity_query => '''[1,2,3]'' <-> embedding',
+    bm25_weight => 0.9,
+    similarity_weight => 0.1,
+	bm25_limit_n => 5,
+	similarity_limit_n => 5
+);
+```
+
+output:
+```
+ id | score_hybrid
+----+--------------
+  2 |          0.9
+  1 |    0.7776221
+  9 |          0.1
+ 39 |          0.1
+ 19 |          0.1
+ 29 |          0.1
+ 20 |   0.08571429
+ 12 |            0
+ 22 |            0
+ 32 |            0
+(10 rows)
+```
+
+If you set `bm25_limit_n` as 2 in the query above, the result will be changed as below:
+```
+ id | score_hybrid
+----+--------------
+  2 |          0.9
+ 39 |          0.1
+ 29 |          0.1
+  9 |          0.1
+ 19 |          0.1
+ 20 |   0.08571429
+  1 |            0
+(7 rows)
+```
