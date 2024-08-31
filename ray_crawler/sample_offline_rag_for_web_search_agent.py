@@ -22,15 +22,10 @@ from langchain.schema import Document
 from langchain_community.docstore.in_memory import InMemoryDocstore
 from fake_useragent import UserAgent
 
-
-root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, root_dir)
-
 ua = UserAgent()
+
 os.environ["USER_AGENT"] = ua.random
 os.environ["FAISS_OPT_LEVEL"] = "generic"
-
-# Set environment variables
 os.environ["OPENAI_API_KEY"] = "default_openai_api_key"
 os.environ["ANTHROPIC_API_KEY"] = "default_claude_api_key"
 os.environ["GEMINI_API_KEY"] = "default_gemini_api_key"
