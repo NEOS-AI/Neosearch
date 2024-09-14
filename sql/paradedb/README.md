@@ -50,3 +50,28 @@ ALTER SYSTEM SET paradedb.pg_analytics_telemetry TO 'off';
 ParadeDB supports CJK (Chinese, Japanese, Korean) tokenizers.
 By choosing the suitable tokenizer (`korean_lindera` for Korean, `japanese_lindera` for Japanese, etc), you can index and search CJK text.
 For more information, see the [ParadeDB documentation](https://docs.paradedb.com/search/full-text/index#tokenizers).
+
+## HA Support
+
+ParadeDB supports high availability (HA) using [CloudNativePG](https://cloudnative-pg.io/).
+
+1. Installing the CloudNativePG operator:
+```bash
+helm repo add cnpg https://cloudnative-pg.github.io/charts
+helm upgrade --install cnpg \
+--namespace cnpg-system \
+--create-namespace \
+cnpg/cloudnative-pg
+```
+
+2. Setting up a ParadeDB CNPG Cluster
+```bash
+helm repo add paradedb https://paradedb.github.io/charts
+helm upgrade --install paradedb \
+--namespace paradedb-database \
+--create-namespace \
+--values values.yaml \
+paradedb/cluster
+```
+
+For more information, please refer to the [ParadeDB github repo](https://github.com/paradedb/charts).
