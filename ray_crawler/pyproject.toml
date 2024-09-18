@@ -9,7 +9,7 @@ readme = "README.md"
 python = ">=3.10,<3.13"
 ray = {extras = ["serve"], version = "^2.10.0"}
 trafilatura = "^1.8.1"
-langchain = "^0.1.15"
+langchain = "^0.2.10"
 llama-index-core = "0.10.59"
 llama-index = "0.10.59"
 llama-index-llms-openai = "^0.1.27"
