@@ -141,3 +141,6 @@ tags
 
 # MacOS
 .DS_Store
+
+# next
+.next
