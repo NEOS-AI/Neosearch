@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ray_crawler"
-version = "0.1.2"
+version = "0.1.3"
 description = ""
 authors = ["YeonwooSung <neos960518@gmail.com>"]
 readme = "README.md"
@@ -15,6 +15,9 @@ llama-index = "0.10.59"
 llama-index-llms-openai = "^0.1.27"
 llama-index-llms-replicate = "^0.1.3"
 llama-index-embeddings-huggingface = "^0.2.2"
+aws-lambda-powertools = "^3.0.0"
+selenium = "^4.25.0"
+pymongo = "^4.9.1"
 
 
 [build-system]
