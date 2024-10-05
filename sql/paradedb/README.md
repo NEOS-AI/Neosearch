@@ -64,14 +64,14 @@ helm upgrade --install cnpg \
 cnpg/cloudnative-pg
 ```
 
-2. Setting up a ParadeDB CNPG Cluster
+2. Setting up a ParadeDB CNPG Cluster (using default values `values.yaml`, you can customize the values as needed):
 ```bash
 helm repo add paradedb https://paradedb.github.io/charts
 helm upgrade --install paradedb \
 --namespace paradedb-database \
 --create-namespace \
 --values values.yaml \
-paradedb/cluster
+paradedb/paradedb
 ```
 
 For more information, please refer to the [ParadeDB github repo](https://github.com/paradedb/charts).

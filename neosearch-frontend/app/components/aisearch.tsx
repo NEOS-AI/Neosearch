@@ -1,12 +1,12 @@
 "use client";
-import { getSearchUrl } from "@/app/utils/get-search-url";
+import { getAISearchUrl } from "@/app/utils/get-search-url";
 import { ArrowRight } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
 import React, { FC, useState } from "react";
 
 
-export const Search: FC = () => {
+export const AISearch: FC = () => {
   const [value, setValue] = useState("");
   const router = useRouter();
   return (
@@ -15,12 +15,12 @@ export const Search: FC = () => {
         e.preventDefault();
         if (value) {
           setValue("");
-          router.push(getSearchUrl(encodeURIComponent(value), nanoid()));
+          router.push(getAISearchUrl(encodeURIComponent(value), nanoid()));
         }
       }}
     >
       <label
-        className="relative bg-white flex items-center justify-center border ring-8 ring-zinc-300/20 py-2 px-2 rounded-lg gap-2 focus-within:border-zinc-300"
+        className="relative bg-blue-950 flex items-center justify-center border ring-8 ring-zinc-300/20 py-2 px-2 rounded-lg gap-2 focus-within:border-blue-500"
         htmlFor="search-bar"
       >
         <input
@@ -29,7 +29,7 @@ export const Search: FC = () => {
           onChange={(e) => setValue(e.target.value)}
           autoFocus
           placeholder="Ask Neosearch anything ..."
-          className="px-2 pr-6 w-full rounded-md flex-1 outline-none bg-white"
+          className="px-2 pr-6 w-full rounded-md flex-1 outline-none bg-blue-950 text-blue-300"
         />
         <button
           type="submit"
