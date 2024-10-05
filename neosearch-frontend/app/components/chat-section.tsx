@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { insertDataIntoMessages } from "./transform";
 import { ChatInput, ChatMessages } from "./ui/chat";
 
+
 export default function ChatSection() {
   const {
     messages,
@@ -16,7 +17,7 @@ export default function ChatSection() {
     stop,
     data,
   } = useChat({
-    api: process.env.NEXT_PUBLIC_CHAT_API,
+    api: process.env.NEXT_PUBLIC_CHAT_API, // using env var NEXT_PUBLIC_CHAT_API for API URL
     headers: {
       "Content-Type": "application/json", // using JSON because of vercel/ai 2.2.26
     },
