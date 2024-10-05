@@ -1,5 +1,7 @@
-import { Mails } from "lucide-react";
+// import { Mails } from "lucide-react";
 import { FC } from "react";
+import FooterMailMe from "@/app/components/ui/footer/footer-mailme";
+
 
 export const Footer: FC = () => {
   return (
@@ -11,18 +13,7 @@ export const Footer: FC = () => {
       <div className="text-zinc-400">
         LLM, Vector DB, and other components for AI powered search.
       </div>
-      <div className="flex gap-2 justify-center">
-        <div>
-          <a
-            className="text-blue-500 font-medium inline-flex gap-1 items-center flex-nowrap text-nowrap"
-            href="mailto:neos960518@gmail.com"
-          >
-            <Mails size={8} />
-            Talk to us
-          </a>
-        </div>
-        <div>if you need a performant and scalable AI Search!</div>
-      </div>
+      {<FooterMailMe mailHref="mailto:neos960518@gmail.com" />}
 
       <div className="flex items-center justify-center flex-wrap gap-x-4 gap-y-2 mt-2 text-zinc-400">
         <a className="hover:text-zinc-950" href="https://github.com/NEOS-AI/">
@@ -30,7 +21,7 @@ export const Footer: FC = () => {
         </a>
         <a
           className="hover:text-zinc-950"
-          href="https://github.com/NEOS-AI/NEOS"
+          href="https://github.com/NEOS-AI/neos"
         >
           NEOS
         </a>
@@ -40,8 +31,8 @@ export const Footer: FC = () => {
         >
           Neosearch
         </a>
-        <a className="hover:text-zinc-950" href="https://github.com/NEOS-AI/neostract">
-          neostract
+        <a className="hover:text-zinc-950" href="https://github.com/NEOS-AI/go4search">
+          go4search
         </a>
         <a className="hover:text-zinc-950" href="https://github.com/YeonwooSung">
           GitHub

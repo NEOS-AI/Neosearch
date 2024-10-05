@@ -20,7 +20,7 @@ export const AISearch: FC = () => {
       }}
     >
       <label
-        className="relative bg-black flex items-center justify-center border ring-8 ring-zinc-300/20 py-2 px-2 rounded-lg gap-2 focus-within:border-zinc-300"
+        className="relative bg-blue-950 flex items-center justify-center border ring-8 ring-zinc-300/20 py-2 px-2 rounded-lg gap-2 focus-within:border-blue-500"
         htmlFor="search-bar"
       >
         <input
@@ -29,7 +29,7 @@ export const AISearch: FC = () => {
           onChange={(e) => setValue(e.target.value)}
           autoFocus
           placeholder="Ask Neosearch anything ..."
-          className="px-2 pr-6 w-full rounded-md flex-1 outline-none bg-black"
+          className="px-2 pr-6 w-full rounded-md flex-1 outline-none bg-blue-950 text-blue-300"
         />
         <button
           type="submit"
