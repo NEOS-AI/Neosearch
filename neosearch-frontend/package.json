@@ -6,7 +6,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "node app/api/chat/engine/generate.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
