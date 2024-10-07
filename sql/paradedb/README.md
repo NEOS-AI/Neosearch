@@ -74,4 +74,6 @@ helm upgrade --install paradedb \
 paradedb/paradedb
 ```
 
+If you want to customize the values, please refer [ParadeDB Docs](https://github.com/paradedb/charts/tree/main/charts/paradedb).
+
 For more information, please refer to the [ParadeDB github repo](https://github.com/paradedb/charts).
