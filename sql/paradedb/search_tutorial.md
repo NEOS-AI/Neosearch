@@ -300,3 +300,38 @@ If you set `bm25_limit_n` as 2 in the query above, the result will be changed as
   1 |            0
 (7 rows)
 ```
+
+### Reciprocal Rank Fusion
+
+Reciprocal rank fusion is a popular hybrid search algorithm that:
+
+1. Calculates a BM25 and similarity score for the top n documents.
+2. Ranks documents by their BM25 and similarity scores separately. The highest-ranked document for each score receives an r of 1.
+3. Calculates a reciprocal rank for each score as 1/(k + r), where k is a constant. k is usually set to 60.
+4. Calculates each document’s reciprocal rank fusion score as the sum of the BM25 and similarity reciprocal rank scores.
+
+The following code block implements reciprocal rank fusion over the `mock_items` table. BM25 scores are calculated against the query `description:keyboard` and similarity scores are calculated against the vector [1,2,3].
+
+```sql
+WITH semantic_search AS (
+    SELECT id, RANK () OVER (ORDER BY embedding <=> '[1,2,3]') AS rank
+    FROM mock_items
+    ORDER BY embedding <=> '[1,2,3]'
+    LIMIT 20
+),
+bm25_search AS (
+    SELECT id, RANK () OVER (ORDER BY score_bm25 DESC) as rank
+    FROM search_idx.score_bm25('description:keyboard', limit_rows => 20)
+)
+SELECT
+    COALESCE(semantic_search.id, bm25_search.id) AS id,
+    COALESCE(1.0 / (60 + semantic_search.rank), 0.0) +
+    COALESCE(1.0 / (60 + bm25_search.rank), 0.0) AS score,
+    mock_items.description,
+    mock_items.embedding
+FROM semantic_search
+FULL OUTER JOIN bm25_search ON semantic_search.id = bm25_search.id
+JOIN mock_items ON mock_items.id = COALESCE(semantic_search.id, bm25_search.id)
+ORDER BY score DESC
+LIMIT 5;
+```
