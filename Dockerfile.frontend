@@ -4,10 +4,10 @@ ENV VERSION 0.1.0
 
 WORKDIR /app
 
-COPY neosearch-frontend .
+COPY neosearch_frontend .
 
 # move to neosearch-frontend directory
-WORKDIR /app/neosearch-frontend
+WORKDIR /app/neosearch_frontend
 
 # Install dependencies
 RUN npm install
