@@ -12,6 +12,7 @@ fastapi = "^0.112.0"
 sentence-transformers = "^3.0.1"
 torch = "^2.4.0"
 transformers = "^4.43.3"
+psutil = "^6.0.0"
 
 
 [build-system]
