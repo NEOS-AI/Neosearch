@@ -1,5 +1,6 @@
 import os
 from dataclasses import dataclass
+import torch
 
 
 @dataclass
@@ -14,6 +15,6 @@ class ServerParameterManager:
 
 class RayParameterManager:
     def __init__(self) -> None:
-        self.num_gpus = int(os.environ.get("NUM_GPUS", 1))
+        self.num_gpus = int(os.environ.get("NUM_GPUS", torch.cuda.device_count()))
         self.min_replicas = int(os.environ.get("MIN_REPLICAS", 1))
         self.max_replicas = int(os.environ.get("MAX_REPLICAS", 1))
