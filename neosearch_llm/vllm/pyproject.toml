@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "neosearch-llm"
+name = "neosearch_vllm"
 version = "0.1.0"
 description = ""
 authors = ["YeonwooSung <neos960518@gmail.com>"]
@@ -7,7 +7,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
-sglang = {extras = ["all"], version = "^0.2.14.post2"}
+vllm = "^0.6.2"
+torch = "2.4.0"
 
 
 [build-system]

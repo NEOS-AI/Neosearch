@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "neosearch_sgllm"
+version = "0.1.0"
+description = ""
+authors = ["YeonwooSung <neos960518@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+sglang = {extras = ["all"], version = "^0.2.14.post2"}
+torch = "2.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
