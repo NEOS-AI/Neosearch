@@ -8,11 +8,12 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
 ray = {extras = ["serve"], version = "^2.34.0"}
-fastapi = "^0.112.0"
+fastapi = "0.115.0"
 sentence-transformers = "^3.0.1"
 torch = "^2.4.0"
 transformers = "^4.43.3"
 psutil = "^6.0.0"
+vllm = "^0.6.2"
 
 
 [build-system]

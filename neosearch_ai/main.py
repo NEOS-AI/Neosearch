@@ -46,7 +46,13 @@ def init_and_deploy_hpc_nodes(
 if __name__ == "__main__":
     num_of_cpus = multiprocessing.cpu_count()
     cuda_available = torch.cuda.is_available()
+    use_llm2vec = False
+
     if cuda_available:
+        if use_llm2vec:
+            #TODO use vllm to serve the model
+            pass
+
         # get num of gpus
         num_of_gpus = torch.cuda.device_count()
         init_and_deploy_hpc_nodes(
