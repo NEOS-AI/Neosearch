@@ -2,12 +2,12 @@ import sys
 import ray
 from ray import serve
 import torch
-import multiprocessing
 
 sys.path.append("..")
 
 # custom modules
 from engine.embeddings import EmbeddingDeployment
+from utils.config import NeosAiConfig
 
 
 def deploy_embedding_server(
@@ -44,17 +44,21 @@ def init_and_deploy_hpc_nodes(
 
 
 if __name__ == "__main__":
-    num_of_cpus = multiprocessing.cpu_count()
-    cuda_available = torch.cuda.is_available()
-    if cuda_available:
+    config = NeosAiConfig()
+    if config.cuda_available:
+        if config.use_llm2vec:
+            #TODO use vllm to serve the model
+            pass
+
         # get num of gpus
         num_of_gpus = torch.cuda.device_count()
         init_and_deploy_hpc_nodes(
-            num_cpus=num_of_cpus,
+            num_cpus=config.num_of_cpus,
             num_gpus=num_of_gpus,
-            avoid_thread_contention=True
+            avoid_thread_contention=config.avoid_thread_contention
         )
     else:
         init_and_deploy_hpc_nodes(
-            num_cpus=num_of_cpus, avoid_thread_contention=True
+            num_cpus=config.num_of_cpus,
+            avoid_thread_contention=config.avoid_thread_contention
         )
