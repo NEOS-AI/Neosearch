@@ -5,8 +5,9 @@ from typing import Union
 
 # custom module
 from neosearch.api.utils.query import validate_query_data
+from neosearch.constants.memory import MAX_MEMORY_TOKEN_SIZE
 from neosearch.engine.rag_engine.query_engine import get_search_query_engine
-from neosearch.models.query_models import QueryData
+from neosearch.models.query_models import QueryData, MemoryResponse
 from neosearch.utils.logging import Logger
 
 
@@ -40,3 +41,20 @@ async def query_for_search(
             yield token
 
     return StreamingResponse(event_generator(), media_type="text/plain")
+
+
+@r.get("/memory")
+async def memory_info(request: Request,):
+    """
+    Provides the memory information (stored memory, memory max tokens, and memory number of tokens).
+    Inspired by the ChatGPT backend API (https://chatgpt.com/backend-api/memories?include_memory_entries=false).
+
+    Returns:
+        MemoryResponse: The memory response.
+    """
+    req_id = request.state.request_id
+    logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Memory response generated")
+
+    #TODO check memory info
+
+    return MemoryResponse(messages=[], memory_max_tokens=MAX_MEMORY_TOKEN_SIZE, memory_num_tokens=0)
