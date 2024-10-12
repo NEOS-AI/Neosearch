@@ -66,6 +66,7 @@ class EmbeddingDeployment:
         return self.embedding_model.get_text_embeddings(texts)
 
 
+    @serve.batch(max_batch_size=SERVER_MANAGER.max_batch_size)
     async def __call__(self, request: Request):
         payload = await request.json()
         contents = payload.get("contents", [])
@@ -83,3 +84,8 @@ class EmbeddingDeployment:
         else:
             embeddings = self._embed_batch(contents)
         return {"code": 0, "embeddings": embeddings}
+
+
+    def __del__(self):
+        # Clean up the model to free up resources
+        del self.embedding_model
