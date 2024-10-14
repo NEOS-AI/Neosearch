@@ -7,7 +7,7 @@ import psutil
 
 # custom modules
 from neosearch_ai.utils.logger import Logger
-from .param_manager import ServerParameterManager, RayParameterManager
+from neosearch_ai.configs.embedding_param_manager import ServerParameterManager, RayParameterManager
 
 
 logger = Logger()
