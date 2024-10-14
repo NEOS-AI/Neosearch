@@ -7,7 +7,7 @@ sys.path.append("..")
 
 # custom modules
 from engine.embeddings import EmbeddingDeployment
-from utils.config import NeosAiConfig
+from configs.app import NeosAiConfig
 
 
 def deploy_embedding_server(
@@ -28,7 +28,9 @@ def deploy_embedding_server(
 def init_and_deploy_hpc_nodes(
     num_cpus: int = 2,
     num_gpus: int = 0,
-    avoid_thread_contention: bool = True
+    avoid_thread_contention: bool = True,
+    deploy_embedding_model: bool = True,
+    deploy_reranker_model: bool = False,
 ) -> None:
     if avoid_thread_contention:
         # Set PyTorch internal threads to 1 to avoid thread contention.
@@ -40,7 +42,12 @@ def init_and_deploy_hpc_nodes(
         num_gpus=num_gpus,
     )
 
-    deploy_embedding_server()
+    if deploy_embedding_model:
+        deploy_embedding_server()
+
+    if deploy_reranker_model:
+        #TODO deploy reranker model
+        pass
 
 
 if __name__ == "__main__":
