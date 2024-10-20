@@ -6,7 +6,7 @@ import tempfile
 from aws_lambda_powertools import Logger
 
 # custom modules
-from ray_crawler.db.documents import RepositoryDocument
+from ray_crawler.mongo_db.documents import RepositoryDocument
 
 from .base import BaseCrawler
 

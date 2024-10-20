@@ -7,7 +7,7 @@ from utils import get_logger
 
 # custom modules
 from ray_crawler.utils.errors import ImproperlyConfigured
-from ray_crawler.db.mongo import connection
+from ray_crawler.mongo_db.mongo import connection
 
 
 _database = connection.get_database("scrabble")
