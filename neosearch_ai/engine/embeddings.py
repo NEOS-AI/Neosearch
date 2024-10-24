@@ -4,13 +4,13 @@ from starlette.requests import Request
 import os
 import torch
 import psutil
+import logging
 
 # custom modules
-from neosearch_ai.utils.logger import Logger
 from neosearch_ai.configs.embedding_param_manager import ServerParameterManager, RayParameterManager
 
 
-logger = Logger()
+logger = logging.getLogger(__name__)
 
 # Env variables for server
 SERVER_MANAGER = ServerParameterManager()
@@ -25,7 +25,7 @@ RAY_MANAGER = RayParameterManager()
                 SERVER_MANAGER.device == "cuda"
             )
             else 0
-        )
+        ),
     },
     autoscaling_config={
         "min_replicas": RAY_MANAGER.min_replicas,
@@ -43,13 +43,13 @@ class EmbeddingDeployment:
     ):
         num_threads = os.getenv("TORCH_NUM_THREADS", psutil.cpu_count(logical=False))
         torch.set_num_threads(num_threads)
-        logger.log_info(f"Torch is running on {num_threads} threads.")
+        logger.info(f"Torch is running on {num_threads} threads.")
 
-        logger.log_info(f"DEVICE: {device}")
+        logger.info(f"DEVICE: {device}")
         self.device = device
         self.max_batch_size = max_batch_size
 
-        logger.log_info(f"PRECISION: {precision}")
+        logger.info(f"PRECISION: {precision}")
         self.precision = precision
 
         self.model_name = model_name
