@@ -18,5 +18,5 @@ AI-based search engine done right.
 - [ ] Implement the ParadeDB retriever with LlamaIndex
 - [ ] Update Rag Retriever to use the searxng engine
 - [ ] Implement the reranker
- - [ ] Add support for Cohere Reranker
- - [x] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker
+    - [ ] Add support for Cohere Reranker
+    - [x] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker
