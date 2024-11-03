@@ -6,6 +6,7 @@ from llama_index.core.retrievers import (
 from llama_index.retrievers.bm25 import BM25Retriever
 from llama_index.core.tools import RetrieverTool
 from llama_index.core.settings import Settings
+from asyncio import gather
 
 
 class HybridRetriever(BaseRetriever):
@@ -40,13 +41,15 @@ class HybridRetriever(BaseRetriever):
 
 
     async def _aretrieve(self, query, **kwargs) -> list:
-        bm25_nodes = await self.bm25_retriever.aretrieve(query, **kwargs)
-        vector_nodes = await self.vector_retriever.aretrieve(query, **kwargs)
+        nodes = await gather(
+            self.bm25_retriever.aretrieve(query, **kwargs),
+            self.vector_retriever.aretrieve(query, **kwargs),
+        )
 
         # combine the two lists of nodes
         all_nodes = []
         node_ids = set()
-        for n in bm25_nodes + vector_nodes:
+        for n in nodes:
             if n.node.node_id not in node_ids:
                 all_nodes.append(n)
                 node_ids.add(n.node.node_id)
