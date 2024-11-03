@@ -20,7 +20,7 @@ SERVER_MANAGER = RerankServerParameterManager()
 RAY_MANAGER = RerankRayParameterManager()
 
 
-# model names
+# model names (from <https://github.com/PrithivirajDamodaran/FlashRank>)
 MODEL_NAMES = {
     "ms-marco-TinyBERT-L-2-v2",
     "ms-marco-MiniLM-L-12-v2",
