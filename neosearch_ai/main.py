@@ -9,6 +9,7 @@ sys.path.append("..")
 
 # custom modules
 from engine.embeddings import EmbeddingDeployment
+from engine.flash_reranker import FlashRerankDeployment
 from configs.app import NeosAiConfig
 
 
@@ -22,6 +23,22 @@ def deploy_embedding_server(
 ) -> None:
     # Deploy the Ray Serve application.
     deployment = EmbeddingDeployment.bind()
+    serve.start()
+    serve.run(
+        deployment,
+        blocking=blocking,
+        name=name,
+        route_prefix=route_prefix
+    )
+
+
+def deploy_flash_reranker_server(
+    blocking: bool = False,
+    name: str = "flash_reranker_server",
+    route_prefix: str = "/rerank"
+) -> None:
+    # Deploy the Ray Serve application.
+    deployment = FlashRerankDeployment.bind()
     serve.start()
     serve.run(
         deployment,
@@ -52,8 +69,7 @@ def init_and_deploy_hpc_nodes(
         deploy_embedding_server()
 
     if deploy_reranker_model:
-        #TODO deploy reranker model
-        pass
+        deploy_flash_reranker_server()
 
 
 if __name__ == "__main__":

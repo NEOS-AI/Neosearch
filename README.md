@@ -19,4 +19,4 @@ AI-based search engine done right.
 - [ ] Update Rag Retriever to use the searxng engine
 - [ ] Implement the reranker
  - [ ] Add support for Cohere Reranker
- - [ ] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker
+ - [x] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker
