@@ -10,4 +10,4 @@ class NeosAiConfig:
     use_llm2vec: bool = False
     avoid_thread_contention: bool = True
     run_monitoring: bool = True
-    monitoring_port: int = 18518
+    monitoring_port: int = 8518

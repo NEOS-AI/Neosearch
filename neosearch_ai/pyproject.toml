@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "neosearch-ai"
-version = "0.1.5"
+version = "0.1.6"
 description = ""
 authors = ["YeonwooSung <neos960518@gmail.com>"]
 readme = "README.md"
@@ -14,6 +14,7 @@ torch = "^2.4.0"
 transformers = "^4.43.3"
 psutil = "^6.0.0"
 vllm = "^0.6.2"
+flashrank = {extras = ["listwise"], version = "^0.2.9"}
 
 
 [build-system]
