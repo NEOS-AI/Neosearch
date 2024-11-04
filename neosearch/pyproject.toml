@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "neosearch"
-version = "0.1.17"
+version = "0.1.18"
 description = ""
 authors = [ "Yeonwoo Sung <neos960518@gmail.com>" ]
 readme = "README.md"
@@ -26,13 +26,10 @@ slowapi = "^0.1.9"
 traceloop-sdk = "^0.26.3"
 orjson = "^3.10.6"
 jinja2 = "^3.1.4"
+boto3 = "^1.35.54"
+botocore = "^1.35.54"
+uvicorn = "^0.32.0"
 
-[tool.poetry.dependencies.uvicorn]
-extras = [ "standard" ]
-version = "^0.23.2"
-
-[tool.poetry.dependencies.docx2txt]
-version = "^0.8"
 
 [build-system]
 requires = [ "poetry-core" ]
