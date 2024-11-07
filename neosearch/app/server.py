@@ -17,16 +17,18 @@ from sqlalchemy.ext.associationproxy import _AssociationList
 from neosearch.middlewares import RequestLogger, RequestID
 from neosearch.utils.logging import Logger
 from neosearch.utils.gc_tuning import gc_optimization_on_startup
+from neosearch.constants.trace import USE_TRACELOOP
 
 
 logger = Logger()
 
 # Traceloop (OpenTelemetry for LLM) setup
-trace_loop_api_key = os.getenv("TRACELOOP_API_KEY", None)
-if trace_loop_api_key is not None:
-    logger.log_info("Traceloop API key found. Traceloop will be enabled.")
+if USE_TRACELOOP:
+    trace_loop_api_key = os.getenv("TRACELOOP_API_KEY", None)
+    if trace_loop_api_key is not None:
+        logger.log_info("Traceloop API key found. Traceloop will be enabled.")
 
-    from traceloop.sdk import Traceloop
+        from traceloop.sdk import Traceloop
 
 
 @cache
@@ -75,14 +77,14 @@ async def lifespan(app: FastAPI):
     # gc optimization
     gc_optimization_on_startup()
 
-    if trace_loop_api_key is not None:
+    if USE_TRACELOOP and trace_loop_api_key is not None:
         # set up traceloop (OpenTelemetry for LLM)
         Traceloop.init(app_name="NeoSearch", disable_batch=False)
 
-    #TODO open redis connection for lifespan
     yield
 
-    #TODO: Add code to clean up the app context
+    # Add code to clean up the app context
+    logger.log_info("Shutting down the application")
 
 
 def init_app(
