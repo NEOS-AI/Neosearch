@@ -30,6 +30,32 @@ Pgvectorscale’s StreamingDiskANN index has no "ef_search" type cutoff. Instead
 The Postgres execution system will continuously ask for the "next closet" item until it has matched the LIMIT N items that satisfy the additional filters.
 This form of post-filtering suffers absolutely no accuracy degradation.
 
+### StreamingDiskANN query-time parameters
+
+You can also set two parameters to control the accuracy vs. query speed trade-off at query time.
+We suggest adjusting `diskann.query_rescore` to fine-tune accuracy.
+
+| Parameter name | Description | Default value |
+| --- | --- | --- |
+| diskann.query_search_list_size | The number of additional candidates considered during the graph search. | 100 |
+| diskann.query_rescore | The number of elements rescored (0 to disable rescoring) | 50 |
+
+You can set the value by using SET before executing a query. For example:
+
+```sql
+SET diskann.query_rescore = 400;
+```
+
+Note the SET command applies to the entire session (database connection) from the point of execution.
+You can use a transaction-local variant using LOCAL which will be reset after the end of the transaction:
+
+```sql
+BEGIN;
+SET LOCAL diskann.query_search_list_size= 10;
+SELECT * FROM document_embedding ORDER BY embedding <=> $1 LIMIT 10
+COMMIT;
+```
+
 ## References
 
 - [pgvectorscale](https://github.com/timescale/pgvectorscale)
