@@ -20,3 +20,4 @@ AI-based search engine done right.
 - [ ] Implement the reranker
     - [ ] Add support for Cohere Reranker
     - [x] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker
+- [ ] Add support for [late-chunking](https://github.com/jina-ai/late-chunking) for better IR
