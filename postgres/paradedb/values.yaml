@@ -1,0 +1,15 @@
+type: paradedb
+mode: standalone
+
+cluster:
+  instances: 2
+  storage:
+    size: 3Gi
+
+backups:
+  scheduledBackups:
+    - name: daily-backup
+      schedule: "0 0 0 * * *" # Daily at midnight
+      backupOwnerReference: self
+  data:
+    compression: gzip
