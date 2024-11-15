@@ -1,3 +1,5 @@
+<img src="./assets/neosearch.png" width="200px" height="200px" title="Neosearch_LOGO"/>
+
 # Neosearch
 
 AI-based search engine done right.
