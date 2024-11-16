@@ -9,7 +9,7 @@ from llama_index.core.settings import Settings
 from asyncio import gather
 
 
-class HybridRetriever(BaseRetriever):
+class Bm25HybridRetriever(BaseRetriever):
     """
     A retriever that combines the results of a vector retriever and a BM25 retriever.
 
