@@ -2,10 +2,18 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 
+# custom modules
+from neosearch.constants.bedrock import ALL_MODELS, ANTHROPIC_CLAUDE35_SONNET_V2
+from neosearch.exceptions.bedrock import BedrockInvalidModelIdException
+
 
 class BedrockInferenceAdapter:
+    """Bedrock inference adpater."""
 
-    def __init__(self, model_id: str = "anthropic.claude-3-haiku-20240307-v1:0"):
+    def __init__(self, model_id: str = ANTHROPIC_CLAUDE35_SONNET_V2):
+        if model_id not in ALL_MODELS:
+            raise BedrockInvalidModelIdException(f"invalid model id: {model_id}")
+
         self.bedrock_runtime = boto3.client(
             service_name='bedrock-runtime',
             region_name='us-east-1' #change region as needed

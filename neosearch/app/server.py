@@ -22,14 +22,6 @@ from neosearch.constants.trace import USE_TRACELOOP
 
 logger = Logger()
 
-# Traceloop (OpenTelemetry for LLM) setup
-if USE_TRACELOOP:
-    trace_loop_api_key = os.getenv("TRACELOOP_API_KEY", None)
-    if trace_loop_api_key is not None:
-        logger.log_info("Traceloop API key found. Traceloop will be enabled.")
-
-        from traceloop.sdk import Traceloop
-
 
 @cache
 def project_root() -> Path:
@@ -77,9 +69,18 @@ async def lifespan(app: FastAPI):
     # gc optimization
     gc_optimization_on_startup()
 
-    if USE_TRACELOOP and trace_loop_api_key is not None:
-        # set up traceloop (OpenTelemetry for LLM)
-        Traceloop.init(app_name="NeoSearch", disable_batch=False)
+    # Traceloop (OpenTelemetry for LLM) setup
+    if USE_TRACELOOP:
+        trace_loop_api_key = os.getenv("TRACELOOP_API_KEY", None)
+        if trace_loop_api_key is not None:
+            logger.log_info("Traceloop API key found. Traceloop will be enabled.")
+
+            from traceloop.sdk import Traceloop
+
+            # set up traceloop (OpenTelemetry for LLM)
+            Traceloop.init(app_name="NeoSearch", disable_batch=False)
+        else:
+            logger.log_warning("traceloop is enabled but cannot find API key")
 
     yield
 
