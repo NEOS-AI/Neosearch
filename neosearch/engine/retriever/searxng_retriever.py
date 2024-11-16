@@ -27,12 +27,12 @@ class SearxngRetriever(BaseRetriever):
 
 
     def _retrieve(self, query, **kwargs) -> list:
-        #TODO
+        #TODO searxng API call -> use circuit breaker!
         return []
 
 
     async def _aretrieve(self, query, **kwargs) -> list:
-        #TODO
+        #TODO searxng API call -> use circuit breaker!
         return []
 
 

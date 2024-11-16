@@ -29,6 +29,8 @@ jinja2 = "^3.1.4"
 boto3 = "^1.35.54"
 botocore = "^1.35.54"
 uvicorn = "^0.32.0"
+pybreaker = "^1.2.0"
+aiobreaker = "^1.2.0"
 
 
 [build-system]
