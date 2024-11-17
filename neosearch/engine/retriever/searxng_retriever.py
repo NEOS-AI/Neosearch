@@ -9,6 +9,8 @@ from llama_index.core.settings import Settings
 
 # custom modules
 from neosearch.exceptions.engine.retriever import VectorStoreIsNullError
+from neosearch.engine.utils.searxng import SearxngAdaptor
+from neosearch.constants.searxng import SEARXNG_BASE_URL
 
 
 class SearxngRetriever(BaseRetriever):
@@ -24,16 +26,62 @@ class SearxngRetriever(BaseRetriever):
             raise VectorStoreIsNullError("SearxngRetriever:: vector_retriever is None")
 
         self.vector_retriever = vector_retriever
+        self.searxng_adaptor = SearxngAdaptor(SEARXNG_BASE_URL)
 
 
-    def _retrieve(self, query, **kwargs) -> list:
-        #TODO searxng API call -> use circuit breaker!
-        return []
+    def _retrieve(self, query: str, **kwargs) -> list:
+        """
+        Retrieve the query results.
+
+        Args:
+            query (str): Query string.
+
+        Returns:
+            (list): Search results. Includes vector search results as well if use_with_vector_search is True.
+        """
+        # searxng API call (use circuit breaker)
+        search_results = self.searxng_adaptor.search(query)
+        results = search_results.get("results", [])
+
+        # we need to return list type to fulfill the inherited type checkings
+        retrieval_results = [{
+            "searxng": results,
+            "vector_search": [],
+        }]
+
+        if not self.use_with_vector_search:
+            return retrieval_results
+
+        vector_search_results = self.vector_retriever.retrieve(query)
+        retrieval_results[0]["vector_search"] = vector_search_results
+
+        return retrieval_results
 
 
     async def _aretrieve(self, query, **kwargs) -> list:
-        #TODO searxng API call -> use circuit breaker!
-        return []
+        """
+        Retrieve the query results asynchronously.
+
+        Args:
+            query (str): Query string.
+
+        Returns:
+            (list): Search results. Includes vector search results as well if use_with_vector_search is True.
+        """
+        # searxng API call (use circuit breaker)
+        search_results = await self.searxng_adaptor.asearch(query)
+        results = search_results.get("results", [])
+        retrieval_results = [{
+            "searxng": results,
+            "vector_search": [],
+        }]
+        if not self.use_with_vector_search:
+            return retrieval_results
+
+        vector_search_results = await self.vector_retriever.aretrieve(query)
+        retrieval_results[0]["vector_search"] = vector_search_results
+
+        return retrieval_results
 
 
     def create_router_retriever(self):
