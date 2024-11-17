@@ -18,7 +18,7 @@ AI-based search engine done right.
     - [x] Implement dispatcher for Medium
     - [ ] Implement dispatcher for X (previously Twitter)
 - [ ] Implement the ParadeDB retriever with LlamaIndex
-- [ ] Update Rag Retriever to use the searxng engine
+- [x] Update Rag Retriever to use the searxng engine
 - [ ] Implement the reranker
     - [ ] Add support for Cohere Reranker
     - [x] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker

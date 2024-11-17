@@ -24,7 +24,7 @@ g_async_circuit_breaker = aiobreaker.CircuitBreaker(
 class SearxngAdaptor:
     """Searxng metasearch adaptor with circuit-breaker support."""
 
-    def __init__(self, base_url):
+    def __init__(self, base_url: str):
         """
         Initialize the SearxNG Client.
 
@@ -39,7 +39,7 @@ class SearxngAdaptor:
         return f"{self.base_url}/search"
 
 
-    def search(self, query, params:Union[dict, None]=None):
+    def search(self, query, params:Union[dict, None]=None) -> dict:
         """
         Perform a synchronous search query using the SearxNG API.
 
@@ -48,7 +48,7 @@ class SearxngAdaptor:
             params (dict | None): Optional dictionary of additional parameters.
 
         Returns:
-            (dict): JSON response with search results or None if an error occurs.
+            (dict): JSON response with search results.
         """
         if params is None:
             params = {}
