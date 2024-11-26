@@ -89,7 +89,7 @@ async def lifespan(app: FastAPI):
 
 
 def init_app(
-    use_cors: bool = False,
+    use_cors: bool = True,
     cors_headers: list = ["*"],
     cors_methods: list = ["*"],
     cors_origins: list = ["*"],

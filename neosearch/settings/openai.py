@@ -17,7 +17,8 @@ def init_openai():
     )
 
     dimensions = os.getenv("EMBEDDING_DIM")
-    Settings.embed_model = OpenAIEmbedding(
+    #TODO Settings.embed_model = OpenAIEmbedding(
+    Settings._embed_model = OpenAIEmbedding(
         model=os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"),
         dimensions=int(dimensions) if dimensions is not None else None,
     )

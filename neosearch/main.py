@@ -38,10 +38,13 @@ app.include_router(query_router, prefix="/api/query")
 app.include_router(search_router, prefix="/api/search")
 
 
-# GET /models
-@app.get("/models")
+@app.options("/api/models")
+async def get_models_options():
+    return {"methods": ["GET"]}
+
+@app.get("/api/models")
 async def get_models():
-    return {"models": ["gpt4", "claude3.5-sonnet"]}
+    return {"chatModelProviders": ["gpt4", "claude3.5-sonnet"]}
 
 
 #
@@ -75,4 +78,4 @@ async def log_http_exception(request, exc):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app="main:app", host="0.0.0.0", reload=True)
+    uvicorn.run(app="main:app", host="0.0.0.0", port=8518, reload=True)
