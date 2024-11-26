@@ -2,7 +2,7 @@ import os
 import httpx
 
 # custom import
-from neosearch.api.utils.rag_search import (
+from neosearch.engine.utils.rag_search import (
     search_with_bing,
     search_with_google,
     search_with_serper,
