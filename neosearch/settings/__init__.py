@@ -1,42 +1,84 @@
-from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core.settings import Settings
 import os
+from typing import Dict
 
 # custom modules
 from neosearch.utils.configs import Config
 
-from .openai import init_openai
+from .openai import init_openai, init_azure_openai
 from .ollama import init_ollama
-from .llamacpp import init_llamacpp
+from .fastembed import init_fastembed
+from .huggingface import init_huggingface
+from .mistral import init_mistral
+from .gemini import init_gemini
 
 
 config = Config()
 
-# key-value pair for LLM settings
-LLM_SETTINGS_KV = {
-    "openai": init_openai,
-    "ollama": init_ollama,
-    "llama.cpp": init_llamacpp,
-}
 
-
-def init_llm_settings() -> None:
+def init_settings():
     llm_config = config.get_llm_configs()
-    llm_type = llm_config.get("type", "openai")
+    model_type = llm_config.get("type")
+    model_provider = os.getenv("MODEL_PROVIDER", model_type)
 
-    if llm_type in LLM_SETTINGS_KV:
-        LLM_SETTINGS_KV[llm_type]()
-    else:
-        raise ValueError(f"Invalid LLM type: {llm_type}")
+    match model_provider:
+        case "openai":
+            init_openai()
+        case "groq":
+            init_groq()
+        case "ollama":
+            init_ollama()
+        case "anthropic":
+            init_anthropic()
+        case "gemini":
+            init_gemini()
+        case "mistral":
+            init_mistral()
+        case "azure-openai":
+            init_azure_openai()
+        case "huggingface":
+            init_huggingface()
+        case "t-systems":
+            from .llmhub import init_llmhub
+
+            init_llmhub()
+
+        case _:
+            raise ValueError(f"Invalid model provider: {model_provider}")
+
+    Settings.chunk_size = int(os.getenv("CHUNK_SIZE", "1024"))
+    Settings.chunk_overlap = int(os.getenv("CHUNK_OVERLAP", "20"))
 
 
-def init_settings() -> None:
-    init_llm_settings()
+def init_groq():
+    try:
+        from llama_index.llms.groq import Groq
+    except ImportError:
+        raise ImportError(
+            "Groq support is not installed. Please install it with `poetry add llama-index-llms-groq`"
+        )
 
-    embedding_model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
-    Settings.embed_model = OpenAIEmbedding(
-        model=embedding_model,
-        embed_batch_size=100
-    )
-    Settings.chunk_size = 1024
-    Settings.chunk_overlap = 20
+    Settings.llm = Groq(model=os.getenv("MODEL"))
+    # Groq does not provide embeddings, so we use FastEmbed instead
+    init_fastembed()
+
+
+def init_anthropic():
+    try:
+        from llama_index.llms.anthropic import Anthropic
+    except ImportError:
+        raise ImportError(
+            "Anthropic support is not installed. Please install it with `poetry add llama-index-llms-anthropic`"
+        )
+
+    model_map: Dict[str, str] = {
+        "claude-3-opus": "claude-3-opus-20240229",
+        "claude-3-sonnet": "claude-3-sonnet-20240229",
+        "claude-3-haiku": "claude-3-haiku-20240307",
+        "claude-2.1": "claude-2.1",
+        "claude-instant-1.2": "claude-instant-1.2",
+    }
+
+    Settings.llm = Anthropic(model=model_map[os.getenv("MODEL")])
+    # Anthropic does not provide embeddings, so we use FastEmbed instead
+    init_fastembed()

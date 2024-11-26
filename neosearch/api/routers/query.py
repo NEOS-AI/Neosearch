@@ -4,7 +4,7 @@ from llama_index.core.query_engine import CustomQueryEngine, TransformQueryEngin
 from typing import Union
 
 # custom module
-from neosearch.api.utils.query import validate_query_data
+from neosearch.engine.utils.query import validate_query_data
 from neosearch.engine.rag_engine.query_engine import get_query_engine
 from neosearch.models.query_models import QueryData
 from neosearch.utils.logging import Logger

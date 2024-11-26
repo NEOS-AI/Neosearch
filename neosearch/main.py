@@ -7,19 +7,23 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 import traceback
+import warnings
 
 # Load environment variables
 load_dotenv()
+
+# Ignore warnings
+warnings.filterwarnings("ignore")
 
 # Add the root directory to the path so that we can import the settings
 sys.path.append("..")
 
 # custom module
+from neosearch.app.server import init_app  # noqa: E402
 from neosearch.api.routers.chat import chat_router  # noqa: E402
 from neosearch.api.routers.query import query_router  # noqa: E402
 from neosearch.api.routers.search import search_router  # noqa: E402
 from neosearch.settings import init_settings  # noqa: E402
-from neosearch.app.server import init_app  # noqa: E402
 from neosearch.utils.logging import Logger  # noqa: E402
 
 
@@ -32,6 +36,15 @@ logger = Logger()
 app.include_router(chat_router, prefix="/api/chat")
 app.include_router(query_router, prefix="/api/query")
 app.include_router(search_router, prefix="/api/search")
+
+
+@app.options("/api/models")
+async def get_models_options():
+    return {"methods": ["GET"]}
+
+@app.get("/api/models")
+async def get_models():
+    return {"chatModelProviders": ["gpt4", "claude3.5-sonnet"]}
 
 
 #
@@ -65,4 +78,4 @@ async def log_http_exception(request, exc):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app="main:app", host="0.0.0.0", reload=True)
+    uvicorn.run(app="main:app", host="0.0.0.0", port=8518, reload=True)

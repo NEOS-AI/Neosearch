@@ -251,8 +251,10 @@ const loadMessages = async (
     };
   }) as Message[];
 
+  // set messages
   setMessages(messages);
 
+  // get chat history
   const history = messages.map((msg) => {
     return [msg.role, msg.content];
   }) as [string, string][];
