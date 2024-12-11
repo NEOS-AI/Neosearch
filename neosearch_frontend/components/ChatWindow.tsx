@@ -52,6 +52,7 @@ const useSocket = (
             },
           },
         ).then(async (res) => await res.json());
+        console.log(providers);
 
         if (
           !chatModel ||
@@ -61,6 +62,7 @@ const useSocket = (
         ) {
           if (!chatModel || !chatModelProvider) {
             const chatModelProviders = providers.chatModelProviders;
+            console.log(chatModelProviders);
 
             chatModelProvider = Object.keys(chatModelProviders)[0];
 
