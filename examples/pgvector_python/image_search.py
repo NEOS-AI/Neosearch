@@ -6,6 +6,12 @@ import torch
 import torchvision
 from tqdm import tqdm
 
+import ssl
+
+# turning off SSL verification for custom certificates
+ssl._create_default_https_context = ssl._create_unverified_context
+
+
 seed = True
 
 # establish connection
@@ -18,7 +24,9 @@ transform = torchvision.transforms.Compose([
     torchvision.transforms.ToTensor(),
     torchvision.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 ])
-dataset = torchvision.datasets.CIFAR10(root=tempfile.gettempdir(), train=True, download=True, transform=transform)
+dataset = torchvision.datasets.CIFAR10(
+    root=tempfile.gettempdir(), train=True, download=True, transform=transform
+)
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=1000)
 
 # load pretrained model
