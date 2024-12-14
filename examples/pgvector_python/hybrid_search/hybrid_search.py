@@ -4,26 +4,33 @@ from sentence_transformers import SentenceTransformer
 from datasets import load_dataset
 
 
-# Load the dataset
-ds = load_dataset("rag-datasets/rag-mini-wikipedia", "text-corpus")
+RE_INIT_DB = False
+search_query = 'luminous'
 
 conn = psycopg.connect(dbname='pgvector_example', autocommit=True)
 
 conn.execute('CREATE EXTENSION IF NOT EXISTS vector')
 register_vector(conn)
 
-conn.execute('DROP TABLE IF EXISTS documents')
-conn.execute('CREATE TABLE documents (id bigserial PRIMARY KEY, content text, embedding vector(384))')
-conn.execute("CREATE INDEX ON documents USING GIN (to_tsvector('english', content))")
+if RE_INIT_DB:
+    # Load the dataset
+    ds = load_dataset("rag-datasets/rag-mini-wikipedia", "text-corpus")
 
-sentences = ds['passages']
-# sentences to list of str
-sentences = [s['passage'] for s in sentences]
+    # Create the table, index, and insert the data
+    conn.execute('DROP TABLE IF EXISTS documents')
+    conn.execute('CREATE TABLE documents (id bigserial PRIMARY KEY, content text, embedding vector(384))')
+    conn.execute("CREATE INDEX ON documents USING GIN (to_tsvector('english', content))")
+
+    sentences = ds['passages']
+    # sentences to list of str
+    sentences = [s['passage'] for s in sentences]
 
 model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
-embeddings = model.encode(sentences)
-for content, embedding in zip(sentences, embeddings):
-    conn.execute('INSERT INTO documents (content, embedding) VALUES (%s, %s)', (content, embedding))
+
+if RE_INIT_DB:
+    embeddings = model.encode(sentences)
+    for content, embedding in zip(sentences, embeddings):
+        conn.execute('INSERT INTO documents (content, embedding) VALUES (%s, %s)', (content, embedding))
 
 
 sql = """
@@ -50,7 +57,7 @@ FULL OUTER JOIN keyword_search ON semantic_search.id = keyword_search.id
 ORDER BY score DESC
 LIMIT 5
 """
-query = 'growling bear'
+query = search_query
 embedding = model.encode(query)
 k = 60
 results = conn.execute(sql, {'query': query, 'embedding': embedding, 'k': k}).fetchall()
