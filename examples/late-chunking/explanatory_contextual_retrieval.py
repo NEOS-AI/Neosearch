@@ -213,19 +213,19 @@ class ContextualRetrievalEmbedder():
         similarities = []
         for emb in self.output_embs:
             similarities.append(cosine_similarity(query_embedding, emb))
-        
+
         return similarities
 
-        
+
 
 if __name__ == "__main__":
-
     text = """
     The recent SEC filing provided insights into ACME Corp's performance for Q2 2023. 
     It highlighted a 3% revenue growth over the previous quarter. 
     The company, which had a revenue of $314 million in the prior quarter, showed steady progress. 
     They attributed this growth to strategic initiatives and operational efficiencies. 
     The report emphasized the company's resilience and ability to navigate market challenges, reflecting positively on their financial health and future prospects.
+    The company's stock price rose by 5% following the announcement, indicating investor confidence in ACME Corp's performance.
     """.strip().replace("\n", "")
 
     llm_model_name = "microsoft/Phi-3.5-mini-instruct"
