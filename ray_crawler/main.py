@@ -11,9 +11,12 @@ from engine.deployment import EmbeddingDeployment
 from utils import extract_url_content
 
 
-def url_crawl_test():
+FOR_TEST = False
+
+def url_crawl_test(output_format: str = "markdown"):
     url = "https://namu.wiki/w/%EC%95%84%EB%9D%BC%ED%95%98%EC%8B%9C%20%ED%83%80%EB%B9%84"
-    print(extract_url_content(url))
+    print(extract_url_content(url, output_format=output_format))
+
 
 def deploy_embedding_server(
     blocking: bool = False,
@@ -48,7 +51,7 @@ def init_and_deploy_hpc_nodes(
     deploy_embedding_server()
 
 
-if __name__ == "__main__":
+def main():
     num_of_cpus = multiprocessing.cpu_count()
     cuda_available = torch.cuda.is_available()
     if cuda_available:
@@ -65,3 +68,8 @@ if __name__ == "__main__":
         )
 
     #TODO crawl, extract, and index the content of the URL
+
+
+if __name__ == "__main__":
+    url_crawl_test()
+    # main()
