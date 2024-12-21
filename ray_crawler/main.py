@@ -3,6 +3,8 @@ import ray
 from ray import serve
 import torch
 import multiprocessing
+import os
+from dotenv import load_dotenv
 
 sys.path.append("..")
 
@@ -11,7 +13,9 @@ from engine.deployment import EmbeddingDeployment
 from utils import extract_url_content
 
 
-FOR_TEST = False
+load_dotenv()
+FOR_TEST = os.getenv("FOR_TEST", "0") == "1"
+
 
 def url_crawl_test(output_format: str = "markdown"):
     url = "https://namu.wiki/w/%EC%95%84%EB%9D%BC%ED%95%98%EC%8B%9C%20%ED%83%80%EB%B9%84"
@@ -71,5 +75,7 @@ def main():
 
 
 if __name__ == "__main__":
-    url_crawl_test()
-    # main()
+    if FOR_TEST:
+        url_crawl_test()
+    else:
+        main()
