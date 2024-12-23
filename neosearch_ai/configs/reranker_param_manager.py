@@ -5,7 +5,7 @@ import torch
 
 @dataclass
 class RerankServerParameterManager:
-    model_name: str = os.environ.get("MODEL_NAME", "sentence-transformers/all-mpnet-base-v2")
+    model_name: str = os.environ.get("MODEL_NAME", "rank_zephyr_7b_v1_full")
     device: str = os.environ.get("DEVICE", "cpu")
     precision: int | str | None = os.environ.get("PRECISION", "fp32")
     retriever_batch_size: int = int(os.environ.get("RETRIEVER_BATCH_SIZE", 32))
