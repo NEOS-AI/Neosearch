@@ -29,7 +29,6 @@ async def chat(
 
         doc_ids = data.get_chat_document_ids()
         filters = generate_filters(doc_ids)
-        # params = data.data or {}
         logger.log_info(f"method={request.method} | {request.url} | {req_id} | 200 | details: Creating chat engine with filters: {str(filters)}")  # noqa: E501
 
         event_handler = EventCallbackHandler()
