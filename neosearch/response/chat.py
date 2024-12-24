@@ -1,5 +1,4 @@
-import json
-import logging
+import orjson
 from typing import Awaitable, List
 
 from aiostream import stream
@@ -10,12 +9,12 @@ from llama_index.core.schema import NodeWithScore
 
 # custom modules
 from neosearch.utils.events import EventCallbackHandler
+from neosearch.utils.logging import Logger
 from neosearch.services.next_question_suggesion import NextQuestionSuggestion
-
 from neosearch.models.chat_models import ChatData, Message, SourceNodes
 
 
-logger = logging.getLogger("uvicorn")
+logger = Logger()
 
 
 class ChatStreamResponse(StreamingResponse):
@@ -137,19 +136,19 @@ class ChatStreamResponse(StreamingResponse):
         event_handler.is_done = True
 
     @classmethod
-    def convert_text(cls, token: str):
+    def convert_text(cls, token: str) -> str:
         # Escape newlines and double quotes to avoid breaking the stream
-        token = json.dumps(token)
+        token = orjson.dumps(token).decode("utf-8")
         return f"{cls.TEXT_PREFIX}{token}\n"
 
     @classmethod
-    def convert_data(cls, data: dict):
-        data_str = json.dumps(data)
+    def convert_data(cls, data: dict) -> str:
+        data_str = orjson.dumps(data).decode("utf-8")
         return f"{cls.DATA_PREFIX}[{data_str}]\n"
 
     @classmethod
-    def convert_error(cls, error: str):
-        error_str = json.dumps(error)
+    def convert_error(cls, error: str) -> str:
+        error_str = orjson.dumps(error).decode("utf-8")
         return f"{cls.ERROR_PREFIX}{error_str}\n"
 
     @staticmethod

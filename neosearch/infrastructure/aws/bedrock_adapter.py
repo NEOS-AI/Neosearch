@@ -22,18 +22,18 @@ class BedrockInferenceAdapter:
 
 
     def invoke_model_with_response_stream(self, prompt, max_tokens=1000):
-
+        # Prepare the request body
         request_body = json.dumps({
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": max_tokens,
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
-                ],
-                "temperature": 0.0,
-            })
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": max_tokens,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            "temperature": 0.0,
+        })
 
         # Invoke the model
         try:
