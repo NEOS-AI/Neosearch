@@ -1,4 +1,10 @@
-from fastapi import APIRouter, BackgroundTasks, Request, HTTPException, status
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    HTTPException,
+    Request,
+    status,
+)
 
 # custom module
 from neosearch.engine.rag_engine.chat_engine import get_custom_chat_engine
@@ -32,6 +38,8 @@ async def chat(
         logger.log_info(f"method={request.method} | {request.url} | {req_id} | 200 | details: Creating chat engine with filters: {str(filters)}")  # noqa: E501
 
         event_handler = EventCallbackHandler()
+
+        # get chat engine, and generate response with async chat stream
         chat_engine = get_custom_chat_engine(last_message_content, messages, verbose=False)
         response = chat_engine.astream_chat(last_message_content, messages)
 
