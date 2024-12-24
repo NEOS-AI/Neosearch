@@ -8,7 +8,7 @@ from llama_index.core.retrievers import BaseRetriever
 from neosearch.engine.index import get_index
 
 
-def _use_hyde(chat_engine, use_hyde: bool = True):
+def _use_hyde(chat_engine, use_hyde: bool):
     if use_hyde:
         hyde = HyDEQueryTransform(include_original=True)
         return TransformQueryEngine(chat_engine, hyde)
