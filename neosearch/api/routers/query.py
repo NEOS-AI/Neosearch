@@ -28,7 +28,7 @@ async def query_for_search(
     query = await validate_query_data(data)
 
     # query to the engine
-    response = await query_engine.aquery(query.query)
+    response = await query_engine.aquery(query)
     logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Query response generated")  # noqa: E501
 
     # stream response
