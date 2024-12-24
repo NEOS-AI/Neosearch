@@ -1,49 +1,49 @@
-from fastapi.responses import StreamingResponse
-from fastapi import APIRouter, Depends, Request
-from llama_index.core.chat_engine.types import BaseChatEngine
-from llama_index.core.llms import ChatMessage
+from fastapi import APIRouter, BackgroundTasks, Request, HTTPException, status
 
 # custom module
-from neosearch.engine.utils.chat import validate_chat_data
-from neosearch.engine.rag_engine.chat_engine import get_chat_engine
+from neosearch.engine.rag_engine.chat_engine import get_custom_chat_engine
+from neosearch.engine.query_filter import generate_filters
 from neosearch.models.chat_models import ChatData
 from neosearch.utils.logging import Logger
+from neosearch.utils.events import EventCallbackHandler
+from neosearch.response.chat import ChatStreamResponse
 
-
-logger = Logger()
 
 # Create a router for the chat endpoint
 chat_router = r = APIRouter()
+
+logger = Logger()
 
 
 @r.post("")
 async def chat(
     request: Request,
     data: ChatData,
-    chat_engine: BaseChatEngine = Depends(get_chat_engine),
+    background_tasks: BackgroundTasks,
 ):
     req_id = request.state.request_id
-    lastMessage = await validate_chat_data(data)
 
-    # convert messages coming from the request to type ChatMessage
-    messages = [
-        ChatMessage(
-            role=m.role,
-            content=m.content,
+    try:
+        last_message_content = data.get_last_message_content()
+        messages = data.get_history_messages()
+
+        doc_ids = data.get_chat_document_ids()
+        filters = generate_filters(doc_ids)
+        # params = data.data or {}
+        logger.log_info(f"method={request.method} | {request.url} | {req_id} | 200 | details: Creating chat engine with filters: {str(filters)}")  # noqa: E501
+
+        event_handler = EventCallbackHandler()
+        chat_engine = get_custom_chat_engine(last_message_content, messages, verbose=False)
+        response = chat_engine.astream_chat(last_message_content, messages)
+
+        logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Chat response generated")  # noqa: E501
+
+        return ChatStreamResponse(
+            request, event_handler, response, data, background_tasks
         )
-        for m in data.messages
-    ]
-
-    # query chat engine
-    response = await chat_engine.astream_chat(lastMessage.content, messages)
-    logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Chat response generated")  # noqa: E501
-
-    # stream response
-    async def event_generator():
-        async for token in response.async_response_gen():
-            # If client closes connection, stop sending events
-            if await request.is_disconnected():
-                break
-            yield token
-
-    return StreamingResponse(event_generator(), media_type="text/plain")
+    except Exception as e:
+        logger.log_error("Error in chat engine", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error in chat engine: {e}",
+        ) from e

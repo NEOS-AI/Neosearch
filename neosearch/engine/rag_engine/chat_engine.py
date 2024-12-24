@@ -3,6 +3,7 @@ from llama_index.core.chat_engine import CondensePlusContextChatEngine
 from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 from llama_index.core.query_engine import TransformQueryEngine
 from llama_index.core.retrievers import BaseRetriever
+from llama_index.llms.openai import OpenAI
 
 # custom module
 from neosearch.engine.index import get_index
@@ -45,7 +46,7 @@ def get_custom_chat_engine(last_msg: str, chat_history: list, verbose: bool = Fa
 
 
 def get_retrieval_chat_engine(last_msg, chat_history: list, llm, use_hyde: bool = True):
-    llm = get_index().as_llm() #TODO
+    llm = OpenAI(model="gpt-4o")
     retriever: BaseRetriever = get_index().as_retriever() #TODO
 
     system_prompt_str = """Answer in same language as the question. If you think the question is ambiguous, please ask for clarification.
