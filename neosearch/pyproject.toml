@@ -23,7 +23,7 @@ pgvecto-rs = {extras = ["sdk"], version = "^0.1.4"}
 slowapi = "^0.1.9"
 traceloop-sdk = "^0.26.3"
 orjson = "^3.10.6"
-jinja2 = "^3.1.4"
+jinja2 = "^3.1.5"
 boto3 = "^1.35.54"
 botocore = "^1.35.54"
 uvicorn = "^0.32.0"
