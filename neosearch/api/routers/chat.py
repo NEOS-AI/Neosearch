@@ -26,7 +26,7 @@ async def chat(
     request: Request,
     data: ChatData,
     background_tasks: BackgroundTasks,
-):
+) -> ChatStreamResponse:
     req_id = request.state.request_id
 
     try:
