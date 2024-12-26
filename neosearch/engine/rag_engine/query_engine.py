@@ -3,7 +3,6 @@ from llama_index.core.retrievers import BaseRetriever
 from llama_index.core.query_engine import CustomQueryEngine, TransformQueryEngine
 from llama_index.core import get_response_synthesizer
 from llama_index.core.response_synthesizers import BaseSynthesizer
-from llama_index.llms.openai import OpenAI
 from llama_index.core import ChatPromptTemplate, PromptTemplate
 from llama_index.core.base.llms.types import ChatMessage, MessageRole
 from llama_index.core.retrievers import VectorIndexAutoRetriever
@@ -12,6 +11,7 @@ from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 
 
 # custom modules
+from neosearch.settings import Settings
 from neosearch.engine.index import get_index
 from neosearch.engine.retriever.base import get_base_retriever
 from neosearch.app.rag import get_rag_searcher, RagSearcher
@@ -105,8 +105,8 @@ class RAGStringQueryEngine(CustomQueryEngine):
 
     retriever: BaseRetriever
     response_synthesizer: BaseSynthesizer
-    llm: OpenAI
     qa_prompt: PromptTemplate
+    llm = Settings.llm
 
     def __init__(
         self,
@@ -130,7 +130,6 @@ class RAGStringQueryEngine(CustomQueryEngine):
                 verbose=VECTOR_INDEX_VERBOSE,
             )
 
-        self.llm = OpenAI()
         self.qa_prompt = PromptTemplate(
             "Context information is below.\n"
             "---------------------\n"

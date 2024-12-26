@@ -3,9 +3,9 @@ from llama_index.core.chat_engine import CondensePlusContextChatEngine
 from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 from llama_index.core.query_engine import TransformQueryEngine
 from llama_index.core.retrievers import BaseRetriever
-from llama_index.llms.openai import OpenAI
 
 # custom module
+from neosearch.settings import Settings
 from neosearch.engine.index import get_index
 from neosearch.engine.retriever.searxng_retriever import SearxngRetriever
 
@@ -48,8 +48,8 @@ def get_custom_chat_engine(last_msg: str, chat_history: list, verbose: bool = Fa
     return chat_engine
 
 
-def get_searxng_chat_engine(last_msg, chat_history: list, llm, use_hyde: bool = True):
-    llm = OpenAI(model="gpt-4o")
+def get_searxng_chat_engine(last_msg, chat_history: list, use_hyde: bool = True):
+    llm = Settings.llm
 
     index = get_index()
     index_retriever = index.as_retriever()
