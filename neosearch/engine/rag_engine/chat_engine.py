@@ -7,28 +7,31 @@ from llama_index.llms.openai import OpenAI
 
 # custom module
 from neosearch.engine.index import get_index
+from neosearch.engine.retriever.searxng_retriever import SearxngRetriever
 
 
-def _use_hyde(chat_engine, use_hyde: bool):
+def _use_hyde(query_engine, use_hyde: bool):
     if use_hyde:
         hyde = HyDEQueryTransform(include_original=True)
-        return TransformQueryEngine(chat_engine, hyde)
+        return TransformQueryEngine(query_engine, hyde)
+    return query_engine
+
+
+def get_chat_engine(use_hyde: bool = False):
+    index = get_index()
+    query_engine = index.as_query_engine()
+    query_engine = _use_hyde(query_engine, use_hyde)
+    chat_engine = CondensePlusContextChatEngine.from_defaults(query_engine=query_engine)
     return chat_engine
 
 
-def get_chat_engine(use_hyde: bool = True):
-    chat_engine = get_index().as_chat_engine(
-        similarity_top_k=3,
-        chat_mode="condense_plus_context"
-    )
-    return _use_hyde(chat_engine, use_hyde)
-
-
-def get_custom_chat_engine(last_msg: str, chat_history: list, verbose: bool = False, use_hyde: bool = True):
+def get_custom_chat_engine(last_msg: str, chat_history: list, verbose: bool = False, use_hyde: bool = False):
     index = get_index()
     query_engine = index.as_query_engine()
+    query_engine = _use_hyde(query_engine, use_hyde)
 
-    system_prompt_str = """Answer in same language as the question. If you think the question is ambiguous, please ask for clarification.
+    system_prompt_str = """As a AI based search engine, you are expected to provide the most relevant information to the user.
+    Answer in same language as the question. If you think the question is ambiguous, please ask for clarification.
     If you think the question is too violent/sexual/illegal, please let the user know that you can't answer it due to policy reasons.
     """
     custom_prompt = PromptTemplate(system_prompt_str)
@@ -42,14 +45,21 @@ def get_custom_chat_engine(last_msg: str, chat_history: list, verbose: bool = Fa
         verbose=verbose,
     )
 
-    return _use_hyde(chat_engine, use_hyde)
+    return chat_engine
 
 
-def get_retrieval_chat_engine(last_msg, chat_history: list, llm, use_hyde: bool = True):
+def get_searxng_chat_engine(last_msg, chat_history: list, llm, use_hyde: bool = True):
     llm = OpenAI(model="gpt-4o")
-    retriever: BaseRetriever = get_index().as_retriever() #TODO
 
-    system_prompt_str = """Answer in same language as the question. If you think the question is ambiguous, please ask for clarification.
+    index = get_index()
+    index_retriever = index.as_retriever()
+    retriever: BaseRetriever = SearxngRetriever(
+        vector_retriever=index_retriever,
+        use_with_vector_search=True
+    )
+
+    system_prompt_str = """As a AI based search engine, you are expected to provide the most relevant information to the user.
+    Answer in same language as the question. If you think the question is ambiguous, please ask for clarification.
     If you think the question is too violent/sexual/illegal, please let the user know that you can't answer it due to policy reasons.
     """
     custom_prompt = PromptTemplate(system_prompt_str)
