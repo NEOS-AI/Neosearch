@@ -16,7 +16,7 @@ g_sync_circuit_breaker = pybreaker.CircuitBreaker(
 
 g_async_circuit_breaker = aiobreaker.CircuitBreaker(
     fail_max=CB_FAIL_MAX,
-    reset_timeout=CB_RESET_TIMEOUT,
+    timeout_duration=CB_RESET_TIMEOUT,
     name="SearxNGCircuitBreaker_async"
 )
 
