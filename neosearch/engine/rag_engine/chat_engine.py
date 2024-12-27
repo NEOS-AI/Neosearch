@@ -30,7 +30,7 @@ def get_chat_engine(use_hyde: bool = False):
     return chat_engine
 
 
-def get_custom_chat_engine(last_msg: str, chat_history: list, verbose: bool = False):
+def get_custom_chat_engine(verbose: bool = False):
     llm = Settings.llm
 
     index = get_index()
@@ -50,13 +50,12 @@ def get_custom_chat_engine(last_msg: str, chat_history: list, verbose: bool = Fa
         context_prompt=context_prompt,
         context_refine_prompt=refine_prompt,
         condense_prompt=condense_prompt,
-        chat_history=chat_history,
         verbose=verbose,
     )
     return chat_engine
 
 
-def get_searxng_chat_engine(last_msg, chat_history: list, verbose: bool = False):
+def get_searxng_chat_engine(verbose: bool = False):
     llm = Settings.llm
 
     index = get_index()
@@ -76,7 +75,6 @@ def get_searxng_chat_engine(last_msg, chat_history: list, verbose: bool = False)
         context_prompt=context_prompt,
         context_refine_prompt=refine_prompt,
         condense_prompt=condense_prompt,
-        chat_history=chat_history,
         verbose=verbose,
     )
     return chat_engine

@@ -15,10 +15,10 @@ from neosearch.utils.events import EventCallbackHandler
 from neosearch.response.chat import ChatStreamResponse
 
 
+logger = Logger()
+
 # Create a router for the chat endpoint
 chat_router = r = APIRouter()
-
-logger = Logger()
 
 
 @r.post("")
@@ -40,7 +40,7 @@ async def chat(
         event_handler = EventCallbackHandler()
 
         # get chat engine, and generate response with async chat stream
-        chat_engine = get_custom_chat_engine(last_message_content, messages, verbose=False)
+        chat_engine = get_custom_chat_engine(verbose=False)
         response = chat_engine.astream_chat(last_message_content, messages)
 
         logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Chat response generated")  # noqa: E501
@@ -49,7 +49,7 @@ async def chat(
             request, event_handler, response, data, background_tasks
         )
     except Exception as e:
-        logger.log_error("Error in chat engine", exc_info=True)
+        logger.log_error(f"method={request.method} | {request.url} | {req_id} | 500 | details: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error in chat engine: {e}",
