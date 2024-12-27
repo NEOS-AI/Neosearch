@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "neosearch"
-version = "0.2.3"
+version = "0.2.5"
 description = ""
 authors = [ "Yeonwoo Sung <neos960518@gmail.com>" ]
 readme = "README.md"
@@ -34,6 +34,8 @@ pydantic = "<2.10"
 llama-index-embeddings-openai = "^0.3.0"
 llama-index-agent-openai = "^0.4.0"
 aiostream = "^0.6.4"
+llama-index-tools-wikipedia = "^0.3.0"
+llama-index-tools-tavily-research = "^0.3.0"
 
 
 [build-system]
