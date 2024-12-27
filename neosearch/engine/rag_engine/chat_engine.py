@@ -48,7 +48,7 @@ def get_custom_chat_engine(last_msg: str, chat_history: list, verbose: bool = Fa
     return chat_engine
 
 
-def get_searxng_chat_engine(last_msg, chat_history: list, use_hyde: bool = True):
+def get_searxng_chat_engine(last_msg, chat_history: list):
     llm = Settings.llm
 
     index = get_index()
@@ -58,19 +58,27 @@ def get_searxng_chat_engine(last_msg, chat_history: list, use_hyde: bool = True)
         use_with_vector_search=True
     )
 
+    refine_prompt_str = """Your task is to refine a query to ensure it is highly effective for retrieving relevant search results. \n
+    Analyze the given input to grasp the core semantic intent or meaning. \n
+    Original Query:
+    \n ------- \n
+    {query_str}
+    """
+
     system_prompt_str = """As a AI based search engine, you are expected to provide the most relevant information to the user.
     Answer in same language as the question. If you think the question is ambiguous, please ask for clarification.
     If you think the question is too violent/sexual/illegal, please let the user know that you can't answer it due to policy reasons.
     """
+
     custom_prompt = PromptTemplate(system_prompt_str)
-    user_prompt = PromptTemplate(last_msg)
+    refine_prompt = PromptTemplate(refine_prompt_str)
 
     chat_engine = CondensePlusContextChatEngine.from_defaults(
         retriever=retriever,
         llm=llm,
-        system_prompt=custom_prompt,
-        condense_prompt=user_prompt,
+        context_prompt=custom_prompt,
+        context_refine_prompt=refine_prompt,
+        condense_prompt=custom_prompt,
         chat_history=chat_history,
     )
-
-    return _use_hyde(chat_engine, use_hyde)
+    return chat_engine
