@@ -1597,6 +1597,36 @@ llama-index-core = ">=0.12.0,<0.13.0"
 pystemmer = ">=2.2.0.1,<3.0.0.0"
 
 [[package]]
+name = "llama-index-tools-tavily-research"
+version = "0.3.0"
+description = "llama-index tools tavily_research integration"
+optional = false
+python-versions = "<4.0,>=3.9"
+files = [
+    {file = "llama_index_tools_tavily_research-0.3.0-py3-none-any.whl", hash = "sha256:0fb973d56e98b3d7289e7dbedf28e687b7ada8949e67dfca7bfb468bd4ea5dbd"},
+    {file = "llama_index_tools_tavily_research-0.3.0.tar.gz", hash = "sha256:2b6fb6823684a63696f70fef01f13a6096068a48088f5fb95eba4919d7ca6b7f"},
+]
+
+[package.dependencies]
+llama-index-core = ">=0.12.0,<0.13.0"
+tavily-python = ">=0.2.4"
+
+[[package]]
+name = "llama-index-tools-wikipedia"
+version = "0.3.0"
+description = "llama-index tools wikipedia integration"
+optional = false
+python-versions = "<4.0,>=3.9"
+files = [
+    {file = "llama_index_tools_wikipedia-0.3.0-py3-none-any.whl", hash = "sha256:aa76c39237056b3ed727a23aadc65f34c5b500449ee9ec2efaced055f3ff9938"},
+    {file = "llama_index_tools_wikipedia-0.3.0.tar.gz", hash = "sha256:8e3fc5ae8a479aacc6640c6c30a66f9848762bf8ebbbc4ceab41e8a4762a664c"},
+]
+
+[package.dependencies]
+llama-index-core = ">=0.12.0,<0.13.0"
+wikipedia = ">=1.4,<2.0"
+
+[[package]]
 name = "llama-index-vector-stores-milvus"
 version = "0.3.0"
 description = "llama-index vector_stores milvus integration"
@@ -4431,6 +4461,22 @@ mpmath = ">=1.1.0,<1.4"
 dev = ["hypothesis (>=6.70.0)", "pytest (>=7.1.0)"]
 
 [[package]]
+name = "tavily-python"
+version = "0.5.0"
+description = "Python wrapper for the Tavily API"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "tavily_python-0.5.0-py3-none-any.whl", hash = "sha256:e874f6a04a56cdda80a505fe0b4f5d61d25372bd52a83e6773926fb297dcaa29"},
+    {file = "tavily_python-0.5.0.tar.gz", hash = "sha256:2c60b88203b630e1b37fc711913a1090ced6719b3f21089f25ec06e9e1602822"},
+]
+
+[package.dependencies]
+httpx = "*"
+requests = "*"
+tiktoken = ">=0.5.1"
+
+[[package]]
 name = "tenacity"
 version = "8.5.0"
 description = "Retry code until it succeeds"
@@ -5017,6 +5063,20 @@ typing-extensions = {version = ">=4.0", markers = "python_version < \"3.11\""}
 standard = ["colorama (>=0.4)", "httptools (>=0.6.3)", "python-dotenv (>=0.13)", "pyyaml (>=5.1)", "uvloop (>=0.14.0,!=0.15.0,!=0.15.1)", "watchfiles (>=0.13)", "websockets (>=10.4)"]
 
 [[package]]
+name = "wikipedia"
+version = "1.4.0"
+description = "Wikipedia API for Python"
+optional = false
+python-versions = "*"
+files = [
+    {file = "wikipedia-1.4.0.tar.gz", hash = "sha256:db0fad1829fdd441b1852306e9856398204dc0786d2996dd2e0c8bb8e26133b2"},
+]
+
+[package.dependencies]
+beautifulsoup4 = "*"
+requests = ">=2.0.0,<3.0.0"
+
+[[package]]
 name = "wrapt"
 version = "1.17.0"
 description = "Module for decorators, wrappers and monkey patching."
@@ -5208,4 +5268,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.13"
-content-hash = "119907a2720760c958572e0eb5533d5f78f7605fde8a134eff809b297c104f15"
+content-hash = "c24ca5b054909bac1bcca1d4f72dd82d5ba329c9359782bfdaa93057492440d8"
