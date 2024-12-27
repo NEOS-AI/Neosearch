@@ -8,6 +8,7 @@ from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 import traceback
 import warnings
+import llama_index.core
 
 # Load environment variables
 load_dotenv()
@@ -31,6 +32,10 @@ app: FastAPI = init_app()
 init_settings()
 
 environment = os.getenv("ENVIRONMENT", "dev")  # Default to 'development' if not set
+if environment in {"dev", "development"}:
+    # Set the global handler
+    llama_index.core.set_global_handler("simple")
+
 logger = Logger()
 
 app.include_router(chat_router, prefix="/api/chat")
