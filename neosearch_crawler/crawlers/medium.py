@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 
 # custom modules
 from .base import BaseAbstractCrawler
-from ray_crawler.mongo_db.documents import ArticleDocument
+from neosearch_crawler.mongo_db.documents import ArticleDocument
 
 
 logger = Logger(service="decodingml/crawler")

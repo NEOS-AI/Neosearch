@@ -4,10 +4,10 @@ ENV VERSION 0.1.2
 
 WORKDIR /app
 
-COPY ray_crawler .
+COPY neosearch_crawler .
 
-# move to the ray_crawler directory
-WORKDIR /app/ray_crawler
+# move to the neosearch_crawler directory
+WORKDIR /app/neosearch_crawler
 
 RUN pip install poetry
 RUN sh export_requirements_txt_from_poetry.sh

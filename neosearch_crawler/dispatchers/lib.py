@@ -1,4 +1,4 @@
-from ray_crawler.exception.dispatcher import ImproperlyConfigured
+from neosearch_crawler.exception.dispatcher import ImproperlyConfigured
 
 
 def user_to_names(user: str | None) -> tuple[str, str]:

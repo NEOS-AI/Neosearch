@@ -7,9 +7,9 @@ from bs4.element import Tag
 from selenium.webdriver.common.by import By
 
 # custom modules
-from ray_crawler.mongo_db.documents import PostDocument
-from ray_crawler.mongo_db.mongo_config import settings
-from ray_crawler.utils.errors import ImproperlyConfigured
+from neosearch_crawler.mongo_db.documents import PostDocument
+from neosearch_crawler.mongo_db.mongo_config import settings
+from neosearch_crawler.utils.errors import ImproperlyConfigured
 
 from .base import BaseAbstractCrawler
 
