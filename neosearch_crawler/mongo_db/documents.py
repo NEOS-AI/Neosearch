@@ -6,8 +6,8 @@ from pymongo import errors
 from utils import get_logger
 
 # custom modules
-from ray_crawler.utils.errors import ImproperlyConfigured
-from ray_crawler.mongo_db.mongo import connection
+from neosearch_crawler.utils.errors import ImproperlyConfigured
+from neosearch_crawler.mongo_db.mongo import connection
 
 
 _database = connection.get_database("scrabble")

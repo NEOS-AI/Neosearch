@@ -1,13 +1,13 @@
 from typing import Any
 
 # custom modules
-from ray_crawler.crawlers.github import GithubCrawler
-from ray_crawler.crawlers.linkedin import LinkedInCrawler
-from ray_crawler.crawlers.medium import MediumCrawler
-from ray_crawler.mongo_db.documents import UserDocument
-from ray_crawler.utils.logger import Logger
-from ray_crawler.dispatchers.base import CrawlerDispatcher
-from ray_crawler.dispatchers.lib import user_to_names
+from neosearch_crawler.crawlers.github import GithubCrawler
+from neosearch_crawler.crawlers.linkedin import LinkedInCrawler
+from neosearch_crawler.crawlers.medium import MediumCrawler
+from neosearch_crawler.mongo_db.documents import UserDocument
+from neosearch_crawler.utils.logger import Logger
+from neosearch_crawler.dispatchers.base import CrawlerDispatcher
+from neosearch_crawler.dispatchers.lib import user_to_names
 
 
 logger = Logger()

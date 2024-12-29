@@ -5,7 +5,7 @@ import logging
 import os
 
 # custom module
-from ray_crawler.constants.logger import (
+from neosearch_crawler.constants.logger import (
     LOG_DEFAULT_CONSOLE_LOG_LEVEL,
     LOG_DEFAULT_LOG_LEVEL,
     LOG_DEFAULT_LOG_NAME,
