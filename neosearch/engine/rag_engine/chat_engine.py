@@ -13,6 +13,7 @@ from neosearch.engine.prompts.chat import (
     DEFAULT_CONTEXT_PROMPT_TEMPLATE,
     DEFAULT_CONTEXT_REFINE_PROMPT_TEMPLATE,
 )
+from neosearch.engine.reranker.cohere import get_cohere_rerank
 
 
 def _use_hyde(query_engine, use_hyde: bool):
@@ -22,9 +23,16 @@ def _use_hyde(query_engine, use_hyde: bool):
     return query_engine
 
 
-def get_chat_engine(use_hyde: bool = False):
+def get_chat_engine(use_hyde: bool = False, use_cohere_rerank: bool = False, cohere_top_n: int = 10):
     index = get_index()
-    query_engine = index.as_query_engine()
+    if use_cohere_rerank:
+        cohere_rerank = get_cohere_rerank(top_n=cohere_top_n)
+        query_engine = index.as_query_engine(
+            similarity_top_k=cohere_top_n,
+            node_postprocessors=[cohere_rerank],
+        )
+    else:
+        query_engine = index.as_query_engine()
     query_engine = _use_hyde(query_engine, use_hyde)
     chat_engine = CondensePlusContextChatEngine.from_defaults(query_engine=query_engine)
     return chat_engine

@@ -20,7 +20,7 @@ AI-based search engine done right.
 - [ ] Implement the ParadeDB retriever with LlamaIndex
 - [x] Update Rag Retriever to use the searxng engine
 - [x] Implement the CRAG workflow for the Rag Retriever
-- [ ] Implement the reranker
-    - [ ] Add support for Cohere Reranker
+- [x] Implement the reranker
+    - [x] Add support for Cohere Reranker
     - [x] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker
 - [ ] Add support for [late-chunking](https://github.com/jina-ai/late-chunking) for better IR
