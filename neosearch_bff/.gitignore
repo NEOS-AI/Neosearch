@@ -1,8 +1,0 @@
-# node.js
-node_modules/
-
-# Mac
-.DS_Store
-
-# config file
-config.toml

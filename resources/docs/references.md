@@ -2,5 +2,5 @@
 
 ## Frontend
 
-Neosearch frontend is built on the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.
-Credits to [ItzCrazyKns](https://github.com/ItzCrazyKns) and all contributors of Perplexica project.
+Neosearch frontend is built on the [vercel ai-chatbot](https://github.com/vercel/ai-chatbot) project.
+Credits to vercel and all contributors of ai-chatbot project.
