@@ -13,7 +13,8 @@ from neosearch_crawler.constants.logger import (
     LOG_DEFAULT_BACKUP_COUNT,
     LOG_DEFAULT_LOGGING_WORKERS,
 )
-from neosearch.utils.singleton import Singleton
+
+from .singleton import Singleton
 
 
 class Logger(metaclass=Singleton):
