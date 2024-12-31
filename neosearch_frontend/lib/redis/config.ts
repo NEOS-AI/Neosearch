@@ -1,6 +1,7 @@
 import { Redis } from '@upstash/redis'
 import { createClient, RedisClientType } from 'redis'
 
+
 export type RedisConfig = {
   useLocalRedis: boolean
   upstashRedisRestUrl?: string
@@ -17,6 +18,7 @@ export const redisConfig: RedisConfig = {
 
 let localRedisClient: RedisClientType | null = null
 let redisWrapper: RedisWrapper | null = null
+
 
 // Wrapper class for Redis client
 export class RedisWrapper {

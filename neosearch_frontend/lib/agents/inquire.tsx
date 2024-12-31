@@ -1,8 +1,8 @@
-import { Copilot } from '@/components/copilot'
+import { Copilot } from '@/search_components/copilot'
 import { createStreamableUI, createStreamableValue } from 'ai/rsc'
 import { CoreMessage, streamObject } from 'ai'
 import { PartialInquiry, inquirySchema } from '@/lib/schema/inquiry'
-import { getModel } from '../utils/registry'
+import { getModel } from '../search_utils/registry'
 
 export async function inquire(
   uiStream: ReturnType<typeof createStreamableUI>,

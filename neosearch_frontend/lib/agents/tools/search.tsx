@@ -2,9 +2,9 @@ import { tool } from 'ai'
 import { createStreamableValue } from 'ai/rsc'
 import Exa from 'exa-js'
 import { searchSchema } from '@/lib/schema/search'
-import { SearchSection } from '@/components/search-section'
+import { SearchSection } from '@/search_components/search-section'
 import { ToolProps } from '.'
-import { sanitizeUrl } from '@/lib/utils'
+import { sanitizeUrl } from '@/lib/search_utils'
 import {
   SearchResultImage,
   SearchResults,
@@ -12,6 +12,7 @@ import {
   SearXNGResponse,
   SearXNGResult
 } from '@/lib/types'
+
 
 export const searchTool = ({ uiStream, fullResponse }: ToolProps) =>
   tool({

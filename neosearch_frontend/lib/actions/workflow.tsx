@@ -1,9 +1,9 @@
 'use server'
 
 import React from 'react'
-import { Spinner } from '@/components/ui/spinner'
-import { Section } from '@/components/section'
-import { FollowupPanel } from '@/components/followup-panel'
+import { Spinner } from '@/search_components/ui/spinner'
+import { Section } from '@/search_components/section'
+import { FollowupPanel } from '@/search_components/followup-panel'
 import {
   querySuggestor,
   inquire,

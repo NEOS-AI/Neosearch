@@ -2,7 +2,8 @@ import { tool } from 'ai'
 import { createStreamableValue } from 'ai/rsc'
 import { searchSchema } from '@/lib/schema/search'
 import { ToolProps } from '.'
-import { VideoSearchSection } from '@/components/video-search-section'
+import { VideoSearchSection } from '@/search_components/video-search-section'
+
 
 // Start Generation Here
 export const videoSearchTool = ({ uiStream, fullResponse }: ToolProps) => tool({
