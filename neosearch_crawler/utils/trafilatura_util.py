@@ -8,6 +8,11 @@ def extract_url_content(url, output_format: Union[str, None] = "markdown", inclu
 
     downloaded = trafilatura.fetch_url(url)
 
+    # get metadata and description from the downloaded content
+    metadata = trafilatura.extract_metadata(downloaded)
+    description = metadata.description
+    title = metadata.title
+
     if output_format is None:
         content =  trafilatura.extract(
             downloaded,
@@ -21,4 +26,10 @@ def extract_url_content(url, output_format: Union[str, None] = "markdown", inclu
             output_format=output_format,
             include_tables=include_tables
         )
-    return {"url":url, "content":content}
+
+    return {
+        "url":url,
+        "content":content,
+        "description":description,
+        "title": title,
+    }
