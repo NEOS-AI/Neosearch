@@ -1,20 +1,16 @@
 import sys
-import multiprocessing
-import os
-from dotenv import load_dotenv
-from datetime import datetime
 
 sys.path.append("..")
 
 # custom modules
-from constants.modes import COMMON_CRAWL_RUNNER_MODE
+from constants import (
+    COMMON_CRAWL_RUNNER_MODE,
+    FOR_TEST,
+)
 from engine.runner.common_crawl import CommonCrawlRunner
 from utils import extract_url_content
 from utils.logger import Logger
 
-
-load_dotenv()
-FOR_TEST = os.getenv("FOR_TEST", "0") == "1"
 
 logger = Logger()
 
@@ -25,17 +21,14 @@ def url_crawl_test(output_format: str = "markdown"):
 
 def run_common_crawl():
     runner = CommonCrawlRunner()
-
     logger.log_info("Setting up the Common Crawl runner.")
-    # dag = runner.build_dag()
     runner.run_dag()
+    logger.log_info("Common Crawl runner finished.")
 
 
 def main(mode: str):
     if mode == COMMON_CRAWL_RUNNER_MODE:
         return run_common_crawl()
-
-    num_of_cpus = multiprocessing.cpu_count()
 
     #TODO crawl, extract, and index the content of the URL
 
