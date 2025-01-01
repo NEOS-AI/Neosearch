@@ -2,6 +2,7 @@ import os
 from uuid import uuid4
 import polars as pl
 import csv
+import gc
 
 # custom modules
 from neosearch_crawler.utils.trafilatura_util import extract_url_content
@@ -96,16 +97,17 @@ class CommonCrawlRunner(BaseRunner, metaclass=Singleton):
     @step(2)
     def crawl_and_verify_vertices(self):
         # use polars to read the vertex file
-        edges_df = pl.read_csv(f"{os.getcwd()}/data/vertices_{self.uuid_str}.csv")
+        vertex_df = pl.read_csv(f"{os.getcwd()}/data/vertices_{self.uuid_str}.csv")
 
         with open(f"{os.getcwd()}/data/uri_and_contents_{self.uuid_str}.csv", 'w') as f:
             writer = csv.writer(f)
-            writer.writerow(['uri', 'content', 'num_of_hosts'])
+            writer.writerow(['id', 'uri', 'content', 'num_of_hosts'])
 
             # iterate over the vertices and extract the content
-            for i in range(len(edges_df)):
-                domain = edges_df['domain'][i]
-                num_of_hosts = edges_df['num_of_hosts'][i]
+            for i in range(len(vertex_df)):
+                id = vertex_df['id'][i]
+                domain = vertex_df['domain'][i]
+                num_of_hosts = vertex_df['num_of_hosts'][i]
 
                 uri = reverse_domain(domain)
 
@@ -114,13 +116,42 @@ class CommonCrawlRunner(BaseRunner, metaclass=Singleton):
                     data = extract_url_content(uri)
                     content = data['content']
                 except Exception as e:
-                    logger.log_error(f"Failed to extract content from {domain} (uuid={self.uuid_str}). Reason: {e}")
+                    logger.log_debug(f"Failed to extract content from {domain} (uuid={self.uuid_str}). Reason: {e}")
                     continue
                 if content is None:
-                    logger.log_error(f"Failed to extract content from {domain} (uuid={self.uuid_str}).")
+                    logger.log_debug(f"Failed to extract content from {domain} (uuid={self.uuid_str}).")
                     continue
                 logger.log_debug(f"Content extracted from {domain} (uuid={self.uuid_str}).")
 
                 safe_content = content.encode('utf-8').decode('utf-8')
-                writer.writerow([uri, safe_content, f"{num_of_hosts}"])
+                writer.writerow([id, uri, safe_content, f"{num_of_hosts}"])
                 logger.log_debug(f"Content written to file for {domain} (uuid={self.uuid_str}).")
+
+        del vertex_df
+        gc.collect()
+
+
+    @step(3)
+    def drop_unverified_edges(self):
+        edges_df = pl.read_csv(f"{os.getcwd()}/data/edges_{self.uuid_str}.csv")
+        uri_and_contents_df = pl.read_csv(f"{os.getcwd()}/data/uri_and_contents_{self.uuid_str}.csv")
+        uri_ids = uri_and_contents_df['id'].to_list()
+        uri_id_set = set(uri_ids)
+
+        with open(f"{os.getcwd()}/data/filtered_edges_{self.uuid_str}.csv", 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(['source', 'target'])
+
+            for i in range(len(edges_df)):
+                source = edges_df['source'][i]
+                target = edges_df['target'][i]
+
+                if source not in uri_id_set or target not in uri_id_set:
+                    logger.log_debug(f"Edge between {source} and {target} is dropped (uuid={self.uuid_str}).")
+                    continue
+
+                writer.writerow([source, target])
+                logger.log_debug(f"Edge between {source} and {target} is kept (uuid={self.uuid_str}).")
+
+        del edges_df, uri_and_contents_df, uri_ids, uri_id_set
+        gc.collect()
