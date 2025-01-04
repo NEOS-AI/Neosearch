@@ -6,6 +6,7 @@ import { ChatPanel } from './chat-panel'
 import { ChatMessages } from './chat-messages'
 import { useUIState } from 'ai/rsc'
 
+
 type ChatProps = {
   id?: string
   query?: string

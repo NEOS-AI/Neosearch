@@ -8,6 +8,7 @@ import { ToolBadge } from './tool-badge'
 import type { SearchResults as TypeSearchResults } from '@/lib/types'
 import { StreamableValue, useStreamableValue } from 'ai/rsc'
 
+
 export type SearchSectionProps = {
   result?: StreamableValue<string>
   includeDomains?: string[]

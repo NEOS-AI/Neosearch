@@ -2,6 +2,7 @@ import React from 'react'
 import { History } from './history'
 import { HistoryList } from './history-list'
 
+
 type HistoryContainerProps = {
   location: 'sidebar' | 'header'
 }

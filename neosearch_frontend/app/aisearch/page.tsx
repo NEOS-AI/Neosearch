@@ -11,10 +11,10 @@ export default function Page({
 }: {
   searchParams: { q: string }
 }) {
-  if (!searchParams.q) {
-    redirect('/')
-  }
-  const id = generateId()
+  // if (!searchParams.q) {
+  //   redirect('/aisearch?q=hello')
+  // }
+  const id = generateId();
 
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>

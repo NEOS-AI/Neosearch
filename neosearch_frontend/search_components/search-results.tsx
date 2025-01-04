@@ -1,11 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { AvatarImage, Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { CardContent, Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { AvatarImage, Avatar, AvatarFallback } from '@/search_components/ui/avatar'
+import { CardContent, Card } from '@/search_components/ui/card'
+import { Button } from '@/search_components/ui/button'
 import Link from 'next/link'
 import { SearchResultItem } from '@/lib/types'
+
 
 export interface SearchResultsProps {
   results: SearchResultItem[]

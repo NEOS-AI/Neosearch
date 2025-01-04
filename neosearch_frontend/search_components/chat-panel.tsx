@@ -15,8 +15,9 @@ import { useAppState } from '@/lib/search_utils/app-state'
 import { ModelSelector } from './model-selector'
 import { models } from '@/lib/types/models'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
-import { getDefaultModelId } from '@/lib/utils'
+import { getDefaultModelId } from '@/lib/search_utils'
 import { toast } from 'sonner'
+
 
 interface ChatPanelProps {
   messages: UIState

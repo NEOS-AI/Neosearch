@@ -8,14 +8,15 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger
-} from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
+} from '@/search_components/ui/sheet'
+import { Button } from '@/search_components/ui/button'
 import { ChevronLeft, Menu } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/search_utils'
 import { History as HistoryIcon } from 'lucide-react'
 import { Suspense } from 'react'
 import { HistorySkeleton } from './history-skeleton'
 import { useAppState } from '@/lib/search_utils/app-state'
+
 
 type HistoryProps = {
   location: 'sidebar' | 'header'

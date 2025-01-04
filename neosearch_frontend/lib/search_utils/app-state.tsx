@@ -2,6 +2,7 @@
 
 import { createContext, useState, ReactNode, useContext } from 'react'
 
+
 const AppStateContext = createContext<
   | {
       isGenerating: boolean
