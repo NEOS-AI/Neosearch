@@ -11,11 +11,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
+} from '@/search_components/ui/alert-dialog'
+import { Button } from '@/search_components/ui/button'
 import { clearChats } from '@/lib/actions/chat'
 import { toast } from 'sonner'
 import { Spinner } from './ui/spinner'
+
 
 type ClearHistoryProps = {
   empty: boolean

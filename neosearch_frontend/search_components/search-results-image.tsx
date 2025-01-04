@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@/search_components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from '@/components/ui/dialog'
+} from '@/search_components/ui/dialog'
 import {
   Carousel,
   type CarouselApi,
@@ -17,10 +17,11 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious
-} from '@/components/ui/carousel'
+} from '@/search_components/ui/carousel'
 import { useEffect, useState } from 'react'
 import { PlusCircle } from 'lucide-react'
 import { SearchResultImage } from '@/lib/types'
+
 
 interface SearchResultsImageSectionProps {
   images: SearchResultImage[]

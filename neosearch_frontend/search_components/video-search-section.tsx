@@ -7,6 +7,7 @@ import { StreamableValue, useStreamableValue } from 'ai/rsc'
 import { VideoSearchResults } from './video-search-results'
 import { ToolBadge } from './tool-badge'
 
+
 export type VideoSearchSectionProps = {
   result?: StreamableValue<string>
 }

@@ -8,6 +8,7 @@ import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.min.css'
 import { CodeBlock } from './ui/codeblock'
 
+
 export function BotMessage({ content }: { content: string }) {
   // Check if the content contains LaTeX patterns
   const containsLaTeX = /\\\[([\s\S]*?)\\\]|\\\(([\s\S]*?)\\\)/.test(
@@ -39,7 +40,7 @@ export function BotMessage({ content }: { content: string }) {
       className="prose-sm prose-neutral prose-a:text-accent-foreground/50"
       components={{
         code({ node, inline, className, children, ...props }) {
-          if (children.length) {
+          if (Array.isArray(children) && children.length) {
             if (children[0] == '▍') {
               return (
                 <span className="mt-1 cursor-default animate-pulse">▍</span>

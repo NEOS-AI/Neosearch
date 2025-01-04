@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@/search_components/ui/button'
 import { ArrowRight } from 'lucide-react'
+
 
 const exampleMessages = [
   {

@@ -12,6 +12,7 @@ import { StreamableValue, useStreamableValue } from 'ai/rsc'
 import { cn } from '@/lib/utils'
 import { Separator } from './ui/separator'
 
+
 interface CollapsibleMessageProps {
   message: {
     id: string

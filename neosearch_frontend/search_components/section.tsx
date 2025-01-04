@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/search_utils'
 import {
   BookCheck,
   Film,
@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import React from 'react'
 import { Separator } from './ui/separator'
+
 
 type SectionProps = {
   children: React.ReactNode

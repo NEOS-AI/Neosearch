@@ -10,7 +10,8 @@ import { ArrowRight } from 'lucide-react'
 import { useAppState } from '@/lib/search_utils/app-state'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { models } from '@/lib/types/models'
-import { getDefaultModelId } from '@/lib/utils'
+import { getDefaultModelId } from '@/lib/search_utils'
+
 
 export function FollowupPanel() {
   const [input, setInput] = useState('')

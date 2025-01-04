@@ -17,7 +17,8 @@ import type { AI } from '@/app/actions'
 import { useAppState } from '@/lib/search_utils/app-state'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { models } from '@/lib/types/models'
-import { getDefaultModelId } from '@/lib/utils'
+import { getDefaultModelId } from '@/lib/search_utils'
+
 
 export type CopilotProps = {
   inquiry?: StreamableValue<PartialInquiry>

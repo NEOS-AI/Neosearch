@@ -9,6 +9,7 @@ import { useUIState, useActions, useAIState } from 'ai/rsc'
 import { AI } from '@/app/actions'
 import { AIMessage } from '@/lib/types'
 
+
 type ErrorCardProps = {
   errorMessage: string
 }

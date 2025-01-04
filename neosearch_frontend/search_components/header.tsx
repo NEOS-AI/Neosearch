@@ -1,8 +1,9 @@
 import React from 'react'
 import { ModeToggle } from './mode-toggle'
 import { IconLogo } from './ui/icons'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/search_utils'
 import HistoryContainer from './history-container'
+
 
 export const Header: React.FC = async () => {
   return (
