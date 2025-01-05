@@ -7,6 +7,7 @@ import type {
 } from 'ai';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { v4 as uuidv4, v7 as uuidv7 } from 'uuid';
 
 import type { Message as DBMessage, Document } from '@/lib/db/schema';
 
@@ -43,12 +44,21 @@ export function getLocalStorage(key: string) {
   return [];
 }
 
+export function generateUUID_v4(): string {
+  return uuidv4();
+}
+
+export function generateUUID_v7(): string {
+  return uuidv7();
+}
+
 export function generateUUID(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+  // return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+  //   const r = (Math.random() * 16) | 0;
+  //   const v = c === 'x' ? r : (r & 0x3) | 0x8;
+  //   return v.toString(16);
+  // });
+  return generateUUID_v7();
 }
 
 function addToolMessageToChat({
@@ -214,6 +224,8 @@ export function getDocumentTimestampByIndex(
 }
 
 export function getMessageIdFromAnnotations(message: Message) {
+  console.log(message.id);
+  console.log(message.annotations);
   if (!message.annotations) return message.id;
 
   const [annotation] = message.annotations;
