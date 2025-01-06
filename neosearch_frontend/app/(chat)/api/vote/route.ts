@@ -1,5 +1,7 @@
+import { validate } from 'uuid';
 import { auth } from '@/app/(auth)/auth';
 import { getVotesByChatId, voteMessage } from '@/lib/db/queries';
+
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -30,6 +32,11 @@ export async function PATCH(request: Request) {
 
   if (!chatId || !messageId || !type) {
     return new Response('messageId and type are required', { status: 400 });
+  }
+
+  // check both chatId and messageId are valid UUIDs
+  if (!validate(chatId) || !validate(messageId)) {
+    return new Response('Invalid chatId or messageId', { status: 400 });
   }
 
   const session = await auth();
