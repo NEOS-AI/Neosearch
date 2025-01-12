@@ -13,6 +13,7 @@ from neosearch.models.chat_models import ChatData
 from neosearch.utils.logging import Logger
 from neosearch.utils.events import EventCallbackHandler
 from neosearch.response.chat import ChatStreamResponse
+from neosearch.settings import get_llm_model_by_id
 
 
 logger = Logger()
@@ -33,6 +34,12 @@ async def chat(
         last_message_content = data.get_last_message_content()
         messages = data.get_history_messages()
 
+        # get model id, and loads the corresponding model
+        model_id = data.get_model_id()
+        llm = get_llm_model_by_id(model_id)
+
+        chat_id = data.get_chat_id()
+
         doc_ids = data.get_chat_document_ids()
         filters = generate_filters(doc_ids)
         logger.log_info(f"method={request.method} | {request.url} | {req_id} | 200 | details: Creating chat engine with filters: {str(filters)}")  # noqa: E501
@@ -40,7 +47,9 @@ async def chat(
         event_handler = EventCallbackHandler()
 
         # get chat engine, and generate response with async chat stream
-        chat_engine = get_custom_chat_engine(verbose=False)
+        chat_engine = get_custom_chat_engine(
+            llm=llm, verbose=False
+        )
         response = chat_engine.astream_chat(last_message_content, messages)
 
         logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Chat response generated")  # noqa: E501

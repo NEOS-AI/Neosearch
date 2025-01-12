@@ -38,9 +38,7 @@ def get_chat_engine(use_hyde: bool = False, use_cohere_rerank: bool = False, coh
     return chat_engine
 
 
-def get_custom_chat_engine(verbose: bool = False):
-    llm = Settings.llm
-
+def get_custom_chat_engine(llm = Settings.llm, verbose: bool = False):
     index = get_index()
     index_retriever = index.as_retriever()
     retriever: BaseRetriever = SearxngRetriever(
