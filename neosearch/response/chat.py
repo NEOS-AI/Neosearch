@@ -180,3 +180,10 @@ class ChatStreamResponse(StreamingResponse):
                 "data": questions,
             }
         return None
+
+
+class ChatStreamResponseV2(ChatStreamResponse):
+    def __init__(self, request, event_handler, response, chat_data, background_tasks, chat_id: str):
+        super().__init__(request, event_handler, response, chat_data, background_tasks)
+
+        self.chat_id = chat_id
