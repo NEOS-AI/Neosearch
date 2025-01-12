@@ -5,7 +5,7 @@ from typing import Dict
 # custom modules
 from neosearch.utils.configs import Config
 
-from .openai import init_openai, init_azure_openai
+from .openai import init_openai, init_azure_openai, get_openai_llm, OPENAI_MODEL_SET
 from .ollama import init_ollama
 from .fastembed import init_fastembed
 from .huggingface import init_huggingface
@@ -15,6 +15,15 @@ from .gemini import init_gemini
 
 config = Config()
 
+
+def get_llm_model_by_id(model_id: str):
+    if Settings.llm.model == model_id:
+        return Settings.llm
+    if model_id in OPENAI_MODEL_SET:
+        return get_openai_llm(model_id)
+
+    # use default model if no matching model is found
+    return Settings.llm
 
 def init_settings():
     llm_config = config.get_llm_configs()

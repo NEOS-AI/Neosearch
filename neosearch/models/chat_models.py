@@ -1,7 +1,7 @@
 import logging
 import os
 from typing import Any, Dict, List, Optional
-
+from uuid import uuid4
 from llama_index.core.llms import ChatMessage, MessageRole
 from llama_index.core.schema import NodeWithScore
 from pydantic import BaseModel, Field, field_validator
@@ -10,6 +10,7 @@ from pydantic.alias_generators import to_camel
 # custom modules
 from neosearch.config import DATA_DIR
 from neosearch.services.file import DocumentFile
+from neosearch.settings import Settings
 
 
 logger = logging.getLogger("uvicorn")
@@ -110,6 +111,8 @@ class Message(BaseModel):
 
 class ChatData(BaseModel):
     messages: List[Message]
+    id: Optional[str] = None
+    modelId: Optional[str] = None
     data: Any = None
 
     class Config:
@@ -231,6 +234,32 @@ class ChatData(BaseModel):
                 )
                 chat_messages.append(message)
         return chat_messages
+
+    def get_model_id(self) -> str:
+        """
+        Get the model ID for the chat.
+        If the model ID is not provided, it will use the default model from the settings.
+
+        Returns:
+            str: The model ID
+        """
+        if self.modelId is None:
+            if Settings.llm.model:
+                return Settings.llm.model
+            raise ValueError("Model ID is not provided")
+        return self.modelId
+
+    def get_chat_id(self) -> str:
+        """
+        Get the chat ID for the chat.
+        If the chat ID is not provided, it will use the default chat ID.
+
+        Returns:
+            str: The chat ID
+        """
+        if self.id is None:
+            return str(uuid4())
+        return self.id
 
     def is_last_message_from_user(self) -> bool:
         return self.messages[-1].role == MessageRole.USER

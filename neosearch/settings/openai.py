@@ -1,9 +1,24 @@
+import os
 from llama_index.llms.openai import OpenAI
 from llama_index.core.settings import Settings
-import os
 from llama_index.core.constants import DEFAULT_TEMPERATURE
 from llama_index.embeddings.openai import OpenAIEmbedding
 
+OPENAI_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", DEFAULT_TEMPERATURE))
+max_tokens = os.getenv("LLM_MAX_TOKENS")
+OPENAI_MAX_TOEKNS = int(max_tokens) if max_tokens is not None else None
+
+
+OPENAI_MODEL_SET = {
+    "gpt-4", "gpt-4o", "gpt-4-turbo", "gpt-4o-mini"
+}
+
+def get_openai_llm(model_id: str):
+    return OpenAI(
+        model=model_id,
+        temperature=OPENAI_TEMPERATURE,
+        max_tokens=OPENAI_MAX_TOEKNS,
+    )
 
 def init_openai():
     max_tokens = os.getenv("LLM_MAX_TOKENS")
@@ -12,8 +27,8 @@ def init_openai():
 
     Settings.llm = OpenAI(
         model=os.getenv("MODEL", "gpt-4o"),
-        temperature=float(os.getenv("LLM_TEMPERATURE", DEFAULT_TEMPERATURE)),
-        max_tokens=int(max_tokens) if max_tokens is not None else None,
+        temperature=OPENAI_TEMPERATURE,
+        max_tokens=OPENAI_MAX_TOEKNS,
     )
 
     dimensions = os.getenv("EMBEDDING_DIM")
