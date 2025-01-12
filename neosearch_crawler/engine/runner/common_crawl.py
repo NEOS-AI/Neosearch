@@ -157,7 +157,8 @@ class CommonCrawlRunner(BaseRunner, metaclass=Singleton):
         gc.collect()
 
 
-    @step(4)
-    def save_data_to_db(self):
-        #TODO
-        pass
+def run_common_crawl():
+    runner = CommonCrawlRunner()
+    logger.log_info("Setting up the Common Crawl runner.")
+    runner.run_dag()
+    logger.log_info("Common Crawl runner finished.")

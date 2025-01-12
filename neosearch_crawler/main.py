@@ -4,10 +4,11 @@ sys.path.append("..")
 
 # custom modules
 from constants import (
+    BASE_WEB_CRAWL_AGENT_MODE,
     COMMON_CRAWL_RUNNER_MODE,
     FOR_TEST,
 )
-from engine.runner.common_crawl import CommonCrawlRunner
+from engine.runner.common_crawl import run_common_crawl
 from utils import extract_url_content
 from utils.logger import Logger
 
@@ -19,14 +20,9 @@ def url_crawl_test(output_format: str = "markdown"):
     print(extract_url_content(url, output_format=output_format))
 
 
-def run_common_crawl():
-    runner = CommonCrawlRunner()
-    logger.log_info("Setting up the Common Crawl runner.")
-    runner.run_dag()
-    logger.log_info("Common Crawl runner finished.")
-
-
 def main(mode: str):
+    if mode == BASE_WEB_CRAWL_AGENT_MODE:
+        pass
     if mode == COMMON_CRAWL_RUNNER_MODE:
         return run_common_crawl()
 
