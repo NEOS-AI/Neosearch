@@ -16,7 +16,8 @@ AI-based search engine done right.
     - [x] Implement dispatcher for linkedin
     - [x] Implement dispatcher for GitHub
     - [x] Implement dispatcher for Medium
-    - [ ] Implement dispatcher for X (previously Twitter)
+    - [ ] Implement dispatcher for Wikipedia
+    - [ ] Implement dispatcher for namuwiki
 - [ ] Implement the Hybrid Search retriever
     - [ ] Implement the ParadeDB retriever with LlamaIndex
     - [ ] Add support for caching layer for the retriever
