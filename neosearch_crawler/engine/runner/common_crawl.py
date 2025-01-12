@@ -155,3 +155,9 @@ class CommonCrawlRunner(BaseRunner, metaclass=Singleton):
 
         del edges_df, uri_and_contents_df, uri_ids, uri_id_set
         gc.collect()
+
+
+    @step(4)
+    def save_data_to_db(self):
+        #TODO
+        pass
