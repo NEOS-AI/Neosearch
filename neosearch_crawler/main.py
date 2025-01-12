@@ -22,15 +22,17 @@ def url_crawl_test(output_format: str = "markdown"):
 
 def main(mode: str):
     if mode == BASE_WEB_CRAWL_AGENT_MODE:
+        #TODO crawl, extract, and index the content of the URL
         pass
     if mode == COMMON_CRAWL_RUNNER_MODE:
         return run_common_crawl()
 
-    #TODO crawl, extract, and index the content of the URL
+    # if no matching mode is found, run the test
+    url_crawl_test()
 
 
 if __name__ == "__main__":
     if FOR_TEST:
         url_crawl_test()
     else:
-        main(COMMON_CRAWL_RUNNER_MODE)
+        main(BASE_WEB_CRAWL_AGENT_MODE)
