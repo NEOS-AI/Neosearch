@@ -12,7 +12,7 @@ from neosearch.engine.query_filter import generate_filters
 from neosearch.models.chat_models import ChatData
 from neosearch.utils.logging import Logger
 from neosearch.utils.events import EventCallbackHandler
-from neosearch.response.chat import ChatStreamResponse
+from neosearch.response.chat import ChatStreamResponse, ChatStreamResponseV2
 from neosearch.settings import get_llm_model_by_id
 
 
@@ -54,8 +54,8 @@ async def chat(
 
         logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Chat response generated")  # noqa: E501
 
-        return ChatStreamResponse(
-            request, event_handler, response, data, background_tasks
+        return ChatStreamResponseV2(
+            request, event_handler, response, data, background_tasks, chat_id
         )
     except Exception as e:
         logger.log_error(f"method={request.method} | {request.url} | {req_id} | 500 | details: {str(e)}")
