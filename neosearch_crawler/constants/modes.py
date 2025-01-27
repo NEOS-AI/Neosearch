@@ -1,1 +1,2 @@
+BASE_WEB_CRAWL_AGENT_MODE = "web_crawl_agent"
 COMMON_CRAWL_RUNNER_MODE = "cc"

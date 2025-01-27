@@ -18,6 +18,31 @@ from neosearch.utils.logging import Logger
 logger = Logger()
 
 
+def search_with_wikipedia(query: str) -> list:
+    """
+    Search with wikipedia and return the contexts.
+    """
+    url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&format=json"
+    response = requests.get(url, timeout=DEFAULT_SEARCH_ENGINE_TIMEOUT)
+    if not response.ok:
+        logger.error(f"{response.status_code} {response.text}")
+        raise HTTPException(response.status_code, "Search engine error.")
+    json_content = response.json()
+    try:
+        contexts = [
+            {
+                "name": c["title"],
+                "url": f"https://en.wikipedia.org/wiki/{c['title'].replace(' ', '_')}",
+                "snippet": c["snippet"],
+            }
+            for c in json_content["query"]["search"]
+        ]
+        return contexts[:REFERENCE_COUNT]
+    except KeyError:
+        logger.error(f"Error encountered: {json_content}")
+        return []
+
+
 def search_with_bing(query: str, subscription_key: str) -> list:
     """
     Search with bing and return the contexts.

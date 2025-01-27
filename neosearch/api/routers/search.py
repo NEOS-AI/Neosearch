@@ -1,12 +1,12 @@
 from fastapi.responses import StreamingResponse
 from fastapi import APIRouter, Depends, Request
-from llama_index.core.query_engine import CustomQueryEngine, TransformQueryEngine
-from typing import Union
+import asyncio
 
 # custom module
 from neosearch.engine.utils.query import validate_query_data
+from neosearch.engine.workflow.crag import CorrectiveRAGWorkflow, get_corrective_rag_workflow
 from neosearch.constants.memory import MAX_MEMORY_TOKEN_SIZE
-from neosearch.engine.rag_engine.query_engine import get_search_query_engine
+from neosearch.engine.rag_engine.query_engine import RAGStringQueryEngine, get_search_query_engine
 from neosearch.models.query_models import QueryData, MemoryResponse
 from neosearch.utils.logging import Logger
 
@@ -20,20 +20,31 @@ search_router = r = APIRouter()
 async def query_for_search(
     request: Request,
     data: QueryData,
-    query_engine: Union[
-        CustomQueryEngine,
-        TransformQueryEngine
-    ] = Depends(get_search_query_engine),
+    query_engine: RAGStringQueryEngine = Depends(get_search_query_engine),
+    workflow: CorrectiveRAGWorkflow = Depends(get_corrective_rag_workflow),
 ):
     req_id = request.state.request_id
     query = await validate_query_data(data)
+    retriever = query_engine.retriever
 
-    # query to the engine
-    response = await query_engine.aquery(query)
+    # run the workflow
+    task = asyncio.create_task(
+        workflow.run(
+            query_str=query,
+            retriever=retriever,
+        )
+    )
+
     logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Query response generated")  # noqa: E501
 
     # stream response
     async def event_generator():
+        async for ev in workflow.stream_events():
+            logger.info(f"Sending message to frontend: {ev.msg}")
+            yield f"{ev.msg}\n\n"
+            await asyncio.sleep(0.1)  # Small sleep to ensure proper chunking
+
+        response = await task
         async for token in response.async_response_gen():
             # If client closes connection, stop sending events
             if await request.is_disconnected():

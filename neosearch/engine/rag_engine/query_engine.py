@@ -1,4 +1,4 @@
-from typing import Any, Coroutine, Union
+from typing import Any, Coroutine, Union, Optional
 from llama_index.core.retrievers import BaseRetriever
 from llama_index.core.query_engine import CustomQueryEngine, TransformQueryEngine
 from llama_index.core import get_response_synthesizer
@@ -8,6 +8,7 @@ from llama_index.core.base.llms.types import ChatMessage, MessageRole
 from llama_index.core.retrievers import VectorIndexAutoRetriever
 from llama_index.core.vector_stores import VectorStoreInfo
 from llama_index.core.indices.query.query_transform import HyDEQueryTransform
+from llama_index.core.llms import LLM
 
 
 # custom modules
@@ -27,9 +28,27 @@ from neosearch.utils.logging import Logger
 logger = Logger()
 
 
-def get_search_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
+def get_search_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
     logger.log_debug(f"Creating search query engine (with_hyde={use_hyde})")
-    engine = RAGStringQueryEngine(use_base_retriever=False, use_search_results=True)
+    qa_prompt = PromptTemplate(
+        "Context information is below.\n"
+        "---------------------\n"
+        "{context_str}\n"
+        "---------------------\n"
+        "Given the context information and not prior knowledge, "
+        "answer the query.\n"
+        "Query: {query_str}\n"
+        "Answer: "
+    )
+
+    engine = RAGStringQueryEngine(
+        retriever=get_base_retriever(),
+        qa_prompt=qa_prompt,
+        llm=Settings.llm,
+        response_synthesizer=get_response_synthesizer(),
+        rag_searcher=get_rag_searcher(),
+        use_search_results=True,
+    )
     if use_hyde:
         hyde = HyDEQueryTransform(include_original=True)
         engine = TransformQueryEngine(engine, hyde)
@@ -37,7 +56,7 @@ def get_search_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
 
 
 def get_query_engine(
-    use_hyde: bool = True,
+    use_hyde: bool = False,
     use_str_formatted_query_engine: bool = True
 ) -> CustomQueryEngine:
     logger.log_debug(f"Creating query engine (with_hyde={use_hyde}, use_str_formatted_query_engine={use_str_formatted_query_engine})")  # noqa: E501
@@ -50,9 +69,26 @@ def get_query_engine(
         query_engine = TransformQueryEngine(query_engine, hyde)
     return query_engine
 
-def get_string_query_engine(use_hyde: bool = True) -> CustomQueryEngine:
+def get_string_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
     logger.log_debug(f"Creating string query engine (with_hyde={use_hyde})")
     query_engine = RAGStringQueryEngine()
+    qa_prompt = PromptTemplate(
+        "Context information is below.\n"
+        "---------------------\n"
+        "{context_str}\n"
+        "---------------------\n"
+        "Given the context information and not prior knowledge, "
+        "answer the query.\n"
+        "Query: {query_str}\n"
+        "Answer: "
+    )
+    query_engine = RAGStringQueryEngine(
+        retriever=get_base_retriever(),
+        qa_prompt=qa_prompt,
+        llm=Settings.llm,
+        response_synthesizer=get_response_synthesizer(),
+        rag_searcher=get_rag_searcher(),
+    )
     if use_hyde:
         hyde = HyDEQueryTransform(include_original=True)
         query_engine = TransformQueryEngine(query_engine, hyde)
@@ -106,9 +142,11 @@ class RAGStringQueryEngine(CustomQueryEngine):
     retriever: BaseRetriever
     response_synthesizer: BaseSynthesizer
     qa_prompt: PromptTemplate
-    llm = Settings.llm
+    rag_searcher: RagSearcher
+    use_search_results: bool
+    llm: Optional[LLM]
 
-    def __init__(
+    def setup(
         self,
         use_base_retriever: bool = True,
         vector_store_info: Union[VectorStoreInfo, None] = None,
@@ -116,6 +154,7 @@ class RAGStringQueryEngine(CustomQueryEngine):
     ):
         if use_base_retriever:
             logger.log_debug("RAGStringQueryEngine :: Using base retriever")
+            print("RAGStringQueryEngine :: Using base retriever")
             self.retriever = get_base_retriever()
         else:
             if vector_store_info is None:

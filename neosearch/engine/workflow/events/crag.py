@@ -31,3 +31,18 @@ class QueryEvent(Event):
 
     relevant_text: str
     search_text: str
+
+
+# streaming events
+
+class CragStreamingEvents(Event):
+    msg: str
+
+class RetrieveSuccessEvent(CragStreamingEvents):
+    pass
+
+class RetrieveFailureEvent(CragStreamingEvents):
+    pass
+
+class TransformQueryResultEvent(CragStreamingEvents):
+    pass

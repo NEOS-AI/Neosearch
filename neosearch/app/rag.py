@@ -3,6 +3,7 @@ import httpx
 
 # custom import
 from neosearch.engine.utils.rag_search import (
+    search_with_wikipedia,
     search_with_bing,
     search_with_google,
     search_with_serper,
@@ -31,14 +32,17 @@ class RagSearcher:
 
     def __init__(
         self,
-        backend: str = "SEARCHAPI",
+        backend: str = "WIKIPEDIA",
         max_concurrency: int = RAG_SEARCH_HANDLER_MAX_CONCURRENCY,
     ) -> None:
         self.backend = backend
         self.max_concurrency = max_concurrency
 
     def init(self):
-        if self.backend == "SEARCHAPI":
+        if self.backend == "WIKIPEDIA":
+            self.search_function = search_with_wikipedia
+
+        elif self.backend == "SEARCHAPI":
             self.search_api_key = os.environ["SEARCHAPI_API_KEY"]
             self.search_function = lambda query: search_with_searchapi(
                 query,
