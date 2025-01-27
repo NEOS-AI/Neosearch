@@ -28,11 +28,40 @@ async def query_for_search(
     retriever = query_engine.retriever
 
     # run the workflow
-    task = asyncio.create_task(
-        workflow.run(
-            query_str=query,
-            retriever=retriever,
-        )
+    task = workflow.run(
+        query_str=query,
+        retriever=retriever,
+    )
+
+    logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Query response generated")  # noqa: E501
+
+    # stream response
+    async def event_generator():
+        response = await task
+        async for token in response.async_response_gen():
+            # If client closes connection, stop sending events
+            if await request.is_disconnected():
+                break
+            yield token
+
+    return StreamingResponse(event_generator(), media_type="text/plain")
+
+
+@r.post("/crag")
+async def query_for_crag(
+    request: Request,
+    data: QueryData,
+    query_engine: RAGStringQueryEngine = Depends(get_search_query_engine),
+    workflow: CorrectiveRAGWorkflow = Depends(get_corrective_rag_workflow),
+):
+    req_id = request.state.request_id
+    query = await validate_query_data(data)
+    retriever = query_engine.retriever
+
+    # run the workflow
+    task = workflow.run(
+        query_str=query,
+        retriever=retriever,
     )
 
     logger.log_debug(f"method={request.method} | {request.url} | {req_id} | 200 | details: Query response generated")  # noqa: E501
