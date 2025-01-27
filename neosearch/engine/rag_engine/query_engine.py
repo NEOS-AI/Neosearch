@@ -28,8 +28,23 @@ from neosearch.utils.logging import Logger
 logger = Logger()
 
 
-def get_search_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
-    logger.log_debug(f"Creating search query engine (with_hyde={use_hyde})")
+def get_query_engine(
+    use_hyde: bool = False,
+    use_str_formatted_query_engine: bool = True
+) -> CustomQueryEngine:
+    logger.log_debug(f"Creating query engine (with_hyde={use_hyde}, use_str_formatted_query_engine={use_str_formatted_query_engine})")  # noqa: E501
+    if use_str_formatted_query_engine:
+        return get_string_query_engine(use_hyde)
+
+    query_engine = RAGQueryEngine()
+    if use_hyde:
+        hyde = HyDEQueryTransform(include_original=True)
+        query_engine = TransformQueryEngine(query_engine, hyde)
+    return query_engine
+
+
+def get_string_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
+    logger.log_debug(f"Creating string query engine (with_hyde={use_hyde})")
     qa_prompt = PromptTemplate(
         "Context information is below.\n"
         "---------------------\n"
@@ -53,46 +68,6 @@ def get_search_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
         hyde = HyDEQueryTransform(include_original=True)
         engine = TransformQueryEngine(engine, hyde)
     return engine
-
-
-def get_query_engine(
-    use_hyde: bool = False,
-    use_str_formatted_query_engine: bool = True
-) -> CustomQueryEngine:
-    logger.log_debug(f"Creating query engine (with_hyde={use_hyde}, use_str_formatted_query_engine={use_str_formatted_query_engine})")  # noqa: E501
-    if use_str_formatted_query_engine:
-        return get_string_query_engine(use_hyde)
-
-    query_engine = RAGQueryEngine()
-    if use_hyde:
-        hyde = HyDEQueryTransform(include_original=True)
-        query_engine = TransformQueryEngine(query_engine, hyde)
-    return query_engine
-
-def get_string_query_engine(use_hyde: bool = False) -> CustomQueryEngine:
-    logger.log_debug(f"Creating string query engine (with_hyde={use_hyde})")
-    query_engine = RAGStringQueryEngine()
-    qa_prompt = PromptTemplate(
-        "Context information is below.\n"
-        "---------------------\n"
-        "{context_str}\n"
-        "---------------------\n"
-        "Given the context information and not prior knowledge, "
-        "answer the query.\n"
-        "Query: {query_str}\n"
-        "Answer: "
-    )
-    query_engine = RAGStringQueryEngine(
-        retriever=get_base_retriever(),
-        qa_prompt=qa_prompt,
-        llm=Settings.llm,
-        response_synthesizer=get_response_synthesizer(),
-        rag_searcher=get_rag_searcher(),
-    )
-    if use_hyde:
-        hyde = HyDEQueryTransform(include_original=True)
-        query_engine = TransformQueryEngine(query_engine, hyde)
-    return query_engine
 
 
 class RAGQueryEngine(CustomQueryEngine):

@@ -26,6 +26,7 @@ from .events.crag import (
     RetrieveEvent,
     RelevanceEvalEvent,
     TextExtractEvent,
+    RetrieveFailureEvent,
     RetrieveSuccessEvent,
     TransformQueryResultEvent,
 )
@@ -130,16 +131,26 @@ class CorrectiveRAGWorkflow(Workflow):
 
         logger.log_debug("CorrectiveRAGWorkflow :: Retrieving relevant nodes.")
 
-        # check if retriever has 'aretrieve' method
-        if hasattr(retriever, "aretrieve"):
-            result = await retriever.aretrieve(query_str)
-        else:
-            result = retriever.retrieve(query_str)
+        try:
+            # check if retriever has 'aretrieve' method
+            if hasattr(retriever, "aretrieve"):
+                result = await retriever.aretrieve(query_str)
+            else:
+                result = retriever.retrieve(query_str)
 
-        # write the event to the stream
-        ctx.write_event_to_stream(
-            RetrieveSuccessEvent(msg="<evt>Retrieval successful.</evt>")
-        )
+            # write the event to the stream
+            ctx.write_event_to_stream(
+                RetrieveSuccessEvent(msg="<evt>Retrieval successful.</evt>")
+            )
+        except Exception as e:
+            logger.log_error(f"CorrectiveRAGWorkflow :: Retrieval failed with error: {e}")
+            
+            result = []
+            
+            # write the event to the stream
+            ctx.write_event_to_stream(
+                RetrieveFailureEvent(msg="<evt>Retrieval failed.</evt>")
+            )
 
         await ctx.set("retrieved_nodes", result)
         await ctx.set("query_str", query_str)
@@ -155,6 +166,11 @@ class CorrectiveRAGWorkflow(Workflow):
         """Evaluate relevancy of retrieved documents with the query."""
         retrieved_nodes = ev.retrieved_nodes
         query_str = await ctx.get("query_str")
+
+        # if no nodes are retrieved, set the relevancy results to an empty list
+        if retrieved_nodes is None or retrieved_nodes == []:
+            await ctx.set("relevancy_results", [])
+            return RelevanceEvalEvent(relevant_results=[])
 
         # get the relevancy pipeline from the context
         relevancy_pipeline: QueryPipeline = await ctx.get("relevancy_pipeline")
@@ -189,6 +205,18 @@ class CorrectiveRAGWorkflow(Workflow):
         """Extract relevant texts from retrieved documents."""
         retrieved_nodes = await ctx.get("retrieved_nodes")
         relevancy_results = ev.relevant_results
+
+        # If any of retrieved_nodes or relevancy_results is None, return an empty string.
+        if retrieved_nodes is None or relevancy_results is None or len(retrieved_nodes) == 0 or len(relevancy_results) == 0:
+            return TextExtractEvent(relevant_text="")
+
+        # If the number of retrieved nodes and relevancy results do not match, cut off the extra results.
+        if len(retrieved_nodes) != len(relevancy_results):
+            if len(relevancy_results) > len(retrieved_nodes):
+                relevancy_results = relevancy_results[: len(retrieved_nodes)]
+            else:
+                relevancy_results += ["no"] * (len(retrieved_nodes) - len(relevancy_results))
+
         logger.log_debug("CorrectiveRAGWorkflow :: Extracting relevant texts from retrieved documents.")
         relevant_texts = [
             retrieved_nodes[i].text
@@ -209,11 +237,11 @@ class CorrectiveRAGWorkflow(Workflow):
         query_str = await ctx.get("query_str")
 
         # If any document is found irrelevant, transform the query string for better search results.
-        if "no" in relevancy_results:
+        if len(relevancy_results) == 0 or "no" in relevancy_results:
             qp: QueryPipeline = await ctx.get("transform_query_pipeline")
             if hasattr(qp, "arun"):
                 transformed_query_ret = await qp.arun(
-                    context_str=relevant_text, query_str=query_str
+                    query_str=query_str
                 )
                 transformed_query_str = transformed_query_ret.message.content
             else:
@@ -222,7 +250,7 @@ class CorrectiveRAGWorkflow(Workflow):
                 ).message.content
 
             # Conduct a search with the transformed query string and collect the results.
-            tavily_tool = await ctx.get("tavily_tool")
+            tavily_tool = await ctx.get("tavily_tool", None)
             wikipedia_tool: WikipediaToolSpec = await ctx.get("wiki_tool")
 
             if tavily_tool:
@@ -240,7 +268,11 @@ class CorrectiveRAGWorkflow(Workflow):
                 search_results = wikipedia_tool.search_data(
                     transformed_query_str, lang='en'
                 )
-                search_text = "\n".join([result.text for result in search_results])
+                # search_text = "\n".join([result for result in search_results])
+                if search_results == "No search results found.":
+                    search_text = ""
+                else:
+                    search_text = search_results
 
                 ctx.write_event_to_stream(
                     TransformQueryResultEvent(

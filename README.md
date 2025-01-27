@@ -23,6 +23,7 @@ AI-based search engine done right.
     - [ ] Add support for caching layer for the retriever
 - [x] Update Rag Retriever to use the searxng engine
 - [x] Implement the CRAG workflow for the Rag Retriever
+    - [x] Add support for CRAG API that runs the CRAG workflow with user's query
 - [x] Implement the reranker
     - [x] Add support for Cohere Reranker
     - [x] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker
