@@ -26,6 +26,8 @@ from .events.crag import (
     RetrieveEvent,
     RelevanceEvalEvent,
     TextExtractEvent,
+    RetrieveSuccessEvent,
+    TransformQueryResultEvent,
 )
 
 
@@ -76,9 +78,8 @@ class CorrectiveRAGWorkflow(Workflow):
         if query_str is None:
             return None
 
-        retriever_kwargs: dict | None = ev.get("retriever_kwargs", {})
         tavily_ai_apikey: str | None = ev.get("tavily_ai_apikey")
-        index = ev.get("index")
+        retriever = ev.get("retriever")
 
         # get the LLM from singleton settings
         llm = Settings.llm
@@ -95,7 +96,7 @@ class CorrectiveRAGWorkflow(Workflow):
             QueryPipeline(chain=[default_transform_query_template, llm]),
         )
         await ctx.set("llm", llm)
-        await ctx.set("index", index)
+        await ctx.set("retriever", retriever)
 
         # set up the tavily research tool only if the API key is provided
         if tavily_ai_apikey:
@@ -103,7 +104,6 @@ class CorrectiveRAGWorkflow(Workflow):
         await ctx.set("wiki_tool", WikipediaToolSpec())
 
         await ctx.set("query_str", query_str)
-        await ctx.set("retriever_kwargs", retriever_kwargs)
 
         logger.log_debug("CorrectiveRAGWorkflow :: Prepared for retrieval.")
         return PrepEvent()
@@ -115,28 +115,31 @@ class CorrectiveRAGWorkflow(Workflow):
     ) -> RetrieveEvent | None:
         """Retrieve the relevant nodes for the query."""
         query_str = await ctx.get("query_str")
-        retriever_kwargs = await ctx.get("retriever_kwargs")
 
         if query_str is None:
             return None
 
-        index = await ctx.get("index", default=None)
+        retriever: BaseRetriever = await ctx.get("retriever", default=None)
         tavily_tool = await ctx.get("tavily_tool", default=None)
         wikipedia_tool = await ctx.get("wiki_tool", default=None)
 
-        if not index or not (wikipedia_tool or tavily_tool):
+        if not retriever or not (wikipedia_tool or tavily_tool):
             raise ValueError(
-                "Index and tavily tool must be constructed. Run with 'documents' and 'tavily_ai_apikey' params first."
+                "Retriever and tavily tool must be constructed. Run with 'documents' and 'tavily_ai_apikey' params first."
             )
 
         logger.log_debug("CorrectiveRAGWorkflow :: Retrieving relevant nodes.")
-        retriever: BaseRetriever = index.as_retriever(**retriever_kwargs)
 
         # check if retriever has 'aretrieve' method
         if hasattr(retriever, "aretrieve"):
             result = await retriever.aretrieve(query_str)
         else:
             result = retriever.retrieve(query_str)
+
+        # write the event to the stream
+        ctx.write_event_to_stream(
+            RetrieveSuccessEvent(msg="<evt>Retrieval successful.</evt>")
+        )
 
         await ctx.set("retrieved_nodes", result)
         await ctx.set("query_str", query_str)
@@ -227,13 +230,28 @@ class CorrectiveRAGWorkflow(Workflow):
                     transformed_query_str, max_results=5
                 )
                 search_text = "\n".join([result.text for result in search_results])
+
+                ctx.write_event_to_stream(
+                    TransformQueryResultEvent(
+                        msg="<evt>Transformed query generated with tavily_tool.</evt>"
+                    )
+                )
             elif wikipedia_tool:
                 search_results = wikipedia_tool.search_data(
                     transformed_query_str, lang='en'
                 )
                 search_text = "\n".join([result.text for result in search_results])
+
+                ctx.write_event_to_stream(
+                    TransformQueryResultEvent(
+                        msg="<evt>Transformed query generated with wikipedia_tool.</evt>"
+                    )
+                )
             else:
                 search_text = ""
+                ctx.write_event_to_stream(
+                    TransformQueryResultEvent(msg="<evt>No search tool used for query transform.</evt>")
+                )
 
         else:
             search_text = ""
@@ -260,3 +278,8 @@ class CorrectiveRAGWorkflow(Workflow):
 
         logger.log_debug("CorrectiveRAGWorkflow :: Query result generated.")
         return StopEvent(result=result)
+
+
+def get_corrective_rag_workflow() -> CorrectiveRAGWorkflow:
+    """Get the Corrective RAG Workflow."""
+    return CorrectiveRAGWorkflow()
