@@ -23,7 +23,6 @@ import {
 import { SerperSearchResultItem, SerperSearchResults } from '@/lib/types'
 import { PlusCircle } from 'lucide-react'
 
-
 export interface VideoSearchResultsProps {
   results: SerperSearchResults
 }

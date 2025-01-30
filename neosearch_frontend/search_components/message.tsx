@@ -1,22 +1,23 @@
 'use client'
 
-import { MemoizedReactMarkdown } from './ui/markdown'
+import 'katex/dist/katex.min.css'
 import rehypeExternalLinks from 'rehype-external-links'
+import rehypeKatex from 'rehype-katex'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
-import rehypeKatex from 'rehype-katex'
-import 'katex/dist/katex.min.css'
+import { Citing } from './custom-link'
 import { CodeBlock } from './ui/codeblock'
+import { MemoizedReactMarkdown } from './ui/markdown'
 
 
-export function BotMessage({ content }: { content: string }) {
+export function BotMessage({ message }: { message: string }) {
   // Check if the content contains LaTeX patterns
   const containsLaTeX = /\\\[([\s\S]*?)\\\]|\\\(([\s\S]*?)\\\)/.test(
-    content || ''
+    message || ''
   )
 
   // Modify the content to render LaTeX equations if LaTeX patterns are found
-  const processedData = preprocessLaTeX(content || '')
+  const processedData = preprocessLaTeX(message || '')
 
   if (containsLaTeX) {
     return (
@@ -40,7 +41,11 @@ export function BotMessage({ content }: { content: string }) {
       className="prose-sm prose-neutral prose-a:text-accent-foreground/50"
       components={{
         code({ node, inline, className, children, ...props }) {
-          if (Array.isArray(children) && children.length) {
+          if (children == null || typeof children === 'undefined') {
+            return;
+          }
+
+          if (children.length) {
             if (children[0] == '▍') {
               return (
                 <span className="mt-1 cursor-default animate-pulse">▍</span>
@@ -68,10 +73,11 @@ export function BotMessage({ content }: { content: string }) {
               {...props}
             />
           )
-        }
+        },
+        a: Citing
       }}
     >
-      {content}
+      {message}
     </MemoizedReactMarkdown>
   )
 }

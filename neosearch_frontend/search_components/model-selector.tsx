@@ -12,12 +12,9 @@ import {
 import Image from 'next/image'
 import { Model, models } from '@/lib/types/models'
 import { createModelId } from '@/lib/search_utils'
+import { getCookie, setCookie } from '@/lib/search_utils/cookies'
+import { useEffect, useState } from 'react'
 
-
-interface ModelSelectorProps {
-  selectedModelId: string
-  onModelChange: (id: string) => void
-}
 
 function groupModelsByProvider(models: Model[]) {
   return models.reduce((groups, model) => {
@@ -30,12 +27,22 @@ function groupModelsByProvider(models: Model[]) {
   }, {} as Record<string, Model[]>)
 }
 
-export function ModelSelector({
-  selectedModelId,
-  onModelChange
-}: ModelSelectorProps) {
+
+export function ModelSelector() {
+  const [selectedModelId, setSelectedModelId] = useState<string>('')
+
+  useEffect(() => {
+    const savedModel = getCookie('selected-model')
+    if (savedModel) {
+      setSelectedModelId(savedModel)
+    }
+  }, [])
+
   const handleModelChange = (id: string) => {
-    onModelChange(id)
+    if (!id) return
+
+    setCookie('selected-model', id)
+    setSelectedModelId(id)
   }
 
   const groupedModels = groupModelsByProvider(models)

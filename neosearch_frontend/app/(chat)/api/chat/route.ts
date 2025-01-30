@@ -51,6 +51,7 @@ const weatherTools: AllowedTools[] = ['getWeather'];
 
 const allTools: AllowedTools[] = [...blocksTools, ...weatherTools];
 
+
 export async function POST(request: Request) {
   const {
     id,

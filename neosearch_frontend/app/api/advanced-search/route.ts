@@ -12,7 +12,6 @@ import { Agent } from 'http'
 import { Redis } from '@upstash/redis'
 import { createClient } from 'redis'
 
-
 /**
  * Maximum number of results to fetch from SearXNG.
  * Increasing this value can improve result quality but may impact performance.

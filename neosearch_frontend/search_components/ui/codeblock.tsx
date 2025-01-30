@@ -12,7 +12,6 @@ import { Button } from '@/search_components/ui/button'
 import { generateId } from 'ai'
 import { Check, Copy, Download } from 'lucide-react'
 
-
 interface Props {
   language: string
   value: string

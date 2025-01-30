@@ -19,7 +19,8 @@ const exampleMessages = [
     heading: 'Summary: https://arxiv.org/pdf/2407.16833',
     message: 'Summary: https://arxiv.org/pdf/2407.16833'
   }
-]
+];
+
 export function EmptyScreen({
   submitMessage,
   className

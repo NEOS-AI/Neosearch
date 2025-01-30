@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { AvatarImage, Avatar, AvatarFallback } from '@/search_components/ui/avatar'
-import { CardContent, Card } from '@/search_components/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@/search_components/ui/avatar'
 import { Button } from '@/search_components/ui/button'
-import Link from 'next/link'
+import { Card, CardContent } from '@/search_components/ui/card'
 import { SearchResultItem } from '@/lib/types'
+import Link from 'next/link'
+import { useState } from 'react'
 
 
 export interface SearchResultsProps {
@@ -35,7 +35,7 @@ export function SearchResults({ results }: SearchResultsProps) {
           <Link href={result.url} passHref target="_blank">
             <Card className="flex-1 h-full">
               <CardContent className="p-2 flex flex-col justify-between h-full">
-                <p className="text-xs line-clamp-2">
+                <p className="text-xs line-clamp-2 min-h-[2rem]">
                   {result.title || result.content}
                 </p>
                 <div className="mt-2 flex items-center space-x-1">

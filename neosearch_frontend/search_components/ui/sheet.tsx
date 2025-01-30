@@ -7,7 +7,6 @@ import { X } from 'lucide-react'
 
 import { cn } from '@/lib/search_utils'
 
-
 const Sheet = SheetPrimitive.Root
 
 const SheetTrigger = SheetPrimitive.Trigger

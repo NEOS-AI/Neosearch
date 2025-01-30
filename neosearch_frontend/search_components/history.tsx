@@ -15,7 +15,6 @@ import { cn } from '@/lib/search_utils'
 import { History as HistoryIcon } from 'lucide-react'
 import { Suspense } from 'react'
 import { HistorySkeleton } from './history-skeleton'
-import { useAppState } from '@/lib/search_utils/app-state'
 
 
 type HistoryProps = {
@@ -26,7 +25,6 @@ type HistoryProps = {
 export function History({ location, children }: HistoryProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-  const { isGenerating, setIsGenerating } = useAppState()
 
   const onOpenChange = (open: boolean) => {
     if (open) {
@@ -45,7 +43,6 @@ export function History({ location, children }: HistoryProps) {
           className={cn({
             'rounded-full text-foreground/30': location === 'sidebar'
           })}
-          disabled={isGenerating}
         >
           {location === 'header' ? <Menu /> : <ChevronLeft size={16} />}
         </Button>
