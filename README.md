@@ -15,9 +15,9 @@ Also, we support aisearch, which uses external search engines to provide you wit
 
 ## ToDo
 
-- [ ] Finish implementing AISearch view
-    - [ ] Make AISearch view to support tavily
-    - [ ] Make AISearch view to support searxng
+- [x] Finish implementing AISearch view
+    - [x] Make AISearch view to support tavily
+    - [x] Make AISearch view to support searxng
 - [x] Compare trafilatura bs4 and newspaper3k
 - [ ] Implement the bulk indexer
 - [ ] Implement the batch system for spider
