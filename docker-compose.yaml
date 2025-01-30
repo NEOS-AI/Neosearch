@@ -7,7 +7,7 @@ services:
       context: . # The build context is the current directory
       dockerfile: Dockerfile.frontend
     command: npm run dev
-    env_file: .env
+    env_file: neosearch_frontend/.env
     ports:
       - '3000:3000' # Maps port 3000 on the host to port 3000 in the container.
     depends_on:
@@ -26,7 +26,6 @@ services:
     image: searxng/searxng
     ports:
       - '${SEARXNG_PORT:-8080}:8080'
-    env_file: .env.local # can remove if you want to use env variables or in settings.yml
     volumes:
       - ./searxng/limiter.toml:/etc/searxng/limiter.toml
       - ./searxng/settings.yml:/etc/searxng/settings.yml
