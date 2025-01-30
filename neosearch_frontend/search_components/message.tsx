@@ -40,30 +40,26 @@ export function BotMessage({ message }: { message: string }) {
       remarkPlugins={[remarkGfm]}
       className="prose-sm prose-neutral prose-a:text-accent-foreground/50"
       components={{
-        code({ node, inline, className, children, ...props }) {
-          if (children == null || typeof children === 'undefined') {
-            return;
-          }
+        code({ node, className, children, ...props }) {
+          // if (children.length) {
+          //   if (children[0] == '▍') {
+          //     return (
+          //       <span className="mt-1 cursor-default animate-pulse">▍</span>
+          //     )
+          //   }
 
-          if (children.length) {
-            if (children[0] == '▍') {
-              return (
-                <span className="mt-1 cursor-default animate-pulse">▍</span>
-              )
-            }
-
-            children[0] = (children[0] as string).replace('`▍`', '▍')
-          }
+          //   children[0] = (children[0] as string).replace('`▍`', '▍')
+          // }
 
           const match = /language-(\w+)/.exec(className || '')
 
-          if (inline) {
-            return (
-              <code className={className} {...props}>
-                {children}
-              </code>
-            )
-          }
+          // if (inline) {
+          //   return (
+          //     <code className={className} {...props}>
+          //       {children}
+          //     </code>
+          //   )
+          // }
 
           return (
             <CodeBlock
