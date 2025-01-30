@@ -23,7 +23,7 @@ The LLM chatbot suggests the next question candidates for the user.
 
 ## ToDo
 
-- [x] Finish implementing AISearch view
+- [x] Implementing AISearch view
     - [x] Make AISearch view to support tavily
     - [x] Make AISearch view to support searxng
 - [x] Compare trafilatura bs4 and newspaper3k
