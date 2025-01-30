@@ -10,14 +10,14 @@ import { Suggestion } from '@/lib/db/schema';
 
 type EditorProps = {
   content: string;
-  saveContent: (updatedContent: string, debounce: boolean) => void;
+  onSaveContent: (updatedContent: string, debounce: boolean) => void;
   status: 'streaming' | 'idle';
   isCurrentVersion: boolean;
   currentVersionIndex: number;
   suggestions: Array<Suggestion>;
 };
 
-function PureCodeEditor({ content, saveContent, status }: EditorProps) {
+function PureCodeEditor({ content, onSaveContent, status }: EditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<EditorView | null>(null);
 
@@ -54,19 +54,22 @@ function PureCodeEditor({ content, saveContent, status }: EditorProps) {
 
           if (transaction) {
             const newContent = update.state.doc.toString();
-            saveContent(newContent, true);
+            onSaveContent(newContent, true);
           }
         }
       });
 
+      const currentSelection = editorRef.current.state.selection;
+
       const newState = EditorState.create({
         doc: editorRef.current.state.doc,
         extensions: [basicSetup, python(), oneDark, updateListener],
+        selection: currentSelection,
       });
 
       editorRef.current.setState(newState);
     }
-  }, [saveContent]);
+  }, [onSaveContent]);
 
   useEffect(() => {
     if (editorRef.current && content) {
