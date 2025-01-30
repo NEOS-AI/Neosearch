@@ -27,6 +27,7 @@ export function Chat({
     stop,
     append
   } = useChat({
+    api: '/api/search-chat',
     initialMessages: savedMessages,
     id: CHAT_ID,
     body: {

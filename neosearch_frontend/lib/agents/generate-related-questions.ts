@@ -1,6 +1,7 @@
 import { CoreMessage, generateObject } from 'ai'
 import { relatedSchema } from '@/lib/schema/related'
-import { getModel } from '../utils/registry'
+import { getModel } from '../search_utils/registry'
+
 
 export async function generateRelatedQuestions(
   messages: CoreMessage[],

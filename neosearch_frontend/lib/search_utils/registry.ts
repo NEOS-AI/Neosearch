@@ -6,6 +6,7 @@ import { createOpenAI, openai } from '@ai-sdk/openai'
 import { experimental_createProviderRegistry as createProviderRegistry } from 'ai'
 import { createOllama } from 'ollama-ai-provider'
 
+
 export const registry = createProviderRegistry({
   openai,
   anthropic,
@@ -27,6 +28,7 @@ export const registry = createProviderRegistry({
     baseURL: process.env.OPENAI_COMPATIBLE_API_BASE_URL
   })
 })
+
 
 export function getModel(model: string) {
   // if ollama provider, set simulateStreaming to true

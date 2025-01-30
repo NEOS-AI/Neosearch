@@ -2,7 +2,8 @@ import { CoreMessage, smoothStream, streamText } from 'ai'
 import { retrieveTool } from '../tools/retrieve'
 import { searchTool } from '../tools/search'
 import { videoSearchTool } from '../tools/video-search'
-import { getModel } from '../utils/registry'
+import { getModel } from '../search_utils/registry'
+
 
 const SYSTEM_PROMPT = `
 Instructions:
