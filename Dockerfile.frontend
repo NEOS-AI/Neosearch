@@ -14,10 +14,10 @@ COPY neosearch_frontend .
 WORKDIR /app/neosearch_frontend
 
 # Install dependencies
-RUN npm install
+RUN pnpm install
 
 # Expose port for networking
 EXPOSE 3000
 
 # run the frontend
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
