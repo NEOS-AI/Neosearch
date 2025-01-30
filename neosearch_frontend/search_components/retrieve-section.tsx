@@ -1,18 +1,47 @@
-import React from 'react'
-import { Section } from '@/search_components/section'
+'use client'
+
+import { Section, ToolArgsSection } from '@/search_components/section'
 import { SearchResults } from '@/search_components/search-results'
 import { SearchResults as SearchResultsType } from '@/lib/types'
+import { ToolInvocation } from 'ai'
+import { DefaultSkeleton } from './default-skeleton'
+import { CollapsibleMessage } from './collapsible-message'
 
 
 interface RetrieveSectionProps {
-  data: SearchResultsType
+  tool: ToolInvocation
+  isOpen: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-const RetrieveSection: React.FC<RetrieveSectionProps> = ({ data }) => {
+export function RetrieveSection({
+  tool,
+  isOpen,
+  onOpenChange
+}: RetrieveSectionProps) {
+  const isLoading = tool.state === 'call'
+  const data: SearchResultsType =
+    tool.state === 'result' ? tool.result : undefined
+  const url = tool.args.url as string | undefined
+
+  const header = <ToolArgsSection tool="retrieve">{url}</ToolArgsSection>
+
   return (
-    <Section title="Sources">
-      <SearchResults results={data.results} />
-    </Section>
+    <CollapsibleMessage
+      role="assistant"
+      isCollapsible={true}
+      header={header}
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+    >
+      {!isLoading && data ? (
+        <Section title="Sources">
+          <SearchResults results={data.results} />
+        </Section>
+      ) : (
+        <DefaultSkeleton />
+      )}
+    </CollapsibleMessage>
   )
 }
 

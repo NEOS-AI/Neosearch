@@ -1,6 +1,5 @@
 import { cn } from '@/lib/search_utils'
 
-
 function Skeleton({
   className,
   ...props

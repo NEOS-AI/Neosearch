@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/search_components/theme-provider';
 
 import './globals.css';
-import { AppStateProvider } from '@/lib/search_utils/app-state';
 
 
 export const metadata: Metadata = {
@@ -66,9 +65,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-center" />
-          <AppStateProvider>
-            {children}
-          </AppStateProvider>
+          {children}
         </ThemeProvider>
       </body>
     </html>

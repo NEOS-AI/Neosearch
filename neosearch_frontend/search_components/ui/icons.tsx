@@ -2,7 +2,6 @@
 
 import { cn } from '@/lib/search_utils'
 
-
 function IconLogo({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
     <svg
