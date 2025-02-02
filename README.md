@@ -48,3 +48,4 @@ The LLM chatbot suggests the next question candidates for the user.
     - [x] Add support for Cohere Reranker
     - [x] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker
 - [ ] Add support for [late-chunking](https://github.com/jina-ai/late-chunking) for better IR
+- [ ] Add Near-deduplication feature for the crawler/indexer
