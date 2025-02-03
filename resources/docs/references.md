@@ -1,5 +1,12 @@
 # References
 
+## RAG
+
+For advanced RAG techniques, we refered to the following projects:
+
+- [RAG_Techniques](https://github.com/NirDiamant/RAG_Techniques)
+- [crag-new](https://gitlab.aicrowd.com/shizueyy/crag-new)
+
 ## Frontend
 
 Neosearch frontend is built on the [vercel ai-chatbot](https://github.com/vercel/ai-chatbot) project.
