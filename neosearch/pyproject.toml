@@ -39,6 +39,7 @@ llama-index-tools-tavily-research = "^0.3.0"
 llama-index-postprocessor-cohere-rerank = "^0.3.0"
 uuid7 = "^0.1.0"
 uvloop = "^0.21.0"
+sqlmodel = "^0.0.22"
 
 
 [build-system]
