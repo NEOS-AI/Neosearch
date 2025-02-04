@@ -50,9 +50,9 @@ async def get_async_session() -> AsyncGenerator:
     async with AsyncSessionFactory() as session:
         # logger.debug(f"ASYNC Pool: {engine.pool.status()}")
         yield session
-    session.close()
+        session.close()
 
 def get_session(engine) -> Generator[Session, Any, None]:
     with Session(engine) as session:
         yield session
-    session.close()
+        session.close()
