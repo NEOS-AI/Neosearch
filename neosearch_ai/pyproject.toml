@@ -15,6 +15,7 @@ transformers = "^4.43.3"
 psutil = "^6.0.0"
 vllm = "^0.6.2"
 flashrank = {extras = ["listwise"], version = "^0.2.9"}
+uvloop = "^0.21.0"
 
 
 [build-system]
