@@ -4,8 +4,9 @@ from urllib.parse import urlparse
 
 # custom module
 from neosearch.engine.constants import PGVECTOR_SCHEMA, PGVECTOR_TABLE
-from neosearch.engine.vectorstores.base import BaseVectorStore
 from neosearch.utils.singleton import Singleton
+
+from .base import BaseVectorStore
 
 
 class PgVectorStoreContainer(BaseVectorStore, metaclass=Singleton):
