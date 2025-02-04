@@ -7,7 +7,7 @@ from llama_index.core.retrievers import BaseRetriever
 # custom module
 from neosearch.settings import Settings
 from neosearch.engine.index import get_index
-from neosearch.engine.retriever.searxng_retriever import SearxngRetriever
+from neosearch.engine.retriever.searxng import SearxngRetriever
 from neosearch.engine.prompts.chat import (
     DEFAULT_CONDENSE_PROMPT_TEMPLATE,
     DEFAULT_CONTEXT_PROMPT_TEMPLATE,
