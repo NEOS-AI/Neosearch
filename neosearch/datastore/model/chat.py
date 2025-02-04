@@ -1,10 +1,10 @@
 from sqlalchemy import Column, Text, ForeignKey, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID, ENUM
 from sqlalchemy.sql import func
-from sqlalchemy.ext.declarative import declarative_base
 
+# custom modules
+from .base import Base
 
-Base = declarative_base()
 
 visibility_enum = ENUM('public', 'private', name='visibility_enum', create_type=False)
 

@@ -2,8 +2,9 @@ import os
 from llama_index.vector_stores.milvus import MilvusVectorStore
 
 # custom module
-from neosearch.engine.vectorstores.base import BaseVectorStore
 from neosearch.utils.singleton import Singleton
+
+from .base import BaseVectorStore
 
 
 class PgVectorStoreContainer(BaseVectorStore, metaclass=Singleton):

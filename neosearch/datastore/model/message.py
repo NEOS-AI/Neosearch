@@ -1,11 +1,10 @@
 from sqlalchemy import Column, String, JSON, ForeignKey, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
-from sqlalchemy.ext.declarative import declarative_base
 from uuid_extensions import uuid7str
 
-
-Base = declarative_base()
+# custom modules
+from .base import Base
 
 
 class Message(Base):

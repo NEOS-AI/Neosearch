@@ -1,9 +1,8 @@
 from sqlalchemy import Column, Boolean, ForeignKey, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.ext.declarative import declarative_base
 
-
-Base = declarative_base()
+# custom modules
+from .base import Base
 
 
 class Vote(Base):

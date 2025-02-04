@@ -1,11 +1,11 @@
 from sqlalchemy import Column, Text, ForeignKey, TIMESTAMP, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import UUID, ENUM
 from sqlalchemy.sql import func
-from sqlalchemy.ext.declarative import declarative_base
 from uuid_extensions import uuid7str
 
+# custom modules
+from .base import Base
 
-Base = declarative_base()
 
 # Define ENUM for the 'kind' field
 kind_enum = ENUM('text', 'code', name='kind_enum', create_type=False)
