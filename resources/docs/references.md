@@ -24,3 +24,7 @@ For search-based RAG, we refered to [search-with-lepton](https://github.com/lept
 ### Searxng
 
 For utilizing searxng, we refered to [perplexica](https://github.com/ItzCrazyKns/Perplexica) project.
+
+## Embeddings
+
+- [Infinity](https://github.com/michaelfeil/infinity) is a high-throughput, low-latency serving engine for text-embeddings, reranking models, clip, clap and colpali
