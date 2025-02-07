@@ -1,3 +1,4 @@
+import asyncio
 from ray import serve
 from sentence_transformers import SentenceTransformer
 from starlette.requests import Request
@@ -5,6 +6,7 @@ import os
 import torch
 import psutil
 import logging
+from concurrent.futures import ThreadPoolExecutor
 
 # custom modules
 from neosearch_ai.configs.embedding_param_manager import ServerParameterManager, RayParameterManager
@@ -54,17 +56,27 @@ class EmbeddingDeployment:
 
         self.model_name = model_name
         self.embedding_model = SentenceTransformer(model_name)
+        self.embedding_model.to(self.device)
+
+        # thread pool executor for async embedding
+        self.executor = ThreadPoolExecutor(max_workers=1)
 
 
     def _embed(self, text: str):
         return self.embedding_model.get_text_embedding(text)
 
     async def _aembed(self, text: str):
-        return self._embed(text)
+        # reference: <https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.loop.run_in_executor>
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(self.executor, self._embed, text)
 
     def _embed_batch(self, texts: list[str]):
         return self.embedding_model.get_text_embeddings(texts)
 
+    async def _aembed_batch(self, texts: list[str]):
+        # reference: <https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.loop.run_in_executor>
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(self.executor, self._embed_batch, texts)
 
     @serve.batch(max_batch_size=SERVER_MANAGER.max_batch_size)
     async def __call__(self, request: Request):
@@ -82,7 +94,7 @@ class EmbeddingDeployment:
             embedding = await self._aembed(contents[0])
             embeddings = [embedding]
         else:
-            embeddings = self._embed_batch(contents)
+            embeddings = await self._aembed_batch(contents)
         return {"code": 0, "embeddings": embeddings}
 
 

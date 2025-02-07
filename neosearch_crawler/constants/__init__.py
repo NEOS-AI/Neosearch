@@ -5,6 +5,7 @@ import os
 from .modes import (
     BASE_WEB_CRAWL_AGENT_MODE,
     COMMON_CRAWL_RUNNER_MODE,
+    PARSE_WIKI_TO_PARADEDB_MODE,
 )
 
 
@@ -19,4 +20,5 @@ __all__ = [
     # modes.py
     "BASE_WEB_CRAWL_AGENT_MODE",
     "COMMON_CRAWL_RUNNER_MODE",
+    "PARSE_WIKI_TO_PARADEDB_MODE",
 ]

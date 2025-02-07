@@ -9,12 +9,12 @@ from neosearch_crawler.utils.trafilatura_util import extract_url_content
 from neosearch_crawler.utils.domain_name_utils import reverse_domain
 from neosearch_crawler.utils.logger import Logger
 from neosearch_crawler.engine.runner import BaseRunner, step
-from neosearch_crawler.utils.singleton import Singleton
+
 
 logger = Logger()
 
 
-class CommonCrawlRunner(BaseRunner, metaclass=Singleton):
+class CommonCrawlRunner(BaseRunner):
     """Runner for parsing Common Crawl data, and extracting content from the URLs."""
 
     def __init__(self, *args, **kwargs):
@@ -29,7 +29,8 @@ class CommonCrawlRunner(BaseRunner, metaclass=Singleton):
         self.vertex_file_path = kwargs.get('vertex_file_path', f"{cwd}/data/cc-main-domain-vertices.txt")
         self.edge_file_path = kwargs.get('edge_file_path', f"{cwd}/data/cc-main-domain-edges.txt")
         if not self._check_if_files_exist():
-            raise FileNotFoundError("Vertex or edge file does not exist.")
+            # raise FileNotFoundError("Vertex or edge file does not exist.")
+            logger.log_error("Vertex or edge file does not exist.")
         self.start_index = kwargs.get('start_index', 0)
         self.end_index = kwargs.get('end_index', -1)
         self.start_index_for_edge = kwargs.get('start_index_for_edge', 0)
