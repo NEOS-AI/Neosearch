@@ -1,13 +1,13 @@
 import type {
   CoreAssistantMessage,
-  CoreMessage,
   CoreToolMessage,
   Message,
+  TextStreamPart,
   ToolInvocation,
+  ToolSet,
 } from 'ai';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { v4 as uuidv4, v7 as uuidv7 } from 'uuid';
 
 import type { Message as DBMessage, Document } from '@/lib/db/schema';
 
@@ -44,21 +44,12 @@ export function getLocalStorage(key: string) {
   return [];
 }
 
-export function generateUUID_v4(): string {
-  return uuidv4();
-}
-
-export function generateUUID_v7(): string {
-  return uuidv7();
-}
-
 export function generateUUID(): string {
-  // return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-  //   const r = (Math.random() * 16) | 0;
-  //   const v = c === 'x' ? r : (r & 0x3) | 0x8;
-  //   return v.toString(16);
-  // });
-  return generateUUID_v7();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 
 function addToolMessageToChat({
@@ -106,6 +97,7 @@ export function convertToUIMessages(
     }
 
     let textContent = '';
+    let reasoning: string | undefined = undefined;
     const toolInvocations: Array<ToolInvocation> = [];
 
     if (typeof message.content === 'string') {
@@ -121,6 +113,8 @@ export function convertToUIMessages(
             toolName: content.toolName,
             args: content.args,
           });
+        } else if (content.type === 'reasoning') {
+          reasoning = content.reasoning;
         }
       }
     }
@@ -129,6 +123,7 @@ export function convertToUIMessages(
       id: message.id,
       role: message.role as Message['role'],
       content: textContent,
+      reasoning,
       toolInvocations,
     });
 
@@ -139,9 +134,13 @@ export function convertToUIMessages(
 type ResponseMessageWithoutId = CoreToolMessage | CoreAssistantMessage;
 type ResponseMessage = ResponseMessageWithoutId & { id: string };
 
-export function sanitizeResponseMessages(
-  messages: Array<ResponseMessage>,
-): Array<ResponseMessage> {
+export function sanitizeResponseMessages({
+  messages,
+  reasoning,
+}: {
+  messages: Array<ResponseMessage>;
+  reasoning: string | undefined;
+}) {
   const toolResultIds: Array<string> = [];
 
   for (const message of messages) {
@@ -166,6 +165,11 @@ export function sanitizeResponseMessages(
           ? content.text.length > 0
           : true,
     );
+
+    if (reasoning) {
+      // @ts-expect-error: reasoning message parts in sdk is wip
+      sanitizedContent.push({ type: 'reasoning', reasoning });
+    }
 
     return {
       ...message,

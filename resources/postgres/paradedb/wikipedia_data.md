@@ -67,6 +67,77 @@ CALL paradedb.create_bm25(
 );
 ```
 
+## Performance tuning
+
+As the size of both the table and the index is large enough, the performance of the search query is not good if you use the default configuration.
+You might need to tune the postgresql configuration to get better performance.
+
+First, check the file path of the postgresql configuration file.
+
+```sql
+SHOW config_file;
+```
+
+Then, edit the configuration file.
+```bash
+sudo vi /opt/homebrew/var/postgresql@17/postgresql.conf
+```
+
+Edit the following configurations:
+
+```conf
+max_worker_processes = 16
+max_parallel_workers = 16
+
+...
+
+shared_buffers = 4GB
+
+...
+
+maintenance_work_mem = 16GB
+```
+
+### maintenance_work_mem
+
+In addition to improving build times, `maintenance_work_mem` also affects the number of segments created in the index.
+This is because, while ParadeDB tries to maintain as many segments as CPUs, a segment that cannot fit into memory will be split into a new segment.
+As a result, an insufficient `maintenance_work_mem` can lead to significantly more segments than available CPUs, which degrades search performance.
+To check if the chosen `maintenance_work_mem` value is high enough, you can compare the index’s segment count with the server’s CPU count.
+
+To check the number of segments in the index, you can use the following query:
+
+```sql
+SELECT * FROM paradedb.index_info('ftx_wiki_articles_search_idx');
+```
+
+### Parallel workers (max_parallel_workers, max_worker_processes)
+
+The number of parallel workers depends on the server’s CPU count and certain Postgres settings in `postgresql.conf`.
+
+`max_parallel_workers` and max_worker_processes control how many workers are available to parallel scans.
+`max_worker_processes` is a global limit for the number of available workers across all connections, and `max_parallel_workers` specifies how many of those workers can be used for parallel scans.
+
+Next, `max_parallel_workers_per_gather` must be set.
+This setting is a limit for the number of parallel workers that a single parallel query can use.
+The default is 2.
+This setting can be set in postgresql.conf to apply to all connections, or within a connection to apply to a single session.
+
+### Shared buffers
+
+`shared_buffers` controls how much memory is available to the Postgres buffer cache.
+While a general rule of thumb is to allocate up to 40% of total system memory to `shared_buffers`, we recommend experimenting with higher values for larger indexes.
+
+The `pg_prewarm` extension can be used to load the BM25 index into the buffer cache after Postgres restarts.
+A higher shared_buffers value allows more of the index to be stored in the buffer cache.
+
+```sql
+CREATE EXTENSION pg_prewarm;
+SELECT pg_prewarm('ftx_wiki_articles_search_idx');
+```
+
 ## References
 
 - [Building Site Search With Tantivy](https://jstrong.dev/posts/2020/building-a-site-search-with-tantivy/)
+- [ParadeDB Index Throughput Tuning](https://docs.paradedb.com/documentation/configuration/write)
+- [ParadeDB Search Performance Tuning](https://docs.paradedb.com/documentation/configuration/parallel)

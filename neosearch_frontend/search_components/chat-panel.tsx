@@ -57,9 +57,8 @@ export function ChatPanel({
 
   const handleNewChat = () => {
     setMessages([])
-    router.push('/')
+    router.push('/aisearch')
   }
-  console.log(messages)
 
   // if query is not empty, submit the query
   useEffect(() => {

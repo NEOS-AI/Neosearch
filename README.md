@@ -26,6 +26,7 @@ The LLM chatbot suggests the next question candidates for the user.
 - [x] Implementing AISearch view
     - [x] Make AISearch view to support tavily
     - [x] Make AISearch view to support searxng
+- [x] Add support for reasoning model in the chatbot view
 - [x] Compare trafilatura bs4 and newspaper3k
 - [ ] Implement the bulk indexer
 - [ ] Implement the batch system for spider
