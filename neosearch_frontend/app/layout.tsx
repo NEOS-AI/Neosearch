@@ -1,15 +1,14 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
-import { ThemeProvider } from '@/search_components/theme-provider';
+import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
 
-
 export const metadata: Metadata = {
   metadataBase: new URL('https://chat.vercel.ai'),
-  title: 'Neosearch',
-  description: 'RAG search done right.',
+  title: 'Next.js Chatbot Template',
+  description: 'Next.js chatbot template using the AI SDK.',
 };
 
 export const viewport = {

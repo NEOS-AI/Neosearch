@@ -44,7 +44,7 @@ export function researcher({
       tools: {
         search: searchTool,
         retrieve: retrieveTool,
-        videoSearch: videoSearchTool
+        videoSearch: videoSearchTool,
       },
       maxSteps: 5,
       experimental_transform: smoothStream()

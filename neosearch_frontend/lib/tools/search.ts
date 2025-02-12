@@ -26,7 +26,7 @@ export const searchTool = tool({
       query.length < 5 ? query + ' '.repeat(5 - query.length) : query
     let searchResult: SearchResults
     const searchAPI =
-      (process.env.SEARCH_API as 'tavily' | 'exa' | 'searxng') || 'tavily'
+      (process.env.SEARCH_API as 'tavily' | 'exa' | 'searxng') || 'searxng'
 
     const effectiveSearchDepth =
       searchAPI === 'searxng' &&
@@ -34,15 +34,14 @@ export const searchTool = tool({
         ? 'advanced'
         : search_depth || 'basic'
 
-    console.log(
-      `Using search API: ${searchAPI}, Search Depth: ${effectiveSearchDepth}`
-    )
+    console.log(`Using search API: ${searchAPI}, Search Depth: ${effectiveSearchDepth}`)
 
     try {
       if (searchAPI === 'searxng' && effectiveSearchDepth === 'advanced') {
         // API route for advanced SearXNG search
         const baseUrl =
-          process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+          process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
         const response = await fetch(`${baseUrl}/api/advanced-search`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -54,6 +53,7 @@ export const searchTool = tool({
             excludeDomains: exclude_domains
           })
         })
+
         if (!response.ok) {
           throw new Error(
             `Advanced search API error: ${response.status} ${response.statusText}`
@@ -85,7 +85,8 @@ export const searchTool = tool({
 
     return searchResult
   }
-})
+});
+
 
 async function tavilySearch(
   query: string,

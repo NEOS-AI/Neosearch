@@ -50,7 +50,7 @@ export async function POST(req: Request) {
         try {
           let researcherConfig
           try {
-            researcherConfig = await researcher({
+            researcherConfig = researcher({
               messages: coreMessages,
               model
             })
