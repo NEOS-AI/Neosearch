@@ -11,7 +11,7 @@ ray = {extras = ["serve"], version = "^2.34.0"}
 fastapi = "0.115.6"
 sentence-transformers = "^3.0.1"
 torch = "^2.4.0"
-transformers = "^4.43.3"
+transformers = "^4.48.0"
 psutil = "^6.0.0"
 vllm = "^0.6.2"
 flashrank = {extras = ["listwise"], version = "^0.2.9"}
