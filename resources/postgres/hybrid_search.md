@@ -26,3 +26,7 @@ JOIN mock_items ON mock_items.id = COALESCE(semantic_search.id, bm25_search.id)
 ORDER BY score DESC, description
 LIMIT 5;
 ```
+
+## References
+
+- [ParadeDB blog: A New Postgres Block Storage Layout for Full Text Search](https://www.paradedb.com/blog/block_storage_part_one)
