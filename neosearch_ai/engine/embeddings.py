@@ -13,14 +13,15 @@ from pydantic import BaseModel
 # custom modules
 try:
     from neosearch_ai.configs.embedding_param_manager import ServerParameterManager, RayParameterManager
-    # from neosearch_ai.model.embeddings import BatchEmbeddings
 except ImportError:
     from configs.embedding_param_manager import ServerParameterManager, RayParameterManager
-    # from model.embeddings import BatchEmbeddings
 
 
 # FastAPI app (for ingress control)
-app: FastAPI = FastAPI()
+app: FastAPI = FastAPI(
+    title="NeoSearch AI Embeddings",
+    version="0.3.0",
+)
 
 logger = logging.getLogger(__name__)
 

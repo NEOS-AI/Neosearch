@@ -14,7 +14,6 @@ from configs.app import NeosAiConfig
 def deploy_embedding_server(
     blocking: bool = False,
     name: str = "embedding_server",
-    route_prefix: str = "/embed"
 ) -> None:
     # Deploy the Ray Serve application.
     deployment = EmbeddingDeployment.bind()
@@ -23,7 +22,6 @@ def deploy_embedding_server(
         deployment,
         blocking=blocking,
         name=name,
-        route_prefix=route_prefix
     )
 
 
