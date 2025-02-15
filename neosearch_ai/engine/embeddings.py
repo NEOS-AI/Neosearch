@@ -1,22 +1,36 @@
 import asyncio
 from ray import serve
 from sentence_transformers import SentenceTransformer
-from starlette.requests import Request
+import numpy as np
 import os
 import torch
 import psutil
 import logging
 from concurrent.futures import ThreadPoolExecutor
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 # custom modules
-from neosearch_ai.configs.embedding_param_manager import ServerParameterManager, RayParameterManager
+try:
+    from neosearch_ai.configs.embedding_param_manager import ServerParameterManager, RayParameterManager
+    # from neosearch_ai.model.embeddings import BatchEmbeddings
+except ImportError:
+    from configs.embedding_param_manager import ServerParameterManager, RayParameterManager
+    # from model.embeddings import BatchEmbeddings
 
+
+# FastAPI app (for ingress control)
+app: FastAPI = FastAPI()
 
 logger = logging.getLogger(__name__)
 
 # Env variables for server
 SERVER_MANAGER = ServerParameterManager()
 RAY_MANAGER = RayParameterManager()
+
+
+class BatchEmbeddings(BaseModel):
+    contents: list[str]
 
 
 @serve.deployment(
@@ -34,6 +48,7 @@ RAY_MANAGER = RayParameterManager()
         "max_replicas": RAY_MANAGER.max_replicas,
     },
 )
+@serve.ingress(app)
 class EmbeddingDeployment:
     def __init__(
         self,
@@ -63,25 +78,27 @@ class EmbeddingDeployment:
 
 
     def _embed(self, text: str):
-        return self.embedding_model.get_text_embedding(text)
+        # reference: <https://huggingface.co/sentence-transformers>
+        return self.embedding_model.encode(text)
 
     async def _aembed(self, text: str):
         # reference: <https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.loop.run_in_executor>
         loop = asyncio.get_event_loop()
-        return await loop.run_in_executor(self.executor, self._embed, text)
+        return await loop.run_in_executor(None, self._embed, text)
 
     def _embed_batch(self, texts: list[str]):
-        return self.embedding_model.get_text_embeddings(texts)
+        # reference: <https://huggingface.co/sentence-transformers>
+        return self.embedding_model.encode(texts)
 
     async def _aembed_batch(self, texts: list[str]):
         # reference: <https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.loop.run_in_executor>
         loop = asyncio.get_event_loop()
         return await loop.run_in_executor(self.executor, self._embed_batch, texts)
 
-    @serve.batch(max_batch_size=SERVER_MANAGER.max_batch_size)
-    async def __call__(self, request: Request):
-        payload = await request.json()
-        contents = payload.get("contents", [])
+
+    @app.post("/embed/batch")
+    async def embed(self, payload: BatchEmbeddings):
+        contents = payload.contents
         if len(contents) == 0:
             return {"code": 1, "error": "No contents provided."}
         if len(contents) > self.max_batch_size:
@@ -91,10 +108,12 @@ class EmbeddingDeployment:
             }
 
         if len(contents) == 1:
-            embedding = await self._aembed(contents[0])
+            embedding: np.ndarray = await self._aembed(contents[0])
+            embedding = embedding.tolist()  # convert to list for JSON serialization
             embeddings = [embedding]
         else:
             embeddings = await self._aembed_batch(contents)
+            embeddings = embeddings.tolist()  # convert to list for JSON serialization
         return {"code": 0, "embeddings": embeddings}
 
 
