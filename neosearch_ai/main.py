@@ -2,8 +2,6 @@ import sys
 import ray
 from ray import serve
 import torch
-from fastapi import FastAPI
-import uvicorn
 
 sys.path.append("..")
 
@@ -11,9 +9,6 @@ sys.path.append("..")
 from engine.embeddings import EmbeddingDeployment
 from engine.flash_reranker import FlashRerankDeployment
 from configs.app import NeosAiConfig
-
-
-app: FastAPI = FastAPI()
 
 
 def deploy_embedding_server(
@@ -91,6 +86,3 @@ if __name__ == "__main__":
             num_cpus=config.num_of_cpus,
             avoid_thread_contention=config.avoid_thread_contention
         )
-
-    if config.run_monitoring:
-        uvicorn.run(app, host="0.0.0.0", port=config.monitoring_port)
