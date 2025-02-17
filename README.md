@@ -27,6 +27,8 @@ The LLM chatbot suggests the next question candidates for the user.
     - [x] Make AISearch view to support tavily
     - [x] Make AISearch view to support searxng
 - [x] Add support for reasoning model in the chatbot view
+- [ ] Add support for Deep Research
+    - [ ] Make the result of the Deep Research to be downloadable as PDF or something else
 - [x] Compare trafilatura bs4 and newspaper3k
 - [ ] Implement the bulk indexer
 - [ ] Implement the batch system for spider
@@ -50,4 +52,4 @@ The LLM chatbot suggests the next question candidates for the user.
     - [x] Add support for [FlashRank](https://github.com/PrithivirajDamodaran/FlashRank) Reranker
 - [ ] Add support for [late-chunking](https://github.com/jina-ai/late-chunking) for better IR
 - [ ] Add Near-deduplication feature for the crawler/indexer
-- [ ] Add support for ScrapeGraphAI
+- [ ] Add support for [ScrapeGraphAI](https://github.com/ScrapeGraphAI/Scrapegraph-ai)
