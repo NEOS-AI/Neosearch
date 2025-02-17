@@ -60,3 +60,10 @@ Ray offers a range of capabilities to be integrated within the environment to ac
 
 Ray cluster operations on Kubernetes are made easier by KubeRay, a Kubernetes operator.
 Taking advantage of Kubernetes’ robust orchestration features, KubeRay enables you to deploy, operate, and scale Ray applications on a Kubernetes cluster by offering Kubernetes Custom Resource Definitions (CRDs) including RayCluster, RayJob, and RayService.
+
+## References
+
+- [ray-project/kuberay](https://github.com/ray-project/kuberay)
+- [ray on kubernetes](https://docs.ray.io/en/latest/cluster/kubernetes/index.html)
+- [Getting started with Ray on Google Kubernetes Engine](https://cloud.google.com/blog/products/containers-kubernetes/use-ray-on-kubernetes-with-kuberay?hl=en)
+- [ray on gke](https://github.com/GoogleCloudPlatform/ai-on-gke/tree/main/ray-on-gke)
