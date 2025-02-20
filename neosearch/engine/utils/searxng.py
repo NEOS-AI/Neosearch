@@ -54,7 +54,14 @@ class SearxngAdaptor:
             params = {}
 
         search_url = self._get_search_url()
-        search_params = {"q": query, "format": "json", **params}
+        search_params = {
+            "q": query,
+            "format": "json",
+            "categories": "general,images",
+            "safesearch": "1",
+            "engines": "google,bing,duckduckgo,wikipedia",
+            **params
+        }
 
         @g_sync_circuit_breaker
         def execute_request():
