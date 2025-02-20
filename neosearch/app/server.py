@@ -43,7 +43,7 @@ def get_version_from_pyproject_toml() -> str:
         path_to_pyproject_toml = None
 
     if path_to_pyproject_toml is not None:
-        pyproject_version = toml.load(path_to_pyproject_toml)["tool"]["poetry"]["version"]
+        pyproject_version = toml.load(path_to_pyproject_toml)["project"]["version"]
         return pyproject_version
     else:
         return os.getenv("VERSION", "x.x.x")
