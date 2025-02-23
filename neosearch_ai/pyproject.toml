@@ -1,23 +1,27 @@
-[tool.poetry]
+# [tool.pdm.build]
+# includes = []
+# [build-system]
+# requires = ["pdm-backend"]
+# build-backend = "pdm.backend"
+
+
+[project]
+authors = [
+    {name = "YeonwooSung", email = "neos960518@gmail.com"},
+]
+requires-python = "<3.13,>=3.10"
+dependencies = [
+    "ray[serve]<3.0.0,>=2.34.0",
+    "fastapi==0.115.6",
+    "sentence-transformers<4.0.0,>=3.0.1",
+    "torch<3.0.0,>=2.4.0",
+    "transformers<5.0.0,>=4.48.3",
+    "psutil<7.0.0,>=6.0.0",
+    "vllm<1.0.0,>=0.6.2",
+    "flashrank[listwise]<1.0.0,>=0.2.9",
+    "uvloop<1.0.0,>=0.21.0",
+]
 name = "neosearch-ai"
 version = "0.3.0"
-description = ""
-authors = ["YeonwooSung <neos960518@gmail.com>"]
+description = "AI components for neosearch"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = ">=3.10,<3.13"
-ray = {extras = ["serve"], version = "^2.34.0"}
-fastapi = "0.115.6"
-sentence-transformers = "^3.0.1"
-torch = "^2.4.0"
-transformers = "^4.48.3"
-psutil = "^6.0.0"
-vllm = "^0.6.2"
-flashrank = {extras = ["listwise"], version = "^0.2.9"}
-uvloop = "^0.21.0"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

@@ -1,30 +1,34 @@
-[tool.poetry]
+# [tool.pdm.build]
+# includes = []
+# [build-system]
+# requires = ["pdm-backend"]
+# build-backend = "pdm.backend"
+
+
+[project]
+authors = [
+    {name = "YeonwooSung", email = "neos960518@gmail.com"},
+]
+requires-python = "<3.13,>=3.10"
+dependencies = [
+    "ray[serve]<3.0.0,>=2.10.0",
+    "trafilatura[all]==1.8.0",
+    "langchain==0.3.19",
+    "llama-index-core==0.12.19",
+    "llama-index==0.12.19",
+    "llama-index-llms-openai==0.3.20",
+    "llama-index-llms-replicate==0.4.0",
+    "llama-index-embeddings-huggingface==0.5.1",
+    "aws-lambda-powertools<4.0.0,>=3.0.0",
+    "selenium<5.0.0,>=4.25.0",
+    "pymongo<5.0.0,>=4.9.1",
+    "pydantic-settings<3.0.0,>=2.6.0",
+    "scrapy<3.0.0,>=2.12.0",
+    "mypy-boto3-s3<2.0.0,>=1.35.67",
+    "polars>=1.18.0,<2.0.0",
+    "scrapegraphai<2.0.0,>=1.37.1",
+]
 name = "neosearch_crawler"
 version = "0.2.0"
 description = ""
-authors = ["YeonwooSung <neos960518@gmail.com>"]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = ">=3.10,<3.13"
-ray = {extras = ["serve"], version = "^2.10.0"}
-trafilatura = "^1.8.1"
-langchain = "^0.3.0"
-llama-index-core = "0.10.59"
-llama-index = "0.10.59"
-llama-index-llms-openai = "^0.1.27"
-llama-index-llms-replicate = "^0.1.3"
-llama-index-embeddings-huggingface = "^0.2.2"
-aws-lambda-powertools = "^3.0.0"
-selenium = "^4.25.0"
-pymongo = "^4.9.1"
-pydantic-settings = "^2.6.0"
-scrapy = "^2.12.0"
-mypy-boto3-s3 = "^1.35.67"
-polars = "^1.18.0"
-scrapegraphai = "^1.37.1"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

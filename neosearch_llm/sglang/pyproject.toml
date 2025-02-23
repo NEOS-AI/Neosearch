@@ -1,16 +1,20 @@
-[tool.poetry]
+# [tool.pdm.build]
+# includes = []
+# [build-system]
+# requires = ["pdm-backend"]
+# build-backend = "pdm.backend"
+
+
+[project]
+authors = [
+    {name = "YeonwooSung", email = "neos960518@gmail.com"},
+]
+requires-python = "<3.13,>=3.10"
+dependencies = [
+    "sglang[all]<1.0.0.0,>=0.2.14.post2",
+    "torch==2.4.0",
+]
 name = "neosearch_sgllm"
 version = "0.1.0"
 description = ""
-authors = ["YeonwooSung <neos960518@gmail.com>"]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = ">=3.10,<3.13"
-sglang = {extras = ["all"], version = "^0.2.14.post2"}
-torch = "2.4.0"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
