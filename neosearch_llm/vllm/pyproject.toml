@@ -1,18 +1,15 @@
-[tool.poetry]
+[project]
+authors = [
+    {name = "YeonwooSung", email = "neos960518@gmail.com"},
+]
+requires-python = "<3.13,>=3.10"
+dependencies = [
+    "vllm<1.0.0,>=0.6.2",
+    "torch==2.4.0",
+    "accelerate<2.0.0,>=1.0.0",
+    "fire<1.0.0,>=0.7.0",
+]
 name = "neosearch_vllm"
 version = "0.1.0"
-description = ""
-authors = ["YeonwooSung <neos960518@gmail.com>"]
+description = "vLLM server for neosearch"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = ">=3.10,<3.13"
-vllm = "^0.6.2"
-torch = "2.4.0"
-accelerate = "^1.0.0"
-fire = "^0.7.0"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

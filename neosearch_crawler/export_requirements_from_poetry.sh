@@ -6,4 +6,5 @@ if [ -f requirements.txt ]; then
     rm requirements.txt
 fi
 
-poetry export --without-hashes --format=requirements.txt > requirements.txt
+# poetry export --without-hashes --format=requirements.txt > requirements.txt
+uv export --no-hashes --format requirements-txt > requirements.txt

@@ -30,11 +30,11 @@ The LLM chatbot suggests the next question candidates for the user.
 - [ ] Add support for Deep Research
     - [ ] Make the result of the Deep Research to be downloadable as PDF or something else
 - [x] Compare trafilatura bs4 and newspaper3k
-- [ ] Replace poetry with uv
+- [x] Replace poetry with uv
     - [x] Replace poetry with uv for `neosearch`
-    - [ ] Replace poetry with uv for `neosearch_ai`
-    - [ ] Replace poetry with uv for `neosearch_llm`
-    - [ ] Replace poetry with uv for `neosearch_crawler`
+    - [x] Replace poetry with uv for `neosearch_ai`
+    - [x] Replace poetry with uv for `neosearch_llm`
+    - [x] Replace poetry with uv for `neosearch_crawler`
 - [ ] Implement the bulk indexer
 - [ ] Implement the batch system for spider
     - [ ] Implement the spider with Trafilatura
