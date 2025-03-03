@@ -8,7 +8,6 @@ from constants import (
     BASE_WEB_CRAWL_AGENT_MODE,
     COMMON_CRAWL_RUNNER_MODE,
     PARSE_WIKI_TO_PARADEDB_MODE,
-    WEB_CORPUS_CRAWLER_MODE,
     FOR_TEST,
 )
 from engine.agent.web_corpus_collector import run_web_corpus_collect_agent
@@ -29,7 +28,7 @@ def main(mode: str):
     #TODO add support for scrapegraphai
     print(f"Running in mode: {mode}")
 
-    if mode == WEB_CORPUS_CRAWLER_MODE:
+    if mode == BASE_WEB_CRAWL_AGENT_MODE:
         return run_web_corpus_collect_agent()
 
     if mode == PARSE_WIKI_TO_PARADEDB_MODE:
@@ -39,9 +38,6 @@ def main(mode: str):
         abs_path_str = str(abs_path)
         return run_wiki_dump_parser(abs_path_str)
 
-    if mode == BASE_WEB_CRAWL_AGENT_MODE:
-        #TODO crawl, extract, and index the content of the URL
-        pass
     if mode == COMMON_CRAWL_RUNNER_MODE:
         return run_common_crawl()
 
@@ -53,4 +49,4 @@ if __name__ == "__main__":
     if FOR_TEST:
         url_crawl_test()
     else:
-        main(WEB_CORPUS_CRAWLER_MODE)
+        main(BASE_WEB_CRAWL_AGENT_MODE)

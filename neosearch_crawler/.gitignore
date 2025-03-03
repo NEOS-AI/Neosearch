@@ -2,3 +2,4 @@
 data/
 
 known_urls.txt
+web_corpus.parquet
