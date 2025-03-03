@@ -49,6 +49,10 @@ def run_focused_crawler(
 
     navigatable = is_still_navigation(to_visit)
 
+    # cast to list
+    to_visit = list(to_visit)
+    known_links = list(known_links)
+
     return to_visit, known_links, navigatable
 
 

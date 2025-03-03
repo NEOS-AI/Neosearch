@@ -27,6 +27,9 @@ dependencies = [
     "mypy-boto3-s3<2.0.0,>=1.35.67",
     "polars>=1.18.0,<2.0.0",
     "scrapegraphai<2.0.0,>=1.37.1",
+    "sqlmodel>=0.0.23",
+    "psycopg2>=2.9.10",
+    "asyncpg>=0.30.0",
 ]
 name = "neosearch_crawler"
 version = "0.2.0"
