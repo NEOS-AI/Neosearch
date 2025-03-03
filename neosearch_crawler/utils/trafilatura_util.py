@@ -66,11 +66,17 @@ def extract_url_content(
         output_format = None
 
     downloaded = trafilatura.fetch_url(url)
+    if downloaded is None:
+        raise ValueError(f"Failed to download {url}")
 
     # get metadata and description from the downloaded content
     metadata = trafilatura.extract_metadata(downloaded)
-    description = metadata.description
-    title = metadata.title
+    if metadata is None:
+        description = ""
+        title = ""
+    else:
+        description = metadata.description
+        title = metadata.title
 
     if output_format is None:
         content =  trafilatura.extract(
@@ -85,6 +91,11 @@ def extract_url_content(
             output_format=output_format,
             include_tables=include_tables
         )
+
+    if content is None:
+        #TODO pdf, docx, etc.
+        print(f"Failed to extract content from {url}")
+        return None
 
     return {
         "url":url,
