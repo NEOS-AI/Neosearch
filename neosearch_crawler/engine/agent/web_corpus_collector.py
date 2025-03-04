@@ -1,5 +1,6 @@
 from copy import deepcopy
-import polars as pl
+import orjson
+import threading
 
 # custom modules
 from neosearch_crawler.utils.trafilatura_util import (
@@ -76,6 +77,36 @@ class WebCorpusCollectAgent(BaseAgent):
 
     def extract_contents(self, args: WebCorpusCollectArgs, known_urls: list):
         data_list = []
+
+        # split known_urls into 4 parts
+        len_ = len(known_urls)
+        part = len_ // 4
+        chunk_1 = known_urls[:part]
+        chunk_2 = known_urls[part:2*part]
+        chunk_3 = known_urls[2*part:3*part]
+        chunk_4 = known_urls[3*part:]
+
+        # extract contents in parallel
+        threads = []
+        for chunk in [chunk_1, chunk_2, chunk_3, chunk_4]:
+            thread = threading.Thread(
+                target=self._extract_contents,
+                args=(args, chunk, data_list)
+            )
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+        # save data to file (as jsonl)
+        with open("web_corpus.jsonl", "w") as f:
+            for data in data_list:
+                data_str = orjson.dumps(data).decode("utf-8")
+                f.write(f"{data_str}\n")
+
+
+    def _extract_contents(self, args: WebCorpusCollectArgs, known_urls: list, data_list: list):
         for url in known_urls:
             try:
                 data = extract_url_content(
@@ -92,10 +123,6 @@ class WebCorpusCollectAgent(BaseAgent):
                 data_list.append(data)
             except ValueError as ve:
                 print(f"Failed to extract content from {url}. Error: {ve}")
-
-        # save data to file
-        df = pl.DataFrame(data_list)
-        df.write_parquet("web_corpus.parquet")
 
 
 def run_web_corpus_collect_agent():
