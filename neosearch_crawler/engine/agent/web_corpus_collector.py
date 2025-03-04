@@ -86,8 +86,9 @@ class WebCorpusCollectAgent(BaseAgent):
         chunk_3 = known_urls[2*part:3*part]
         chunk_4 = known_urls[3*part:]
 
+        threads: list[threading.Thread] = []
+
         # extract contents in parallel
-        threads = []
         for chunk in [chunk_1, chunk_2, chunk_3, chunk_4]:
             thread = threading.Thread(
                 target=self._extract_contents,
