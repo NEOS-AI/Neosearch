@@ -12,3 +12,9 @@ Here are some strategies for choosing seed URLs:
 4. **Starting from a sitemap**: If the website has a sitemap, you can start from the URLs listed in the sitemap.
 
 ## Crawling Strategy
+
+<!-- TODO -->
+
+## References
+
+- [Trafilatura :: Tutorial: From a list of links to a frequency list](https://trafilatura.readthedocs.io/en/latest/tutorial1.html)
