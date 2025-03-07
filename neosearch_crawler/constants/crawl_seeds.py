@@ -22,3 +22,14 @@ NEWS_SEEDS = [
     'https://news.daum.net/',
     'https://news.google.com/'
 ]
+
+OPENSOURCE_DEV_SEEDS = [
+    # Open sources
+    'https://www.tensorflow.org/',
+    'https://pytorch.org/',
+    'https://react.dev/',
+]
+
+# Full seeds (concatenated)
+_FULL_SEEDS = INITIAL_SEEDS + NEWS_SEEDS + OPENSOURCE_DEV_SEEDS
+FULL_SEEDS = list(set(_FULL_SEEDS))

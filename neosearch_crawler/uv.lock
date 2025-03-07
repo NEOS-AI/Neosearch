@@ -2101,7 +2101,9 @@ dependencies = [
     { name = "psycopg2" },
     { name = "pydantic-settings" },
     { name = "pymongo" },
+    { name = "pypdf2" },
     { name = "ray", extra = ["serve"] },
+    { name = "requests" },
     { name = "scrapegraphai" },
     { name = "scrapy" },
     { name = "selenium" },
@@ -2124,7 +2126,9 @@ requires-dist = [
     { name = "psycopg2", specifier = ">=2.9.10" },
     { name = "pydantic-settings", specifier = ">=2.6.0,<3.0.0" },
     { name = "pymongo", specifier = ">=4.9.1,<5.0.0" },
+    { name = "pypdf2", specifier = ">=3.0.1" },
     { name = "ray", extras = ["serve"], specifier = ">=2.10.0,<3.0.0" },
+    { name = "requests", specifier = ">=2.32.3" },
     { name = "scrapegraphai", specifier = ">=1.37.1,<2.0.0" },
     { name = "scrapy", specifier = ">=2.12.0,<3.0.0" },
     { name = "selenium", specifier = ">=4.25.0,<5.0.0" },
@@ -3026,6 +3030,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/2a/c6/9b0920ddcb29ce980f84f2fb585b515b1431625a1b9aeb5fd5753ee0f62e/pypdf-5.3.0.tar.gz", hash = "sha256:08393660dfea25b27ec6fe863fb2f2248e6270da5103fae49e9dea8178741951", size = 5024226 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/4d/2b/3b25ddd464c4265ba65cec794012aab64f1d7dbbdfd170c567d84a0b26c9/pypdf-5.3.0-py3-none-any.whl", hash = "sha256:d7b6db242f5f8fdb4990ae11815c394b8e1b955feda0befcce862efd8559c181", size = 300731 },
+]
+
+[[package]]
+name = "pypdf2"
+version = "3.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9f/bb/18dc3062d37db6c491392007dfd1a7f524bb95886eb956569ac38a23a784/PyPDF2-3.0.1.tar.gz", hash = "sha256:a74408f69ba6271f71b9352ef4ed03dc53a31aa404d29b5d31f53bfecfee1440", size = 227419 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8e/5e/c86a5643653825d3c913719e788e41386bee415c2b87b4f955432f2de6b2/pypdf2-3.0.1-py3-none-any.whl", hash = "sha256:d16e4205cfee272fbdc0568b68d82be796540b1537508cef59388f839c191928", size = 232572 },
 ]
 
 [[package]]

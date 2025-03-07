@@ -3,6 +3,7 @@ import trafilatura
 from trafilatura.settings import DEFAULT_CONFIG
 from trafilatura.spider import focused_crawler, is_still_navigation
 from typing import Union
+import orjson
 
 
 def init_trafilatura_config():
@@ -74,9 +75,13 @@ def extract_url_content(
     if metadata is None:
         description = ""
         title = ""
+        metadata_str = ""
     else:
         description = metadata.description
         title = metadata.title
+
+        metadata_json = metadata.as_dict()
+        metadata_str = orjson.dumps(metadata_json).decode("utf-8")
 
     if output_format is None:
         content =  trafilatura.extract(
@@ -93,7 +98,6 @@ def extract_url_content(
         )
 
     if content is None:
-        #TODO pdf, docx, etc.
         print(f"Failed to extract content from {url}")
         return None
 
@@ -102,4 +106,5 @@ def extract_url_content(
         "content":content,
         "description":description,
         "title": title,
+        "metadata":metadata_str,
     }
