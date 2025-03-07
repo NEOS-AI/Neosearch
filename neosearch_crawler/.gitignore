@@ -3,3 +3,4 @@ data/
 
 known_urls.txt
 web_corpus.parquet
+web_corpus.jsonl
