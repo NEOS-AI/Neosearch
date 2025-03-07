@@ -10,7 +10,7 @@ from neosearch_crawler.utils.trafilatura_util import (
     extract_url_content,
 )
 from neosearch_crawler.utils.pdf_util import extract_pdf_from_url
-from neosearch_crawler.constants.crawl_seeds import INITIAL_SEEDS
+from neosearch_crawler.constants.crawl_seeds import FULL_SEEDS
 from neosearch_crawler.datastore.database import engine, get_session
 
 from .base import BaseAgent, BaseArgs
@@ -25,7 +25,7 @@ class WebCorpusCollectAgent(BaseAgent):
         super().__init__()
         self.engine = engine
         self.config = init_trafilatura_config()
-        self.seed_urls = deepcopy(INITIAL_SEEDS)
+        self.seed_urls = deepcopy(FULL_SEEDS)
 
     def run(self, args: WebCorpusCollectArgs):
         if args.load_from_file:
