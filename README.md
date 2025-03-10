@@ -36,10 +36,9 @@ The LLM chatbot suggests the next question candidates for the user.
     - [x] Replace poetry with uv for `neosearch_llm`
     - [x] Replace poetry with uv for `neosearch_crawler`
 - [ ] Implement the bulk indexer
-- [ ] Implement the batch system for spider
-    - [ ] Implement the spider with Trafilatura
-        - [ ] Parse title, body, and metadata from HTML
-        - [ ] Parse title, body, and metadata from PDF, etc
+- [x] Implement the batch system for spider
+    - [x] Implement the spider with Trafilatura
+    - [x] Implement the continuous batching for spider
 - [ ] Implement the dispatcher
     - [x] Implement dispatcher for linkedin
     - [x] Implement dispatcher for GitHub

@@ -9,7 +9,6 @@ from neosearch.engine.utils.rag_search import (
     search_with_serper,
     search_with_searchapi,
 )
-from neosearch.constants.rag_search import RAG_SEARCH_HANDLER_MAX_CONCURRENCY
 
 
 def get_rag_searcher() -> "RagSearcher":
@@ -26,17 +25,11 @@ class RagSearcher:
 
     Attributes:
         backend (str): The backend to use for the search.
-        max_concurrency (int): The maximum concurrency for the search.
         search_function (function): The search function to use.
     """
 
-    def __init__(
-        self,
-        backend: str = "WIKIPEDIA",
-        max_concurrency: int = RAG_SEARCH_HANDLER_MAX_CONCURRENCY,
-    ) -> None:
+    def __init__(self, backend: str = "WIKIPEDIA",) -> None:
         self.backend = backend
-        self.max_concurrency = max_concurrency
 
     def init(self):
         if self.backend == "WIKIPEDIA":
@@ -83,6 +76,5 @@ class RagSearcher:
 
 
     async def search(self, query: str) -> list:
-        #TODO use self.max_concurrency to keep the search concurrent
-        #TODO search with the backend
+        # search with the backend
         return self.search_function(query)
