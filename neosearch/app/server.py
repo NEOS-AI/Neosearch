@@ -9,6 +9,7 @@ from functools import cache
 from pathlib import Path
 import toml
 import orjson
+import ray
 
 from starlette.responses import JSONResponse
 from sqlalchemy.ext.associationproxy import _AssociationList
@@ -18,6 +19,7 @@ from neosearch.middlewares import RequestLogger, RequestID
 from neosearch.utils.logging import Logger
 from neosearch.utils.gc_tuning import gc_optimization_on_startup
 from neosearch.constants.trace import USE_TRACELOOP
+from neosearch.constants.queue import USE_QUEUE
 
 
 logger = Logger()
@@ -69,6 +71,13 @@ async def lifespan(app: FastAPI):
     # gc optimization
     gc_optimization_on_startup()
 
+    if USE_QUEUE:
+        pass
+    else:
+        # initialize ray (for background tasks)
+        ray.init(ignore_reinit_error=True)
+        logger.log_info(f"Ray initialized: {ray.is_initialized()} ({ray.nodes()})")
+
     # Traceloop (OpenTelemetry for LLM) setup
     if USE_TRACELOOP:
         trace_loop_api_key = os.getenv("TRACELOOP_API_KEY", None)
@@ -86,6 +95,12 @@ async def lifespan(app: FastAPI):
 
     # Add code to clean up the app context
     logger.log_info("Shutting down the application")
+
+    if USE_QUEUE:
+        pass
+    else:
+        # shutdown ray
+        ray.shutdown()
 
 
 def init_app(

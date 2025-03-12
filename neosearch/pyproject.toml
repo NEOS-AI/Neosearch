@@ -45,6 +45,8 @@ dependencies = [
     "uvloop<1.0.0,>=0.21.0",
     "sqlmodel<1.0.0,>=0.0.22",
     "pdfplumber<1.0.0,>=0.11.5",
+    "ray[default]>=2.43.0",
+    "faststream[kafka,redis]>=0.5.35",
 ]
 name = "neosearch"
 version = "0.2.12"
