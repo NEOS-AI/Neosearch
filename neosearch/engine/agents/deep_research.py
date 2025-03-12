@@ -1,10 +1,21 @@
 from tavily import AsyncTavilyClient
-from llama_index.core.agent.workflow import AgentWorkflow, FunctionAgent
+from llama_index.core.agent.workflow import (
+    AgentWorkflow,
+    FunctionAgent,
+    AgentInput,
+    AgentOutput,
+    ToolCall,
+    ToolCallResult,
+    AgentStream,
+)
+
 from llama_index.core.workflow import Context
 import os
+import asyncio
 
 # custom modules
 from neosearch.settings import Settings
+from neosearch.utils.ray import ray_remote_if_enabled
 
 
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "tvly-...")
@@ -89,7 +100,7 @@ def get_sub_agents_for_research() -> tuple[FunctionAgent, FunctionAgent, Functio
     )
 
 
-def get_deep_research_agent(user_query: str) -> AgentWorkflow:
+def get_deep_research_agent() -> AgentWorkflow:
     research_agent, write_agent, review_agent = get_sub_agents_for_research()
 
     agent_workflow = AgentWorkflow(
@@ -99,8 +110,68 @@ def get_deep_research_agent(user_query: str) -> AgentWorkflow:
             "research_notes": {},
             "report_content": "Not written yet.",
             "review": "Review required.",
-            "query_str": user_query,
         },
     )
 
     return agent_workflow
+
+
+def save_intermediate_result(task_id: str, event: dict):
+    # save event to DB
+    pass
+
+def save_task_result(task_id: str, result: dict):
+    # save result to DB
+    pass
+
+
+@ray_remote_if_enabled
+def background_research_task(task_id: str, user_msg: str):
+    async def run_agent():
+        agent_workflow = get_deep_research_agent()
+        handler = agent_workflow.run(user_msg=user_msg)
+
+        current_agent = None
+
+        # 에이전트 이벤트 스트리밍
+        async for event in handler.stream_events():
+            if (
+                hasattr(event, "current_agent_name")
+                and event.current_agent_name != current_agent
+            ):
+                current_agent = event.current_agent_name
+                print(f"\n{'='*50}")
+                print(f"🤖 Agent: {current_agent}")
+                print(f"{'='*50}\n")
+
+            elif isinstance(event, AgentStream):
+                if event.delta:
+                    print(event.delta, end="", flush=True)
+            elif isinstance(event, AgentInput):
+                print("📥 Input:", event.input)
+            elif isinstance(event, AgentOutput):
+                if event.response.content:
+                    print("📤 Output:", event.response.content)
+
+                if event.tool_calls:
+                    print(
+                        "🛠️  Planning to use tools:",
+                        [call.tool_name for call in event.tool_calls],
+                    )
+
+            elif isinstance(event, ToolCallResult):
+                print(f"🔧 Tool Result ({event.tool_name}):")
+                print(f"  Arguments: {event.tool_kwargs}")
+                print(f"  Output: {event.tool_output}")
+
+            elif isinstance(event, ToolCall):
+                print(f"🔨 Calling Tool: {event.tool_name}")
+                print(f"  With arguments: {event.tool_kwargs}")
+
+
+        state = await handler.ctx.get("state")
+        final_result = state["report_content"]
+
+        save_task_result(task_id, final_result)
+
+    asyncio.run(run_agent())

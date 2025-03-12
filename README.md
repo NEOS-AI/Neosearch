@@ -29,6 +29,7 @@ The LLM chatbot suggests the next question candidates for the user.
 - [x] Add support for reasoning model in the chatbot view
 - [ ] Add support for Deep Research
     - [ ] Make the result of the Deep Research to be downloadable as PDF or something else
+    - [ ] Implement ray-based Deep Research workflow worker
 - [x] Compare trafilatura bs4 and newspaper3k
 - [x] Replace poetry with uv
     - [x] Replace poetry with uv for `neosearch`
@@ -39,6 +40,9 @@ The LLM chatbot suggests the next question candidates for the user.
 - [x] Implement the batch system for spider
     - [x] Implement the spider with Trafilatura
     - [x] Implement the continuous batching for spider
+- [ ] Use faststream based queueing system for long-running workflow
+    - [ ] Add support for kafka-based queueing system
+    - [ ] Add support for redis-based queueing system
 - [ ] Implement the dispatcher
     - [x] Implement dispatcher for linkedin
     - [x] Implement dispatcher for GitHub
