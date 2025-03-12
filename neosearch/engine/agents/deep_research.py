@@ -12,11 +12,10 @@ from llama_index.core.agent.workflow import (
 from llama_index.core.workflow import Context
 import os
 import asyncio
-import ray
 
 # custom modules
 from neosearch.settings import Settings
-from neosearch.constants.queue import USE_QUEUE
+from neosearch.utils.ray import ray_remote_if_enabled
 
 
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "tvly-...")
@@ -126,6 +125,7 @@ def save_task_result(task_id: str, result: dict):
     pass
 
 
+@ray_remote_if_enabled
 def background_research_task(task_id: str, user_msg: str):
     async def run_agent():
         agent_workflow = get_deep_research_agent()
@@ -175,8 +175,3 @@ def background_research_task(task_id: str, user_msg: str):
         save_task_result(task_id, final_result)
 
     asyncio.run(run_agent())
-
-
-if not USE_QUEUE:
-    # make the function ray-remote if we do not use the queue
-    background_research_task = ray.remote(background_research_task)
