@@ -24,7 +24,8 @@ TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "tvly-...")
 async def search_web(query: str) -> str:
     """Useful for using the web to answer questions."""
     client = AsyncTavilyClient(api_key=TAVILY_API_KEY)
-    return str(await client.search(query))
+    tavily_search_result = await client.search(query)
+    return str(tavily_search_result)
 
 
 async def record_notes(ctx: Context, notes: str, notes_title: str) -> str:
@@ -116,11 +117,11 @@ def get_deep_research_agent() -> AgentWorkflow:
     return agent_workflow
 
 
-def save_intermediate_result(task_id: str, event: dict):
+async def save_intermediate_result(task_id: str, event: dict):
     # save event to DB
     pass
 
-def save_task_result(task_id: str, result: dict):
+async def save_task_result(task_id: str, result: dict):
     # save result to DB
     pass
 
@@ -172,6 +173,6 @@ def background_research_task(task_id: str, user_msg: str):
         state = await handler.ctx.get("state")
         final_result = state["report_content"]
 
-        save_task_result(task_id, final_result)
+        await save_task_result(task_id, final_result)
 
     asyncio.run(run_agent())
