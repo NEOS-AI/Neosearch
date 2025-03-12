@@ -1,6 +1,7 @@
 'use client'
 
 import { CHAT_ID } from '@/lib/constants'
+import { Model } from '@/lib/types/models'
 import { Message, useChat } from 'ai/react'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
@@ -11,11 +12,13 @@ import { ChatPanel } from './chat-panel'
 export function Chat({
   id,
   savedMessages = [],
-  query
+  query,
+  models
 }: {
   id: string
   savedMessages?: Message[]
   query?: string
+  models?: Model[]
 }) {
   const {
     messages,
@@ -25,7 +28,9 @@ export function Chat({
     isLoading,
     setMessages,
     stop,
-    append
+    append,
+    data,
+    setData
   } = useChat({
     api: '/api/search-chat',
     initialMessages: savedMessages,
@@ -34,11 +39,12 @@ export function Chat({
       id
     },
     onFinish: () => {
-      window.history.replaceState({}, '', `/aisearch/search/${id}`)
+      window.history.replaceState({}, '', `/search/${id}`)
     },
     onError: error => {
       toast.error(`Error in chat: ${error.message}`)
-    }
+    },
+    sendExtraMessageFields: false // Disable extra message fields
   })
 
   useEffect(() => {
@@ -52,11 +58,17 @@ export function Chat({
     })
   }
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setData(undefined) // reset data to clear tool call
+    handleSubmit(e)
+  }
 
   return (
-    <div className="flex flex-col w-full max-w-3xl pt-10 pb-20 mx-auto stretch">
+    <div className="flex flex-col w-full max-w-3xl pt-14 pb-60 mx-auto stretch">
       <ChatMessages
         messages={messages}
+        data={data}
         onQuerySelect={onQuerySelect}
         isLoading={isLoading}
         chatId={id}
@@ -64,13 +76,14 @@ export function Chat({
       <ChatPanel
         input={input}
         handleInputChange={handleInputChange}
-        handleSubmit={handleSubmit}
+        handleSubmit={onSubmit}
         isLoading={isLoading}
         messages={messages}
         setMessages={setMessages}
         stop={stop}
         query={query}
         append={append}
+        models={models}
       />
     </div>
   )

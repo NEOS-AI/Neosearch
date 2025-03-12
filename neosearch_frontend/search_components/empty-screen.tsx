@@ -1,11 +1,10 @@
 import { Button } from '@/search_components/ui/button'
 import { ArrowRight } from 'lucide-react'
 
-
 const exampleMessages = [
   {
-    heading: 'What is OpenAI o1?',
-    message: 'What is OpenAI o1?'
+    heading: 'What is DeepSeek R1?',
+    message: 'What is DeepSeek R1?'
   },
   {
     heading: 'Why is Nvidia growing rapidly?',
@@ -16,11 +15,10 @@ const exampleMessages = [
     message: 'Tesla vs Rivian'
   },
   {
-    heading: 'Summary: https://arxiv.org/pdf/2407.16833',
-    message: 'Summary: https://arxiv.org/pdf/2407.16833'
+    heading: 'Summary: https://arxiv.org/pdf/2501.05707',
+    message: 'Summary: https://arxiv.org/pdf/2501.05707'
   }
-];
-
+]
 export function EmptyScreen({
   submitMessage,
   className
@@ -31,7 +29,7 @@ export function EmptyScreen({
   return (
     <div className={`mx-auto w-full transition-all ${className}`}>
       <div className="bg-background p-2">
-        <div className="mt-4 flex flex-col items-start space-y-2 mb-4">
+        <div className="mt-2 flex flex-col items-start space-y-2 mb-4">
           {exampleMessages.map((message, index) => (
             <Button
               key={index}

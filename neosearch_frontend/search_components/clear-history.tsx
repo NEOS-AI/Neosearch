@@ -17,7 +17,6 @@ import { clearChats } from '@/lib/actions/chat'
 import { toast } from 'sonner'
 import { Spinner } from './ui/spinner'
 
-
 type ClearHistoryProps = {
   empty: boolean
 }

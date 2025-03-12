@@ -2,7 +2,6 @@ import React from 'react'
 import { Link, Search, Video } from 'lucide-react'
 import { Badge } from './ui/badge'
 
-
 type ToolBadgeProps = {
   tool: string
   children: React.ReactNode

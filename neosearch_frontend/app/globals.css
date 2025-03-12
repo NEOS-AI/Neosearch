@@ -57,6 +57,9 @@
         --sidebar-accent-foreground: 240 5.9% 10%;
         --sidebar-border: 220 13% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
+        --accent-blue: 210 100% 97%;
+        --accent-blue-foreground: 210 100% 50%;
+        --accent-blue-border: 210 100% 90%;
     }
     .dark {
         --background: 240 10% 3.9%;
@@ -91,6 +94,9 @@
         --sidebar-accent-foreground: 240 4.8% 95.9%;
         --sidebar-border: 240 3.7% 15.9%;
         --sidebar-ring: 217.2 91.2% 59.8%;
+        --accent-blue: 210 100% 10%;
+        --accent-blue-foreground: 210 100% 80%;
+        --accent-blue-border: 210 100% 25%;
     }
 }
 
@@ -175,4 +181,13 @@
 
 .suggestion-highlight {
     @apply bg-blue-200 hover:bg-blue-300 dark:hover:bg-blue-400/50 dark:text-blue-50 dark:bg-blue-500/40;
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
 }

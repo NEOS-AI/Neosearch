@@ -16,6 +16,7 @@ import {
   ConsoleOutputContent,
 } from '@/components/console';
 
+
 const OUTPUT_HANDLERS = {
   matplotlib: `
     import io

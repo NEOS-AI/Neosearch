@@ -5,7 +5,6 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@/lib/search_utils"
 
-
 const TooltipProvider = TooltipPrimitive.Provider
 
 const Tooltip = TooltipPrimitive.Root
