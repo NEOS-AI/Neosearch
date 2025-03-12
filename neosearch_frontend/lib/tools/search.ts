@@ -1,14 +1,14 @@
-import { tool } from 'ai'
-import Exa from 'exa-js'
 import { searchSchema } from '@/lib/schema/search'
-import { sanitizeUrl } from '@/lib/search_utils'
 import {
   SearchResultImage,
-  SearchResults,
   SearchResultItem,
+  SearchResults,
   SearXNGResponse,
   SearXNGResult
 } from '@/lib/types'
+import { sanitizeUrl } from '@/lib/search_utils'
+import { tool } from 'ai'
+import Exa from 'exa-js'
 
 
 export const searchTool = tool({
@@ -26,7 +26,7 @@ export const searchTool = tool({
       query.length < 5 ? query + ' '.repeat(5 - query.length) : query
     let searchResult: SearchResults
     const searchAPI =
-      (process.env.SEARCH_API as 'tavily' | 'exa' | 'searxng') || 'searxng'
+      (process.env.SEARCH_API as 'tavily' | 'exa' | 'searxng') || 'tavily'
 
     const effectiveSearchDepth =
       searchAPI === 'searxng' &&
@@ -34,14 +34,15 @@ export const searchTool = tool({
         ? 'advanced'
         : search_depth || 'basic'
 
-    console.log(`Using search API: ${searchAPI}, Search Depth: ${effectiveSearchDepth}`)
+    console.log(
+      `Using search API: ${searchAPI}, Search Depth: ${effectiveSearchDepth}`
+    )
 
     try {
       if (searchAPI === 'searxng' && effectiveSearchDepth === 'advanced') {
         // API route for advanced SearXNG search
         const baseUrl =
-          process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-
+          process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
         const response = await fetch(`${baseUrl}/api/advanced-search`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -53,7 +54,6 @@ export const searchTool = tool({
             excludeDomains: exclude_domains
           })
         })
-
         if (!response.ok) {
           throw new Error(
             `Advanced search API error: ${response.status} ${response.statusText}`
@@ -83,10 +83,32 @@ export const searchTool = tool({
       }
     }
 
+    console.log('completed search')
     return searchResult
   }
-});
+})
 
+export async function search(
+  query: string,
+  maxResults: number = 10,
+  searchDepth: 'basic' | 'advanced' = 'basic',
+  includeDomains: string[] = [],
+  excludeDomains: string[] = []
+): Promise<SearchResults> {
+  return searchTool.execute(
+    {
+      query,
+      max_results: maxResults,
+      search_depth: searchDepth,
+      include_domains: includeDomains,
+      exclude_domains: excludeDomains
+    },
+    {
+      toolCallId: 'search',
+      messages: []
+    }
+  )
+}
 
 async function tavilySearch(
   query: string,

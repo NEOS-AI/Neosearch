@@ -19,7 +19,6 @@ export const redisConfig: RedisConfig = {
 let localRedisClient: RedisClientType | null = null
 let redisWrapper: RedisWrapper | null = null
 
-
 // Wrapper class for Redis client
 export class RedisWrapper {
   private client: Redis | RedisClientType

@@ -22,7 +22,6 @@ import { useEffect, useState } from 'react'
 import { PlusCircle } from 'lucide-react'
 import { SearchResultImage } from '@/lib/types'
 
-
 interface SearchResultsImageSectionProps {
   images: SearchResultImage[]
   query?: string

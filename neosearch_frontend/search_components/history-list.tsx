@@ -4,7 +4,6 @@ import { Chat } from '@/lib/types'
 import { getChats } from '@/lib/actions/chat'
 import { ClearHistory } from './clear-history'
 
-
 type HistoryListProps = {
   userId?: string
 }

@@ -5,11 +5,10 @@ import type { SearchResults as TypeSearchResults } from '@/lib/types'
 import { ToolInvocation } from 'ai'
 import { useChat } from 'ai/react'
 import { CollapsibleMessage } from './collapsible-message'
-import { DefaultSkeleton } from './default-skeleton'
+import { SearchSkeleton } from './default-skeleton'
 import { SearchResults } from './search-results'
 import { SearchResultsImageSection } from './search-results-image'
 import { Section, ToolArgsSection } from './section'
-
 
 interface SearchSectionProps {
   tool: ToolInvocation
@@ -28,14 +27,17 @@ export function SearchSection({
   const isToolLoading = tool.state === 'call'
   const searchResults: TypeSearchResults =
     tool.state === 'result' ? tool.result : undefined
-  const query = tool.args.query as string | undefined
-  const includeDomains = tool.args.includeDomains as string[] | undefined
+  const query = tool.args?.query as string | undefined
+  const includeDomains = tool.args?.includeDomains as string[] | undefined
   const includeDomainsString = includeDomains
     ? ` [${includeDomains.join(', ')}]`
     : ''
 
   const header = (
-    <ToolArgsSection tool="search">{`${query}${includeDomainsString}`}</ToolArgsSection>
+    <ToolArgsSection
+      tool="search"
+      number={searchResults?.results?.length}
+    >{`${query}${includeDomainsString}`}</ToolArgsSection>
   )
 
   return (
@@ -57,7 +59,7 @@ export function SearchSection({
           </Section>
         )}
       {isLoading && isToolLoading ? (
-        <DefaultSkeleton />
+        <SearchSkeleton />
       ) : searchResults?.results ? (
         <Section title="Sources">
           <SearchResults results={searchResults.results} />

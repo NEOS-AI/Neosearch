@@ -1,4 +1,6 @@
 import type { Config } from 'tailwindcss';
+const { fontFamily } = require('tailwindcss/defaultTheme')
+
 
 const config: Config = {
   darkMode: ['class'],
@@ -45,6 +47,11 @@ const config: Config = {
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
+          blue: {
+            DEFAULT: 'hsl(var(--accent-blue))',
+            foreground: 'hsl(var(--accent-blue-foreground))',
+            border: 'hsl(var(--accent-blue-border))'
+          },
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -71,6 +78,31 @@ const config: Config = {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
+      keyframes: {
+        'accordion-down': {
+          from: {
+            height: '0'
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)'
+          }
+        },
+        'accordion-up': {
+          from: {
+            height: 'var(--radix-accordion-content-height)'
+          },
+          to: {
+            height: '0'
+          }
+        }
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out'
+      },
+      fontFamily: {
+        sans: ['var(--font-sans)', ...fontFamily.sans]
+      }
     },
   },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],

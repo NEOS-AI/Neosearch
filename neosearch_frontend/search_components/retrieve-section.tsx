@@ -7,7 +7,6 @@ import { ToolInvocation } from 'ai'
 import { DefaultSkeleton } from './default-skeleton'
 import { CollapsibleMessage } from './collapsible-message'
 
-
 interface RetrieveSectionProps {
   tool: ToolInvocation
   isOpen: boolean
