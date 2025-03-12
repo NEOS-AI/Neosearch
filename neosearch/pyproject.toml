@@ -49,6 +49,6 @@ dependencies = [
     "faststream[kafka,redis]>=0.5.35",
 ]
 name = "neosearch"
-version = "0.2.12"
+version = "0.2.13"
 description = "RAG search engine done right"
 readme = "README.md"
