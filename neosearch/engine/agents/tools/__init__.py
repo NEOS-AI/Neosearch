@@ -1,4 +1,4 @@
-from .research_tools import record_notes, review_report, write_report
+from .research_tools import record_notes, review_report, write_report, save_generate_questions
 from .web_search import search_web
 
 
@@ -9,4 +9,5 @@ __all__ = [
     "record_notes",
     "review_report",
     "write_report",
+    "save_generate_questions",
 ]

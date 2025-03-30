@@ -24,3 +24,9 @@ broker = get_worker_broker()
 
 # init faststream app
 app = FastStream(broker)
+
+
+if __name__ == "__main__":
+    from neosearch.engine.agents.deep_research import background_research_task  # noqa: E402
+    # app.run()
+    background_research_task("task_id", "How to build a google-level search engine?")

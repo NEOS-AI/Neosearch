@@ -1,10 +1,9 @@
-USE_QUEUE = False
+USE_QUEUE = True
 QUEUE_TYPE = "redis"  # "redis" or "kafka"
 
 # redis
-REDIS_HOST = "localhost"
-REDIS_PORT = 6379
-REDIS_PASSWORD = None
+REDIS_URL = "redis://localhost:6379"
+REDIS_DB = "redis"
 
 # kafka
 KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
