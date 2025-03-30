@@ -24,7 +24,12 @@ TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "tvly-...")
 async def search_web(query: str) -> str:
     """Useful for using the web to answer questions."""
     client = AsyncTavilyClient(api_key=TAVILY_API_KEY)
-    tavily_search_result = await client.search(query)
+    tavily_search_result = await client.search(
+        query,
+        search_depth="basic", # "basic", advanced
+        topic="general", # "general", "news"
+        max_results=20,
+    )
     return str(tavily_search_result)
 
 
@@ -54,10 +59,8 @@ async def review_report(ctx: Context, review: str) -> str:
     return "Report reviewed."
 
 
-def get_sub_agents_for_research() -> tuple[FunctionAgent, FunctionAgent, FunctionAgent]:
-    llm = Settings.llm
-
-    research_agent = FunctionAgent(
+def _get_research_agent(llm) -> FunctionAgent:
+    return FunctionAgent(
         name="ResearchAgent",
         description="Useful for searching the web for information on a given topic and recording notes on the topic.",
         system_prompt=(
@@ -69,6 +72,12 @@ def get_sub_agents_for_research() -> tuple[FunctionAgent, FunctionAgent, Functio
         tools=[search_web, record_notes],
         can_handoff_to=["WriteAgent"],
     )
+
+
+def get_sub_agents_for_research() -> tuple[FunctionAgent, FunctionAgent, FunctionAgent]:
+    llm = Settings.llm
+
+    research_agent = _get_research_agent(llm)
 
     write_agent = FunctionAgent(
         name="WriteAgent",
