@@ -51,6 +51,6 @@ dependencies = [
     "aioredis>=2.0.1",
 ]
 name = "neosearch"
-version = "0.2.13"
+version = "0.2.14"
 description = "RAG search engine done right"
 readme = "README.md"
