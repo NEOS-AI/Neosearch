@@ -2,7 +2,7 @@ from faststream.kafka import KafkaBroker
 from faststream.redis import RedisBroker
 
 # custom modules
-from neosearch.constants.queue import USE_QUEUE
+from neosearch.constants.queue import USE_QUEUE, QUEUE_TYPE
 
 
 # global singleton
@@ -14,13 +14,16 @@ def get_worker_broker():
     if _my_broker is not None:
         return _my_broker
 
-    if USE_QUEUE == "redis":
-        from neosearch.constants.queue import REDIS_HOST, REDIS_PORT, REDIS_PASSWORD
+    if not USE_QUEUE:
+        raise Exception("Queue is not enabled")
+
+    if QUEUE_TYPE == "redis":
+        from neosearch.constants.queue import REDIS_URL, REDIS_DB
 
         broker = RedisBroker(
-            host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD
+            url=REDIS_URL, db=REDIS_DB
         )
-    elif USE_QUEUE == "kafka":
+    elif QUEUE_TYPE == "kafka":
         from neosearch.constants.queue import (
             KAFKA_BOOTSTRAP_SERVERS,
             KAFKA_REQUEST_TIMEOUT_MS,

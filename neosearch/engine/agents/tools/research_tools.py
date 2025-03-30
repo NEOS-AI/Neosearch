@@ -25,3 +25,12 @@ async def review_report(ctx: Context, review: str) -> str:
     current_state["review"] = review
     await ctx.set("state", current_state)
     return "Report reviewed."
+
+
+async def save_generate_questions(ctx: Context, questions: list[str]):
+    """Useful for generating questions based on a given context. Your input should be a list of questions (comprehensive web search, broad coverage)."""
+    current_state = await ctx.get("state")
+    current_state["questions"] = questions
+    num_of_questions = len(questions)
+    await ctx.set("state", current_state)
+    return f"Question generated (number of generated questions: {num_of_questions})."
