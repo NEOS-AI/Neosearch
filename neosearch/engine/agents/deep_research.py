@@ -1,4 +1,4 @@
-from tavily import AsyncTavilyClient
+import asyncio
 from llama_index.core.agent.workflow import (
     AgentWorkflow,
     FunctionAgent,
@@ -9,55 +9,20 @@ from llama_index.core.agent.workflow import (
     AgentStream,
 )
 
-from llama_index.core.workflow import Context
-import os
-import asyncio
-
 # custom modules
 from neosearch.settings import Settings
 from neosearch.utils.ray import ray_remote_if_enabled
 
-
-TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "tvly-...")
-
-
-async def search_web(query: str) -> str:
-    """Useful for using the web to answer questions."""
-    client = AsyncTavilyClient(api_key=TAVILY_API_KEY)
-    tavily_search_result = await client.search(query)
-    return str(tavily_search_result)
+from .tools import (
+    search_web,
+    record_notes,
+    write_report,
+    review_report,
+)
 
 
-async def record_notes(ctx: Context, notes: str, notes_title: str) -> str:
-    """Useful for recording notes on a given topic. Your input should be notes with a title to save the notes under."""
-    current_state = await ctx.get("state")
-    if "research_notes" not in current_state:
-        current_state["research_notes"] = {}
-    current_state["research_notes"][notes_title] = notes
-    await ctx.set("state", current_state)
-    return "Notes recorded."
-
-
-async def write_report(ctx: Context, report_content: str) -> str:
-    """Useful for writing a report on a given topic. Your input should be a markdown formatted report."""
-    current_state = await ctx.get("state")
-    current_state["report_content"] = report_content
-    await ctx.set("state", current_state)
-    return "Report written."
-
-
-async def review_report(ctx: Context, review: str) -> str:
-    """Useful for reviewing a report and providing feedback. Your input should be a review of the report."""
-    current_state = await ctx.get("state")
-    current_state["review"] = review
-    await ctx.set("state", current_state)
-    return "Report reviewed."
-
-
-def get_sub_agents_for_research() -> tuple[FunctionAgent, FunctionAgent, FunctionAgent]:
-    llm = Settings.llm
-
-    research_agent = FunctionAgent(
+def _get_research_agent(llm) -> FunctionAgent:
+    return FunctionAgent(
         name="ResearchAgent",
         description="Useful for searching the web for information on a given topic and recording notes on the topic.",
         system_prompt=(
@@ -70,7 +35,9 @@ def get_sub_agents_for_research() -> tuple[FunctionAgent, FunctionAgent, Functio
         can_handoff_to=["WriteAgent"],
     )
 
-    write_agent = FunctionAgent(
+
+def _get_write_agent(llm) -> FunctionAgent:
+    FunctionAgent(
         name="WriteAgent",
         description="Useful for writing a report on a given topic.",
         system_prompt=(
@@ -83,7 +50,9 @@ def get_sub_agents_for_research() -> tuple[FunctionAgent, FunctionAgent, Functio
         can_handoff_to=["ReviewAgent", "ResearchAgent"],
     )
 
-    review_agent = FunctionAgent(
+
+def _get_review_agent(llm) -> FunctionAgent:
+    return FunctionAgent(
         name="ReviewAgent",
         description="Useful for reviewing a report and providing feedback.",
         system_prompt=(
@@ -96,13 +65,23 @@ def get_sub_agents_for_research() -> tuple[FunctionAgent, FunctionAgent, Functio
         can_handoff_to=["WriteAgent"],
     )
 
+
+def get_sub_agents_for_research() -> tuple[FunctionAgent, FunctionAgent, FunctionAgent]:
+    llm = Settings.llm
+
+    research_agent = _get_research_agent(llm)
+    write_agent = _get_write_agent(llm)
+    review_agent = _get_review_agent(llm)
+
     return (
         research_agent, write_agent, review_agent
     )
 
 
 def get_deep_research_agent() -> AgentWorkflow:
-    research_agent, write_agent, review_agent = get_sub_agents_for_research()
+    (
+        research_agent, write_agent, review_agent
+    ) = get_sub_agents_for_research()
 
     agent_workflow = AgentWorkflow(
         agents=[research_agent, write_agent, review_agent],

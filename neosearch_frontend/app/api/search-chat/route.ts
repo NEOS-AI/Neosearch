@@ -8,8 +8,8 @@ import { cookies } from 'next/headers'
 export const maxDuration = 30
 
 const DEFAULT_MODEL: Model = {
-  id: 'gpt-4o-mini',
-  name: 'GPT-4o mini',
+  id: 'gpt-4o',
+  name: 'GPT-4o',
   provider: 'OpenAI',
   providerId: 'openai',
   enabled: true,
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     const modelJson = cookieStore.get('selectedModel')?.value
     const searchMode = cookieStore.get('search-mode')?.value === 'true'
 
-    let selectedModel = DEFAULT_MODEL
+    let selectedModel = DEFAULT_MODEL;
 
     if (modelJson) {
       try {
