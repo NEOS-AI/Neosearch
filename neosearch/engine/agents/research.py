@@ -5,7 +5,11 @@ from llama_index.core.agent.workflow import (
 
 # custom modules
 from neosearch.settings import Settings
-from neosearch.engine.prompts.deep_research import RESEARCH_AGENT_SYSTEM_PROMPT
+from neosearch.engine.prompts.deep_research import (
+    RESEARCH_AGENT_SYSTEM_PROMPT,
+    RESEARCH_WRITE_AGENT_SYSTEM_PROMPT,
+    RESEARCH_REVIEW_AGENT_SYSTEM_PROMPT,
+)
 
 from .tools import (
     search_web,
@@ -18,7 +22,7 @@ def _get_research_agent(llm) -> FunctionAgent:
     return FunctionAgent(
         name="ResearchAgent",
         description="Useful for searching the web for information on a given topic and recording notes on the topic.",
-        system_prompt=RESEARCH_AGENT_SYSTEM_PROMPT,
+        system_prompt=str(RESEARCH_AGENT_SYSTEM_PROMPT),
         llm=llm,
         tools=[search_web, record_notes],
         can_handoff_to=["WriteAgent"],
@@ -29,11 +33,7 @@ def _get_write_agent(llm) -> FunctionAgent:
     return FunctionAgent(
         name="WriteAgent",
         description="Useful for writing a report on a given topic.",
-        system_prompt=(
-            "You are the WriteAgent that can write a report on a given topic. "
-            "Your report should be in a markdown format. The content should be grounded in the research notes. "
-            "Once the report is written, you should get feedback at least once from the ReviewAgent."
-        ),
+        system_prompt=str(RESEARCH_WRITE_AGENT_SYSTEM_PROMPT),
         llm=llm,
         tools=[write_report],
         can_handoff_to=["ReviewAgent", "ResearchAgent"],
@@ -44,11 +44,7 @@ def _get_review_agent(llm) -> FunctionAgent:
     return FunctionAgent(
         name="ReviewAgent",
         description="Useful for reviewing a report and providing feedback.",
-        system_prompt=(
-            "You are the ReviewAgent that can review the write report and provide feedback. "
-            "Your review should either approve the current report or request changes for the WriteAgent to implement. "
-            "If you have feedback that requires changes, you should hand off control to the WriteAgent to implement the changes after submitting the review."
-        ),
+        system_prompt=str(RESEARCH_REVIEW_AGENT_SYSTEM_PROMPT),
         llm=llm,
         tools=[review_report],
         can_handoff_to=["WriteAgent"],

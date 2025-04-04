@@ -54,6 +54,9 @@ The summary should be written in same language as the user input.
 When creating a NEW summary:
 1. Highlight the most relevant information related to the user topic from the search results
 2. Ensure a coherent flow of information
+3. Use clear and concise language
+4. Avoid unnecessary jargon or overly complex sentences
+5. Ensure the summary is relevant to the user topic
 
 When EXTENDING an existing summary:                                                                                                                 
 1. Read the existing summary and new search results carefully.                                                    
@@ -67,12 +70,22 @@ When EXTENDING an existing summary:
 </REQUIREMENTS>
 
 <FORMATTING>
-- Start directly with the updated summary, without preamble or titles. Do not use XML tags in the output.  
+- Start directly with the updated summary, without preamble or titles. Do not use XML tags in the output.
+- Use markdown formatting for the summary.
+- If the main aim of the research is to compare two or more things, use a table format to present the comparison.
 </FORMATTING>
 
 <Task>
 Think carefully about the provided Context first. Then generate a summary of the context to address the User Input.
 </Task>
+
+<USER_INPUT>
+{user_input}
+</USER_INPUT>
+
+<SEARCH_RESULTS>
+{results}
+</SEARCH_RESULTS>
 """
 
 

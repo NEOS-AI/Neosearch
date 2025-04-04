@@ -15,6 +15,7 @@ from neosearch.utils.ray import ray_remote_if_enabled
 from neosearch.engine.prompts.deep_research import (
     DEEP_RESEARCH_GENERATE_QUESTIONS,
     DEEP_RESEARCH_TOPIC_AND_DOMAIN_GETTER,
+    DEEP_RESEARCH_SUMMARY_SYSTEM_PROMPT,
 )
 
 from .research import get_research_workflow_agent
@@ -42,6 +43,25 @@ def _get_query_generator_agent(llm, topic: str, domain: str) -> FunctionAgent:
         llm=llm,
         tools=[save_generate_questions],
         can_handoff_to=["ResearchAgent"],
+    )
+
+
+def _get_query_generator_agent_for_deep_research_summary(llm, user_msg: str, results: list[str]) -> FunctionAgent:
+    results_formatted = [f"- {result}" for result in results]
+    results_str = "\n".join(results_formatted)
+
+    prompt = str(DEEP_RESEARCH_SUMMARY_SYSTEM_PROMPT).format(
+        user_msg=user_msg,
+        results=results_str,
+    )
+
+    return FunctionAgent(
+        name="DeepResearchSummaryAgent",
+        description="Agent for generating a final summary of the research.",
+        system_prompt=prompt,
+        llm=llm,
+        tools=None,
+        can_handoff_to=None,
     )
 
 
@@ -163,6 +183,30 @@ async def run_research_agent_for_query(task_id: str, query: str):
     return final_result
 
 
+async def summarize_deep_research(task_id: str, user_msg: str, results: list[str]) -> str:
+    llm = Settings.llm
+    summary_agent = _get_query_generator_agent_for_deep_research_summary(
+        llm, user_msg, results
+    )
+
+    handler = summary_agent.run(user_msg=user_msg)
+    final_result = None
+
+    async for event in handler.stream_events():
+        if isinstance(event, AgentOutput):
+            if event.response.content:
+                print("📤 Output:", event.response.content)
+                final_result = event.response.content
+
+        elif isinstance(event, AgentInput):
+            print("📥 Input:", event.input)
+
+    if final_result is None:
+        return "❗ No final result generated."
+
+    return final_result
+
+
 @ray_remote_if_enabled
 def background_research_task(task_id: str, user_msg: str):
     async def run_agent():
@@ -176,9 +220,8 @@ def background_research_task(task_id: str, user_msg: str):
             final_result = await run_research_agent_for_query(task_id, query)
             results.append(final_result)
 
-        #TODO summarize the results (이 때, 처음 사용자 입력을 재참고하도록 하며, 사용자가 사용한 언어로 응답을 하도록 유도)
-
-        final_result = ""
+        # summarize the results
+        final_result = await summarize_deep_research(task_id, user_msg, results)
         await save_task_result(task_id, final_result)
 
     asyncio.run(run_agent())
