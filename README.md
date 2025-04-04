@@ -25,8 +25,11 @@ The LLM chatbot suggests the next question candidates for the user.
 
 - [x] Add support for reasoning model in the chatbot view
 - [ ] Add support for Deep Research
+    - [x] Implement the basic Deep Research workflow
+    - [ ] Define the DB schema for the Deep Research
     - [ ] Make the result of the Deep Research to be downloadable as PDF or something else
     - [ ] Implement ray-based Deep Research workflow worker
+    - [ ] Add support for async queue based Deep Research workflow
 - [x] Compare trafilatura bs4 and newspaper3k
 - [ ] Implement the bulk indexer
 - [ ] Use faststream based queueing system for long-running workflow
