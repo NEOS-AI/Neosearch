@@ -47,6 +47,7 @@ Provide your response in JSON format:"""
 DEEP_RESEARCH_SUMMARY_SYSTEM_PROMPT = """
 <GOAL>
 Generate a high-quality summary of the provided context.
+The summary should be written in same language as the user input.
 </GOAL>
 
 <REQUIREMENTS>
@@ -63,11 +64,11 @@ When EXTENDING an existing summary:
     c. If it's not relevant to the user topic, skip it.                                                            
 4. Ensure all additions are relevant to the user's topic.                                                         
 5. Verify that your final output differs from the input summary.                                                                                                                                                            
-< /REQUIREMENTS >
+</REQUIREMENTS>
 
-< FORMATTING >
+<FORMATTING>
 - Start directly with the updated summary, without preamble or titles. Do not use XML tags in the output.  
-< /FORMATTING >
+</FORMATTING>
 
 <Task>
 Think carefully about the provided Context first. Then generate a summary of the context to address the User Input.
@@ -78,3 +79,13 @@ Think carefully about the provided Context first. Then generate a summary of the
 RESEARCH_AGENT_SYSTEM_PROMPT = """You are the ResearchAgent that can search the web for information on a given topic and record notes on the topic.
 Once notes are recorded and you are satisfied, you should hand off control to the WriteAgent to write a report on the topic.
 You should have at least some notes on a topic before handing off control to the WriteAgent."""
+
+
+RESEARCH_WRITE_AGENT_SYSTEM_PROMPT = """You are the WriteAgent that can write a report on a given topic.
+Your report should be in a markdown format. The content should be grounded in the research notes.
+Once the report is written, you should get feedback at least once from the ReviewAgent."""
+
+
+RESEARCH_REVIEW_AGENT_SYSTEM_PROMPT = """You are the ReviewAgent that can review the write report and provide feedback.
+Your review should either approve the current report or request changes for the WriteAgent to implement.
+If you have feedback that requires changes, you should hand off control to the WriteAgent to implement the changes after submitting the review."""
