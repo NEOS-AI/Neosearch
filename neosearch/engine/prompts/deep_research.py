@@ -48,6 +48,7 @@ DEEP_RESEARCH_SUMMARY_SYSTEM_PROMPT = """
 <GOAL>
 Generate a high-quality summary of the provided context.
 The summary should be written in same language as the user input.
+The summary should be relevant to the user input and the context provided.
 </GOAL>
 
 <REQUIREMENTS>
@@ -57,6 +58,9 @@ When creating a NEW summary:
 3. Use clear and concise language
 4. Avoid unnecessary jargon or overly complex sentences
 5. Ensure the summary is relevant to the user topic
+6. Analyze all search results to provide accurate, up-to-date information.
+7. Always cite sources using the [number](url) format, matching the order of search results. If multiple sources are relevant, include all of them, and comma separate them. Only use information that has a URL available for citation.
+8. Provide comprehensive and detailed responses based on search results, ensuring thorough coverage of the user's question.
 
 When EXTENDING an existing summary:                                                                                                                 
 1. Read the existing summary and new search results carefully.                                                    
@@ -67,12 +71,15 @@ When EXTENDING an existing summary:
     c. If it's not relevant to the user topic, skip it.                                                            
 4. Ensure all additions are relevant to the user's topic.                                                         
 5. Verify that your final output differs from the input summary.                                                                                                                                                            
+6. Ensure cite sources for all new information added to the summary, using the [number](url) format, matching the order of search results. If multiple sources are relevant, include all of them, and comma separate them. Only use information that has a URL available for citation.
 </REQUIREMENTS>
 
 <FORMATTING>
 - Start directly with the updated summary, without preamble or titles. Do not use XML tags in the output.
 - Use markdown formatting for the summary.
 - If the main aim of the research is to compare two or more things, use a table format to present the comparison.
+- Provide the citation for each piece of information in the summary.
+- The citation of search results should be in the format of [number](url), where number is the index of the search result and url is the URL of the source.
 </FORMATTING>
 
 <Task>
