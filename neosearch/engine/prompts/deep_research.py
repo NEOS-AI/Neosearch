@@ -90,8 +90,12 @@ Think carefully about the provided Context first. Then generate a summary of the
 {user_input}
 </USER_INPUT>
 
-<SEARCH_RESULTS>
+<RESEARCH_CONTEXT>
 {results}
+</RESEARCH_CONTEXT>
+
+<SEARCH_RESULTS>
+{web_search_results}
 </SEARCH_RESULTS>
 """
 
