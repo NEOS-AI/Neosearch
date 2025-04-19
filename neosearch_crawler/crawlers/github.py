@@ -3,15 +3,14 @@ import shutil
 import subprocess
 import tempfile
 
-from aws_lambda_powertools import Logger
-
 # custom modules
 from neosearch_crawler.mongo_db.documents import RepositoryDocument
+from neosearch_crawler.utils.logger import Logger
 
 from .base import BaseCrawler
 
 
-logger = Logger(service="llm-twin-course/crawler")
+logger = Logger()
 
 
 class GithubCrawler(BaseCrawler):
@@ -22,7 +21,7 @@ class GithubCrawler(BaseCrawler):
         self._ignore = ignore
 
     def extract(self, link: str, **kwargs) -> None:
-        logger.info(f"Starting scrapping GitHub repository: {link}")
+        logger.log_info(f"Starting scrapping GitHub repository: {link}")
 
         repo_name = link.rstrip("/").split("/")[-1]
 
@@ -57,4 +56,4 @@ class GithubCrawler(BaseCrawler):
         finally:
             shutil.rmtree(local_temp)
 
-        logger.info(f"Finished scrapping GitHub repository: {link}")
+        logger.log_info(f"Finished scrapping GitHub repository: {link}")

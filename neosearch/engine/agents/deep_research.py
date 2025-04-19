@@ -46,13 +46,22 @@ def _get_query_generator_agent(llm, topic: str, domain: str) -> FunctionAgent:
     )
 
 
-def _get_query_generator_agent_for_deep_research_summary(llm, user_msg: str, results: list[str]) -> FunctionAgent:
+def _get_query_generator_agent_for_deep_research_summary(
+    llm,
+    user_msg: str,
+    results: list[str],
+    web_search_results: list
+) -> FunctionAgent:
     results_formatted = [f"- {result}" for result in results]
     results_str = "\n".join(results_formatted)
+
+    web_search_results_formatted = [f"- {result}" for result in web_search_results]
+    web_search_results_str = "\n".join(web_search_results_formatted)
 
     prompt = str(DEEP_RESEARCH_SUMMARY_SYSTEM_PROMPT).format(
         user_msg=user_msg,
         results=results_str,
+        web_search_results=web_search_results_str,
     )
 
     return FunctionAgent(
@@ -176,17 +185,18 @@ async def run_research_agent_for_query(task_id: str, query: str):
 
     state = await handler.ctx.get("state")
     final_result = state["report_content"]
+    web_search_result = state["web_search_result"]
 
     # save the intermediate result to DB
-    save_intermediate_result(task_id, final_result)
+    save_intermediate_result(task_id, final_result) #TODO web_search_result
 
-    return final_result
+    return final_result, web_search_result
 
 
-async def summarize_deep_research(task_id: str, user_msg: str, results: list[str]) -> str:
+async def summarize_deep_research(task_id: str, user_msg: str, results: list[str], web_search_results: list) -> str:
     llm = Settings.llm
     summary_agent = _get_query_generator_agent_for_deep_research_summary(
-        llm, user_msg, results
+        llm, user_msg, results, web_search_results
     )
 
     handler = summary_agent.run(user_msg=user_msg)
@@ -212,16 +222,18 @@ def background_research_task(task_id: str, user_msg: str):
     async def run_agent():
         questions = await run_research_query_generation(task_id, user_msg)
         results = []
+        web_search_results = []
         for query in questions:
             print(f"\n{'='*50}")
             print(f"🔍 Query: {query}")
             print(f"{'='*50}\n")
 
-            final_result = await run_research_agent_for_query(task_id, query)
+            final_result, web_search_result = await run_research_agent_for_query(task_id, query)
             results.append(final_result)
+            web_search_results.append(web_search_result)
 
         # summarize the results
-        final_result = await summarize_deep_research(task_id, user_msg, results)
+        final_result = await summarize_deep_research(task_id, user_msg, results, web_search_results)
         await save_task_result(task_id, final_result)
 
     asyncio.run(run_agent())

@@ -1,7 +1,6 @@
 import time
 from typing import Dict, List
 
-from aws_lambda_powertools import Logger
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from selenium.webdriver.common.by import By
@@ -10,11 +9,12 @@ from selenium.webdriver.common.by import By
 from neosearch_crawler.mongo_db.documents import PostDocument
 from neosearch_crawler.mongo_db.mongo_config import settings
 from neosearch_crawler.utils.errors import ImproperlyConfigured
+from neosearch_crawler.utils.logger import Logger
 
 from .base import BaseAbstractCrawler
 
 
-logger = Logger(service="decodingml/crawler")
+logger = Logger()
 
 
 class LinkedInCrawler(BaseAbstractCrawler):
@@ -24,7 +24,7 @@ class LinkedInCrawler(BaseAbstractCrawler):
         options.add_experimental_option("detach", True)
 
     def extract(self, link: str, **kwargs):
-        logger.info(f"Starting scrapping data for profile: {link}")
+        logger.log_info(f"Starting scrapping data for profile: {link}")
 
         self.login()
 
@@ -57,7 +57,7 @@ class LinkedInCrawler(BaseAbstractCrawler):
         post_images = self._extract_image_urls(buttons)
 
         posts = self._extract_posts(post_elements, post_images)
-        logger.info(f"Found {len(posts)} posts for profile: {link}")
+        logger.log_info(f"Found {len(posts)} posts for profile: {link}")
 
         self.driver.close()
 
@@ -70,7 +70,7 @@ class LinkedInCrawler(BaseAbstractCrawler):
             ]
         )
 
-        logger.info(f"Finished scrapping data for profile: {link}")
+        logger.log_info(f"Finished scrapping data for profile: {link}")
 
 
     def _scrape_section(self, soup: BeautifulSoup, *args, **kwargs) -> str:
@@ -96,7 +96,7 @@ class LinkedInCrawler(BaseAbstractCrawler):
             if img_tag and "src" in img_tag.attrs:
                 post_images[f"Post_{i}"] = img_tag["src"]
             else:
-                logger.warning("No image found in this button")
+                logger.log_warning("No image found in this button")
         return post_images
 
     def _get_page_content(self, url: str) -> BeautifulSoup:

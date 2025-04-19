@@ -9,6 +9,7 @@ It is empowered by the reasoning models like O1 and O3.
 - [deep-research](https://github.com/dzhng/deep-research) is a research assistant tool that uses GPT O1 and firecrawl
 - [local-deep-research](https://github.com/LearningCircuit/local-deep-research)
 - [deep-searcher](https://github.com/zilliztech/deep-searcher)
+- [llama-4-researcher](https://github.com/AstraBert/llama-4-researcher)
 
 ## Specifications
 
