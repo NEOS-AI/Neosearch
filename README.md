@@ -28,22 +28,21 @@ The LLM chatbot suggests the next question candidates for the user.
     - [x] Implement the basic Deep Research workflow
     - [ ] Define the DB schema for the Deep Research
     - [ ] Make the result of the Deep Research to be downloadable as PDF or something else
-    - [ ] Implement ray-based Deep Research workflow worker
+    - [x] Implement ray-based Deep Research workflow worker
     - [ ] Add support for async queue based Deep Research workflow
 - [x] Compare trafilatura bs4 and newspaper3k
-- [ ] Implement the bulk indexer
+- [ ] Add support for [FastEmbed](https://github.com/qdrant/fastembed) to AI service
 - [ ] Use faststream based queueing system for long-running workflow
     - [ ] Add support for kafka-based queueing system
     - [ ] Add support for redis-based queueing system
-- [ ] Implement the dispatcher
+- [x] Implement the dispatcher
     - [x] Implement dispatcher for linkedin
     - [x] Implement dispatcher for GitHub
     - [x] Implement dispatcher for Medium
-    - [ ] Implement dispatcher for Wikipedia
-    - [ ] Implement dispatcher for namuwiki
+    - [x] Implement dispatcher for Wikipedia
+    - [x] Implement dispatcher for namuwiki
 - [ ] Implement the Hybrid Search retriever
     - [ ] Implement the ParadeDB retriever with LlamaIndex
     - [ ] Add support for caching layer for the retriever
 - [ ] Add support for [late-chunking](https://github.com/jina-ai/late-chunking) for better IR
-- [ ] Add Near-deduplication feature for the crawler/indexer
 - [ ] Add support for [ScrapeGraphAI](https://github.com/ScrapeGraphAI/Scrapegraph-ai)
