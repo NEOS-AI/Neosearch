@@ -182,7 +182,7 @@ wheels = [
 
 [[package]]
 name = "anthropic"
-version = "0.46.0"
+version = "0.50.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -193,9 +193,18 @@ dependencies = [
     { name = "sniffio" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d4/68/3b4c045edf6dc6933895e8f279cc77c7684874c8aba46a4e6241c8b147cf/anthropic-0.46.0.tar.gz", hash = "sha256:eac3d43271d02321a57c3ca68aca84c3d58873e8e72d1433288adee2d46b745b", size = 202191 }
+sdist = { url = "https://files.pythonhosted.org/packages/40/85/4dd9f80da0727c56d7e7f7c627cb724edd9e6df062df6ecc0e90f06e6dbb/anthropic-0.50.0.tar.gz", hash = "sha256:42175ec04ce4ff2fa37cd436710206aadff546ee99d70d974699f59b49adc66f", size = 213021 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/50/6f/346beae0375df5f6907230bc63d557ef5d7659be49250ac5931a758322ae/anthropic-0.46.0-py3-none-any.whl", hash = "sha256:1445ec9be78d2de7ea51b4d5acd3574e414aea97ef903d0ecbb57bec806aaa49", size = 223228 },
+    { url = "https://files.pythonhosted.org/packages/35/ae/975f97ad5581a9e187a3717e21d79d6c7ad6be926fee9aa8a15b3d9f8f37/anthropic-0.50.0-py3-none-any.whl", hash = "sha256:defbd79327ca2fa61fd7b9eb2f1627dfb1f69c25d49288c52e167ddb84574f80", size = 245291 },
+]
+
+[package.optional-dependencies]
+bedrock = [
+    { name = "boto3" },
+    { name = "botocore" },
+]
+vertex = [
+    { name = "google-auth", extra = ["requests"] },
 ]
 
 [[package]]
@@ -782,6 +791,11 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/9d/47/603554949a37bca5b7f894d51896a9c534b9eab808e2520a748e081669d0/google_auth-2.38.0-py2.py3-none-any.whl", hash = "sha256:e7dae6694313f434a2727bf2906f27ad259bae090d7aa896590d86feec3d9d4a", size = 210770 },
 ]
 
+[package.optional-dependencies]
+requests = [
+    { name = "requests" },
+]
+
 [[package]]
 name = "googleapis-common-protos"
 version = "1.67.0"
@@ -1233,6 +1247,19 @@ wheels = [
 ]
 
 [[package]]
+name = "llama-index-llms-anthropic"
+version = "0.6.10"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anthropic", extra = ["bedrock", "vertex"] },
+    { name = "llama-index-core" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/96/a3/021d0d5a2c6e7e06b89a97026cf0d4fea56877f14294c8086bb37dc3cd46/llama_index_llms_anthropic-0.6.10.tar.gz", hash = "sha256:2b1e88319825dc1a2c7f28a146b197726b7ecba39ff6bde1732368c834f0f16c", size = 11570 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6a/07/b1334f2e3f03d6085f4d9dbab4a46ffbf4f817fbb267de56b5d8077b3edc/llama_index_llms_anthropic-0.6.10-py3-none-any.whl", hash = "sha256:cb1eb525816016a4d179c717d6a0569c8c8bb74e80f4da9ec1628ccd5e54d3ee", size = 11040 },
+]
+
+[[package]]
 name = "llama-index-llms-ollama"
 version = "0.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1643,6 +1670,7 @@ dependencies = [
     { name = "llama-index-core" },
     { name = "llama-index-embeddings-huggingface" },
     { name = "llama-index-embeddings-openai" },
+    { name = "llama-index-llms-anthropic" },
     { name = "llama-index-llms-ollama" },
     { name = "llama-index-llms-openai" },
     { name = "llama-index-postprocessor-cohere-rerank" },
@@ -1684,6 +1712,7 @@ requires-dist = [
     { name = "llama-index-core", specifier = "==0.12.23" },
     { name = "llama-index-embeddings-huggingface", specifier = "==0.4.0" },
     { name = "llama-index-embeddings-openai", specifier = ">=0.3.0,<1.0.0" },
+    { name = "llama-index-llms-anthropic", specifier = ">=0.6.10" },
     { name = "llama-index-llms-ollama", specifier = "==0.4.1" },
     { name = "llama-index-llms-openai", specifier = ">=0.3.2,<1.0.0" },
     { name = "llama-index-postprocessor-cohere-rerank", specifier = ">=0.3.0,<1.0.0" },
