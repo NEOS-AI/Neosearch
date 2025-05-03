@@ -1,4 +1,4 @@
 neosearch:
   llm:
-    # ["openai", "ollama"]
+    # ["anthropic", "openai", "ollama"]
     type: openai

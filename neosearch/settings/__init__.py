@@ -1,6 +1,7 @@
 from llama_index.core.settings import Settings
 import os
 from typing import Dict
+from enum import Enum
 
 # custom modules
 from neosearch.utils.configs import Config
@@ -11,6 +12,18 @@ from .fastembed import init_fastembed
 from .huggingface import init_huggingface
 from .mistral import init_mistral
 from .gemini import init_gemini
+
+
+class LlmType(str, Enum):
+    ANTHROPIC = "anthropic"
+    OPENAI = "openai"
+    GROQ = "groq"
+    GEMINI = "gemini"
+    MISTRAL = "mistral"
+    HUGGINGFACE = "huggingface"
+    OLLAMA = "ollama"
+    AZURE_OPENAI = "azure-openai"
+    T_SYSTEMS = "t-systems"
 
 
 config = Config()
@@ -31,23 +44,23 @@ def init_settings():
     model_provider = os.getenv("MODEL_PROVIDER", model_type)
 
     match model_provider:
-        case "openai":
+        case LlmType.OPENAI.value:
             init_openai()
-        case "groq":
+        case LlmType.GROQ.value:
             init_groq()
-        case "ollama":
+        case LlmType.OLLAMA.value:
             init_ollama()
-        case "anthropic":
+        case LlmType.ANTHROPIC.value:
             init_anthropic()
-        case "gemini":
+        case LlmType.GEMINI.value:
             init_gemini()
-        case "mistral":
+        case LlmType.MISTRAL.value:
             init_mistral()
-        case "azure-openai":
+        case LlmType.AZURE_OPENAI.value:
             init_azure_openai()
-        case "huggingface":
+        case LlmType.HUGGINGFACE.value:
             init_huggingface()
-        case "t-systems":
+        case LlmType.T_SYSTEMS.value:
             from .llmhub import init_llmhub
 
             init_llmhub()
@@ -84,10 +97,10 @@ def init_anthropic():
         "claude-3-opus": "claude-3-opus-20240229",
         "claude-3-sonnet": "claude-3-sonnet-20240229",
         "claude-3-haiku": "claude-3-haiku-20240307",
-        "claude-2.1": "claude-2.1",
-        "claude-instant-1.2": "claude-instant-1.2",
+        "claude-3.5": "claude-3-5-sonnet-20240620",
+        "claude-3.7": "claude-3-7-sonnet-latest",
     }
 
-    Settings.llm = Anthropic(model=model_map[os.getenv("MODEL")])
+    Settings.llm = Anthropic(model=model_map[os.getenv("ANTHROPIC_MODEL")])
     # Anthropic does not provide embeddings, so we use FastEmbed instead
     init_fastembed()
