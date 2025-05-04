@@ -17,8 +17,8 @@ def init_ollama():
     )
     Settings.embed_model = OllamaEmbedding(
         base_url=base_url,
-        model_name=os.getenv("EMBEDDING_MODEL"),
+        model_name=os.getenv("OLLAMA_EMBEDDING_MODEL"),
     )
     Settings.llm = Ollama(
-        base_url=base_url, model=os.getenv("MODEL"), request_timeout=request_timeout
+        base_url=base_url, model=os.getenv("OLLAMA_MODEL"), request_timeout=request_timeout
     )
