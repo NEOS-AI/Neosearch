@@ -13,7 +13,7 @@ OPENAI_MODEL_SET = {
     "gpt-4", "gpt-4o", "gpt-4-turbo", "gpt-4o-mini"
 }
 
-def get_openai_llm(model_id: str):
+def get_openai_llm(model_id: str) -> OpenAI:
     return OpenAI(
         model=model_id,
         temperature=OPENAI_TEMPERATURE,
@@ -25,11 +25,8 @@ def init_openai():
     if max_tokens == '':
         max_tokens = None
 
-    Settings.llm = OpenAI(
-        model=os.getenv("MODEL", "gpt-4o"),
-        temperature=OPENAI_TEMPERATURE,
-        max_tokens=OPENAI_MAX_TOEKNS,
-    )
+    model_id = os.getenv("MODEL", "gpt-4o")
+    Settings.llm = get_openai_llm(model_id)
 
     dimensions = os.getenv("EMBEDDING_DIM")
     #TODO Settings.embed_model = OpenAIEmbedding(

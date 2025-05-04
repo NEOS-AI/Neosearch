@@ -38,6 +38,7 @@ def get_llm_model_by_id(model_id: str):
     # use default model if no matching model is found
     return Settings.llm
 
+
 def init_settings():
     llm_config = config.get_llm_configs()
     model_type = llm_config.get("type")
@@ -81,6 +82,7 @@ def init_groq():
         )
 
     Settings.llm = Groq(model=os.getenv("MODEL"))
+
     # Groq does not provide embeddings, so we use FastEmbed instead
     init_fastembed()
 
@@ -102,5 +104,6 @@ def init_anthropic():
     }
 
     Settings.llm = Anthropic(model=model_map[os.getenv("ANTHROPIC_MODEL")])
+
     # Anthropic does not provide embeddings, so we use FastEmbed instead
     init_fastembed()

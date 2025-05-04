@@ -51,6 +51,7 @@ dependencies = [
     "aioredis>=2.0.1",
     "llama-index-llms-anthropic>=0.6.10",
     "llama-index-embeddings-ollama>=0.6.0",
+    "llama-index-embeddings-fastembed>=0.3.1",
 ]
 name = "neosearch"
 version = "0.2.15"
