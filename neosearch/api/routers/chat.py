@@ -22,7 +22,13 @@ logger = Logger()
 chat_router = r = APIRouter()
 
 
-@r.post("")
+@r.post(
+    "",
+    summary="Chat with the model",
+    response_description="Return a stream of chat responses",
+    status_code=status.HTTP_200_OK,
+    response_model=ChatStreamResponse,
+)
 async def chat(
     request: Request,
     data: ChatData,
@@ -65,7 +71,13 @@ async def chat(
         ) from e
 
 
-@r.post("/base")
+@r.post(
+    "/base",
+    summary="Chat with the model (base)",
+    response_description="Return a stream of chat responses",
+    status_code=status.HTTP_200_OK,
+    response_model=ChatStreamResponse,
+)
 async def chat_base(
     request: Request,
     data: ChatData,
