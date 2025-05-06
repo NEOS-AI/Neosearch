@@ -42,6 +42,9 @@ app.include_router(chat_router, prefix="/api/chat")
 app.include_router(query_router, prefix="/api/query")
 app.include_router(search_router, prefix="/api/search")
 
+# add a health check endpoint
+app.add_api_route("/api/health", lambda: {"message": "OK"}, status_code=200)
+
 
 @app.options("/api/models")
 async def get_models_options():
