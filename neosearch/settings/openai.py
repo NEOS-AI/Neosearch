@@ -10,7 +10,7 @@ OPENAI_MAX_TOEKNS = int(max_tokens) if max_tokens is not None else None
 
 
 OPENAI_MODEL_SET = {
-    "gpt-4", "gpt-4o", "gpt-4-turbo", "gpt-4o-mini"
+    "gpt-4o", "gpt-4o-mini", "o3", "o4-mini",
 }
 
 def get_openai_llm(model_id: str) -> OpenAI:
