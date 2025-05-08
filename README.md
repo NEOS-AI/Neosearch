@@ -31,7 +31,7 @@ The LLM chatbot suggests the next question candidates for the user.
     - [x] Implement ray-based Deep Research workflow worker
     - [ ] Add support for async queue based Deep Research workflow
 - [x] Compare trafilatura bs4 and newspaper3k
-- [ ] Add support for [FastEmbed](https://github.com/qdrant/fastembed) to AI service
+- [x] Add support for [FastEmbed](https://github.com/qdrant/fastembed) to AI service
 - [ ] Use faststream based queueing system for long-running workflow
     - [ ] Add support for kafka-based queueing system
     - [ ] Add support for redis-based queueing system
