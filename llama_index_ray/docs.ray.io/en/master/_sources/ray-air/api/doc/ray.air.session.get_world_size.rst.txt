@@ -1,6 +1,0 @@
-﻿ray.air.session.get\_world\_size
-================================
-
-.. currentmodule:: ray.air.session
-
-.. autofunction:: get_world_size

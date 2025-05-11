@@ -1,6 +1,0 @@
-ray.data.random\_access\_dataset.RandomAccessDataset.stats
-==========================================================
-
-.. currentmodule:: ray.data.random_access_dataset
-
-.. automethod:: RandomAccessDataset.stats

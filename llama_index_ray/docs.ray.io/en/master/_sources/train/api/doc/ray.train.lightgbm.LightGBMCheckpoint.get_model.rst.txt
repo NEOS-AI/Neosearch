@@ -1,6 +1,0 @@
-ray.train.lightgbm.LightGBMCheckpoint.get\_model
-================================================
-
-.. currentmodule:: ray.train.lightgbm
-
-.. automethod:: LightGBMCheckpoint.get_model

@@ -1,6 +1,0 @@
-ray.tune.search.sigopt.SigOptSearch.mode
-========================================
-
-.. currentmodule:: ray.tune.search.sigopt
-
-.. autoproperty:: SigOptSearch.mode

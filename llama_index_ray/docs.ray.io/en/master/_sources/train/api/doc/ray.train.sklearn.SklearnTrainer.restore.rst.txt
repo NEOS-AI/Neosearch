@@ -1,6 +1,0 @@
-ray.train.sklearn.SklearnTrainer.restore
-========================================
-
-.. currentmodule:: ray.train.sklearn
-
-.. automethod:: SklearnTrainer.restore

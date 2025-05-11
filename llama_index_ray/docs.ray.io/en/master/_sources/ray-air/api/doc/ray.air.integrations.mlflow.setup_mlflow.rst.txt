@@ -1,6 +1,0 @@
-﻿ray.air.integrations.mlflow.setup\_mlflow
-=========================================
-
-.. currentmodule:: ray.air.integrations.mlflow
-
-.. autofunction:: setup_mlflow

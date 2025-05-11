@@ -1,6 +1,0 @@
-ray.tune.syncer.SyncConfig.validate\_upload\_dir
-================================================
-
-.. currentmodule:: ray.tune.syncer
-
-.. automethod:: SyncConfig.validate_upload_dir

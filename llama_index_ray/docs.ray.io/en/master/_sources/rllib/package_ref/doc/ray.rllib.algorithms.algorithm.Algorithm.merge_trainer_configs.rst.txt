@@ -1,6 +1,0 @@
-ray.rllib.algorithms.algorithm.Algorithm.merge\_trainer\_configs
-================================================================
-
-.. currentmodule:: ray.rllib.algorithms.algorithm
-
-.. automethod:: Algorithm.merge_trainer_configs

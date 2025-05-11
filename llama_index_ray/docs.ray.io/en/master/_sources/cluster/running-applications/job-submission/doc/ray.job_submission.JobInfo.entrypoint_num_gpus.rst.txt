@@ -1,6 +1,0 @@
-ray.job\_submission.JobInfo.entrypoint\_num\_gpus
-=================================================
-
-.. currentmodule:: ray.job_submission
-
-.. autoattribute:: JobInfo.entrypoint_num_gpus

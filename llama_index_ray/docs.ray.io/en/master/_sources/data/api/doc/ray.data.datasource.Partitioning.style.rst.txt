@@ -1,6 +1,0 @@
-ray.data.datasource.Partitioning.style
-======================================
-
-.. currentmodule:: ray.data.datasource
-
-.. autoattribute:: Partitioning.style

@@ -1,6 +1,0 @@
-﻿ray.data.read\_numpy
-====================
-
-.. currentmodule:: ray.data
-
-.. autofunction:: read_numpy

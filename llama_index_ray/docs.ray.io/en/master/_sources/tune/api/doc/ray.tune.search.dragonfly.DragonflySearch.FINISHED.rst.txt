@@ -1,6 +1,0 @@
-ray.tune.search.dragonfly.DragonflySearch.FINISHED
-==================================================
-
-.. currentmodule:: ray.tune.search.dragonfly
-
-.. autoattribute:: DragonflySearch.FINISHED

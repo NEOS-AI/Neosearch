@@ -1,6 +1,0 @@
-ray.train.lightning.LightningTrainer.fit
-========================================
-
-.. currentmodule:: ray.train.lightning
-
-.. automethod:: LightningTrainer.fit

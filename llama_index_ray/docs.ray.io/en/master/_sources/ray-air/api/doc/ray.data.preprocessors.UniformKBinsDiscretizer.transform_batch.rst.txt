@@ -1,6 +1,0 @@
-ray.data.preprocessors.UniformKBinsDiscretizer.transform\_batch
-===============================================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: UniformKBinsDiscretizer.transform_batch

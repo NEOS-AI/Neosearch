@@ -1,6 +1,0 @@
-ray.tune.syncer.SyncerCallback.setup
-====================================
-
-.. currentmodule:: ray.tune.syncer
-
-.. automethod:: SyncerCallback.setup

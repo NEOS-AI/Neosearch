@@ -1,6 +1,0 @@
-﻿ray.data.read\_webdataset
-=========================
-
-.. currentmodule:: ray.data
-
-.. autofunction:: read_webdataset

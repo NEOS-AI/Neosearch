@@ -1,6 +1,0 @@
-ray.tune.ExperimentAnalysis.set\_filetype
-=========================================
-
-.. currentmodule:: ray.tune
-
-.. automethod:: ExperimentAnalysis.set_filetype

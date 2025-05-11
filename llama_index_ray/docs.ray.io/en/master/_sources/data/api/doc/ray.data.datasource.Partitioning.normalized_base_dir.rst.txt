@@ -1,6 +1,0 @@
-ray.data.datasource.Partitioning.normalized\_base\_dir
-======================================================
-
-.. currentmodule:: ray.data.datasource
-
-.. autoproperty:: Partitioning.normalized_base_dir

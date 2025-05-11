@@ -1,6 +1,0 @@
-ray.data.Dataset.to\_dask
-=========================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.to_dask

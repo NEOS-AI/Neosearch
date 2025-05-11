@@ -1,6 +1,0 @@
-ray.data.preprocessors.BatchMapper.transform
-============================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: BatchMapper.transform

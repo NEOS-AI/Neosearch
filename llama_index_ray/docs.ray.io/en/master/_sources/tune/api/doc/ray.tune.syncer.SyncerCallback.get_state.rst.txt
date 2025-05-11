@@ -1,6 +1,0 @@
-ray.tune.syncer.SyncerCallback.get\_state
-=========================================
-
-.. currentmodule:: ray.tune.syncer
-
-.. automethod:: SyncerCallback.get_state

@@ -1,6 +1,0 @@
-ray.tune.search.sigopt.SigOptSearch.OBJECTIVE\_MAP
-==================================================
-
-.. currentmodule:: ray.tune.search.sigopt
-
-.. autoattribute:: SigOptSearch.OBJECTIVE_MAP

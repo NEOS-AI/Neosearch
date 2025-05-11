@@ -1,6 +1,0 @@
-ray.rllib.evaluation.sampler.AsyncSampler.name
-==============================================
-
-.. currentmodule:: ray.rllib.evaluation.sampler
-
-.. autoproperty:: AsyncSampler.name

@@ -1,6 +1,0 @@
-ray.data.datasource.BaseFileMetadataProvider.\_\_init\_\_
-=========================================================
-
-.. currentmodule:: ray.data.datasource
-
-.. automethod:: BaseFileMetadataProvider.__init__

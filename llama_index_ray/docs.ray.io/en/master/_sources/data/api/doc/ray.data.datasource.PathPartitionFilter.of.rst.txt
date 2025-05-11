@@ -1,6 +1,0 @@
-ray.data.datasource.PathPartitionFilter.of
-==========================================
-
-.. currentmodule:: ray.data.datasource
-
-.. automethod:: PathPartitionFilter.of

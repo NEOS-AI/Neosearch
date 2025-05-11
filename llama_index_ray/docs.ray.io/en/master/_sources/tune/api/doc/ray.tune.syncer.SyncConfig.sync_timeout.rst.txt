@@ -1,6 +1,0 @@
-ray.tune.syncer.SyncConfig.sync\_timeout
-========================================
-
-.. currentmodule:: ray.tune.syncer
-
-.. autoattribute:: SyncConfig.sync_timeout

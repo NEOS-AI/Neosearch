@@ -1,6 +1,0 @@
-ray.data.Dataset.window
-=======================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.window

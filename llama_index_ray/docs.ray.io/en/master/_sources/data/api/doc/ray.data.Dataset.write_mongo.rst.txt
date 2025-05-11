@@ -1,6 +1,0 @@
-ray.data.Dataset.write\_mongo
-=============================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.write_mongo

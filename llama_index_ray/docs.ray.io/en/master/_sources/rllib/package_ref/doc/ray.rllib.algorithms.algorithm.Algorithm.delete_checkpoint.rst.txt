@@ -1,6 +1,0 @@
-ray.rllib.algorithms.algorithm.Algorithm.delete\_checkpoint
-===========================================================
-
-.. currentmodule:: ray.rllib.algorithms.algorithm
-
-.. automethod:: Algorithm.delete_checkpoint

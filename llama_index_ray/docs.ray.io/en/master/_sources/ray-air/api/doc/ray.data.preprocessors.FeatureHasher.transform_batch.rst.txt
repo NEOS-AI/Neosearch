@@ -1,6 +1,0 @@
-ray.data.preprocessors.FeatureHasher.transform\_batch
-=====================================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: FeatureHasher.transform_batch

@@ -1,6 +1,0 @@
-ray.tune.search.dragonfly.DragonflySearch.mode
-==============================================
-
-.. currentmodule:: ray.tune.search.dragonfly
-
-.. autoproperty:: DragonflySearch.mode

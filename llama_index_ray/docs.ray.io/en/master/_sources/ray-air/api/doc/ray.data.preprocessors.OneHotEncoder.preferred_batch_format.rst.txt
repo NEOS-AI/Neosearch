@@ -1,6 +1,0 @@
-ray.data.preprocessors.OneHotEncoder.preferred\_batch\_format
-=============================================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: OneHotEncoder.preferred_batch_format

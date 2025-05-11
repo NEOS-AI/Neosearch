@@ -1,6 +1,0 @@
-ray.data.preprocessors.Concatenator.transform
-=============================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: Concatenator.transform

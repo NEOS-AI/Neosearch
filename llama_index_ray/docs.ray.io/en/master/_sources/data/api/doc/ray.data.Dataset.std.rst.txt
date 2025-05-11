@@ -1,6 +1,0 @@
-ray.data.Dataset.std
-====================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.std

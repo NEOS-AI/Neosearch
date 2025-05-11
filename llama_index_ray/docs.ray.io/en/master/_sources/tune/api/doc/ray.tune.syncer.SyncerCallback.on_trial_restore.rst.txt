@@ -1,6 +1,0 @@
-ray.tune.syncer.SyncerCallback.on\_trial\_restore
-=================================================
-
-.. currentmodule:: ray.tune.syncer
-
-.. automethod:: SyncerCallback.on_trial_restore

@@ -1,6 +1,0 @@
-ray.data.datasource.PartitionStyle.DIRECTORY
-============================================
-
-.. currentmodule:: ray.data.datasource
-
-.. autoattribute:: PartitionStyle.DIRECTORY

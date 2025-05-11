@@ -1,6 +1,0 @@
-ray.tune.ExperimentAnalysis.get\_best\_logdir
-=============================================
-
-.. currentmodule:: ray.tune
-
-.. automethod:: ExperimentAnalysis.get_best_logdir

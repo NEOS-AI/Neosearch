@@ -1,6 +1,0 @@
-ray.data.preprocessors.OrdinalEncoder.fit
-=========================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: OrdinalEncoder.fit

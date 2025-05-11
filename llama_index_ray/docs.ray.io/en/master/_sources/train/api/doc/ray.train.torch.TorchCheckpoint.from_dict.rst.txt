@@ -1,6 +1,0 @@
-ray.train.torch.TorchCheckpoint.from\_dict
-==========================================
-
-.. currentmodule:: ray.train.torch
-
-.. automethod:: TorchCheckpoint.from_dict

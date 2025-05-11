@@ -1,6 +1,0 @@
-ray.data.Dataset.deserialize\_lineage
-=====================================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.deserialize_lineage

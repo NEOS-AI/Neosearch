@@ -1,6 +1,0 @@
-ray.train.gbdt\_trainer.GBDTTrainer.preprocess\_datasets
-========================================================
-
-.. currentmodule:: ray.train.gbdt_trainer
-
-.. automethod:: GBDTTrainer.preprocess_datasets

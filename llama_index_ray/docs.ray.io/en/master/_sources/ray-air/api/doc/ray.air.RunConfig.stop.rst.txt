@@ -1,6 +1,0 @@
-ray.air.RunConfig.stop
-======================
-
-.. currentmodule:: ray.air
-
-.. autoattribute:: RunConfig.stop

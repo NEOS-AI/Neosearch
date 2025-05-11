@@ -1,6 +1,0 @@
-ray.train.predictor.Predictor.from\_checkpoint
-==============================================
-
-.. currentmodule:: ray.train.predictor
-
-.. automethod:: Predictor.from_checkpoint

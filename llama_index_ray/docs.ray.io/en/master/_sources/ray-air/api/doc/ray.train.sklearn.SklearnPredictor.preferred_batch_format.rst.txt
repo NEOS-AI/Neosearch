@@ -1,6 +1,0 @@
-ray.train.sklearn.SklearnPredictor.preferred\_batch\_format
-===========================================================
-
-.. currentmodule:: ray.train.sklearn
-
-.. automethod:: SklearnPredictor.preferred_batch_format

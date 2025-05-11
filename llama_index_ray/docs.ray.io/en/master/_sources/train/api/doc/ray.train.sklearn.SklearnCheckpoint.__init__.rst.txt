@@ -1,6 +1,0 @@
-ray.train.sklearn.SklearnCheckpoint.\_\_init\_\_
-================================================
-
-.. currentmodule:: ray.train.sklearn
-
-.. automethod:: SklearnCheckpoint.__init__

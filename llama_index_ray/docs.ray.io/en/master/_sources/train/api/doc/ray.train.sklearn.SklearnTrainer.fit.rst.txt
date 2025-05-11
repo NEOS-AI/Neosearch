@@ -1,6 +1,0 @@
-ray.train.sklearn.SklearnTrainer.fit
-====================================
-
-.. currentmodule:: ray.train.sklearn
-
-.. automethod:: SklearnTrainer.fit

@@ -1,6 +1,0 @@
-ray.train.sklearn.SklearnCheckpoint.to\_directory
-=================================================
-
-.. currentmodule:: ray.train.sklearn
-
-.. automethod:: SklearnCheckpoint.to_directory

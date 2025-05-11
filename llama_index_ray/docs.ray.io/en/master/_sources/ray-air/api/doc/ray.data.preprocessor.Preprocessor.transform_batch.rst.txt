@@ -1,6 +1,0 @@
-ray.data.preprocessor.Preprocessor.transform\_batch
-===================================================
-
-.. currentmodule:: ray.data.preprocessor
-
-.. automethod:: Preprocessor.transform_batch
