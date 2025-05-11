@@ -1,6 +1,0 @@
-ray.train.tensorflow.TensorflowCheckpoint.path
-==============================================
-
-.. currentmodule:: ray.train.tensorflow
-
-.. autoproperty:: TensorflowCheckpoint.path

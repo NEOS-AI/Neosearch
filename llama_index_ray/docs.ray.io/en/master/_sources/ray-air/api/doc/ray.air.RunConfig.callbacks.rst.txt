@@ -1,6 +1,0 @@
-ray.air.RunConfig.callbacks
-===========================
-
-.. currentmodule:: ray.air
-
-.. autoattribute:: RunConfig.callbacks

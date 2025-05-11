@@ -1,6 +1,0 @@
-ray.train.lightgbm.LightGBMPredictor.set\_preprocessor
-======================================================
-
-.. currentmodule:: ray.train.lightgbm
-
-.. automethod:: LightGBMPredictor.set_preprocessor

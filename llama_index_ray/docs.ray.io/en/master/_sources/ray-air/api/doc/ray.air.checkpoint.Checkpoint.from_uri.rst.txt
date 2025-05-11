@@ -1,6 +1,0 @@
-ray.air.checkpoint.Checkpoint.from\_uri
-=======================================
-
-.. currentmodule:: ray.air.checkpoint
-
-.. automethod:: Checkpoint.from_uri

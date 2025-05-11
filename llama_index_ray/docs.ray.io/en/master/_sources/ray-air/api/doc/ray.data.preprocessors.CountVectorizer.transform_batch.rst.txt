@@ -1,6 +1,0 @@
-ray.data.preprocessors.CountVectorizer.transform\_batch
-=======================================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: CountVectorizer.transform_batch

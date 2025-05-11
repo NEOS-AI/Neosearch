@@ -1,6 +1,0 @@
-ray.train.lightning.LightningConfigBuilder.strategy
-===================================================
-
-.. currentmodule:: ray.train.lightning
-
-.. automethod:: LightningConfigBuilder.strategy

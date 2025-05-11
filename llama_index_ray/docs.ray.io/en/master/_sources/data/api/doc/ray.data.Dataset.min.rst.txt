@@ -1,6 +1,0 @@
-ray.data.Dataset.min
-====================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.min

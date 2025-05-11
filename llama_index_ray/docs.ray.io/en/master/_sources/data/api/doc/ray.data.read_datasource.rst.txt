@@ -1,6 +1,0 @@
-﻿ray.data.read\_datasource
-=========================
-
-.. currentmodule:: ray.data
-
-.. autofunction:: read_datasource

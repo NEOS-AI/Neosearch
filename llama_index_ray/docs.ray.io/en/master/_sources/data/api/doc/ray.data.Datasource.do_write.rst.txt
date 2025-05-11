@@ -1,6 +1,0 @@
-ray.data.Datasource.do\_write
-=============================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Datasource.do_write

@@ -1,6 +1,0 @@
-ray.data.Dataset.to\_arrow\_refs
-================================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.to_arrow_refs

@@ -1,6 +1,0 @@
-ray.train.xgboost.XGBoostCheckpoint.path
-========================================
-
-.. currentmodule:: ray.train.xgboost
-
-.. autoproperty:: XGBoostCheckpoint.path

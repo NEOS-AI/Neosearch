@@ -1,6 +1,0 @@
-ray.job\_submission.JobSubmissionClient.submit\_job
-===================================================
-
-.. currentmodule:: ray.job_submission
-
-.. automethod:: JobSubmissionClient.submit_job

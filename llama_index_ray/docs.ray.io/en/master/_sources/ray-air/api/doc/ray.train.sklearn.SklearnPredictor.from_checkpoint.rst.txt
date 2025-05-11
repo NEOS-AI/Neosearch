@@ -1,6 +1,0 @@
-ray.train.sklearn.SklearnPredictor.from\_checkpoint
-===================================================
-
-.. currentmodule:: ray.train.sklearn
-
-.. automethod:: SklearnPredictor.from_checkpoint

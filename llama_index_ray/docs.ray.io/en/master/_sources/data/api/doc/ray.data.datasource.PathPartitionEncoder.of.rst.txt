@@ -1,6 +1,0 @@
-ray.data.datasource.PathPartitionEncoder.of
-===========================================
-
-.. currentmodule:: ray.data.datasource
-
-.. automethod:: PathPartitionEncoder.of

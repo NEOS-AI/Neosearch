@@ -1,6 +1,0 @@
-ray.data.Dataset.to\_pandas
-===========================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.to_pandas

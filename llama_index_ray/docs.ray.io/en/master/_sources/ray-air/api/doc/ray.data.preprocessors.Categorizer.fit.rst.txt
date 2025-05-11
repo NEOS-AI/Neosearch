@@ -1,6 +1,0 @@
-ray.data.preprocessors.Categorizer.fit
-======================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: Categorizer.fit

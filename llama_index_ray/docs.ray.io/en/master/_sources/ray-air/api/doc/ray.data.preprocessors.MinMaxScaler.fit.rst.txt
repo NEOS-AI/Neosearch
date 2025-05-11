@@ -1,6 +1,0 @@
-ray.data.preprocessors.MinMaxScaler.fit
-=======================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: MinMaxScaler.fit

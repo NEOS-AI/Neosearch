@@ -1,6 +1,0 @@
-ray.data.Dataset.num\_blocks
-============================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.num_blocks

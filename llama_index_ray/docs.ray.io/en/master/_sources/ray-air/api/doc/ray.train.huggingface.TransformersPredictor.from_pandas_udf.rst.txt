@@ -1,6 +1,0 @@
-ray.train.huggingface.TransformersPredictor.from\_pandas\_udf
-=============================================================
-
-.. currentmodule:: ray.train.huggingface
-
-.. automethod:: TransformersPredictor.from_pandas_udf

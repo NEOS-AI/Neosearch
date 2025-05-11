@@ -1,6 +1,0 @@
-ray.data.datasource.PathPartitionParser.\_\_init\_\_
-====================================================
-
-.. currentmodule:: ray.data.datasource
-
-.. automethod:: PathPartitionParser.__init__

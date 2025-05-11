@@ -1,6 +1,0 @@
-﻿ray.air.session.get\_trial\_id
-==============================
-
-.. currentmodule:: ray.air.session
-
-.. autofunction:: get_trial_id

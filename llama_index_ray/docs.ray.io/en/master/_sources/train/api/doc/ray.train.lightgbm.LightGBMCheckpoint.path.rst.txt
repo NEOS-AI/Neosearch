@@ -1,6 +1,0 @@
-ray.train.lightgbm.LightGBMCheckpoint.path
-==========================================
-
-.. currentmodule:: ray.train.lightgbm
-
-.. autoproperty:: LightGBMCheckpoint.path

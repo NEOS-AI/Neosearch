@@ -1,6 +1,0 @@
-ray.data.preprocessors.Tokenizer.transform\_batch
-=================================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: Tokenizer.transform_batch

@@ -1,6 +1,0 @@
-ray.tune.search.skopt.SkOptSearch.FINISHED
-==========================================
-
-.. currentmodule:: ray.tune.search.skopt
-
-.. autoattribute:: SkOptSearch.FINISHED

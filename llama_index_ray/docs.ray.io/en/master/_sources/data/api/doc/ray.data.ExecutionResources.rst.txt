@@ -1,8 +1,0 @@
-﻿ray.data.ExecutionResources
-===========================
-
-.. currentmodule:: ray.data
-
-.. autoclass:: ExecutionResources
-    :members:
-    :show-inheritance:

@@ -1,6 +1,0 @@
-ray.tune.syncer.Syncer.delete
-=============================
-
-.. currentmodule:: ray.tune.syncer
-
-.. automethod:: Syncer.delete

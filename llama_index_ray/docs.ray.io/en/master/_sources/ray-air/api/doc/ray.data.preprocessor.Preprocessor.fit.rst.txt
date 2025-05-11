@@ -1,6 +1,0 @@
-ray.data.preprocessor.Preprocessor.fit
-======================================
-
-.. currentmodule:: ray.data.preprocessor
-
-.. automethod:: Preprocessor.fit

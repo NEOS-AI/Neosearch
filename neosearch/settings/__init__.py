@@ -5,9 +5,10 @@ from enum import Enum
 
 # custom modules
 from neosearch.utils.configs import Config
+from neosearch.constants.embeddings import USE_OLLAMA_FOR_DEFAULT_EMBEDDING
 
 from .openai import init_openai, init_azure_openai, get_openai_llm, OPENAI_MODEL_SET
-from .ollama import init_ollama
+from .ollama import init_ollama, init_ollama_embedding
 from .fastembed import init_fastembed
 from .huggingface import init_huggingface
 from .mistral import init_mistral
@@ -83,8 +84,11 @@ def init_groq():
 
     Settings.llm = Groq(model=os.getenv("MODEL"))
 
-    # Groq does not provide embeddings, so we use FastEmbed instead
-    init_fastembed()
+    # Groq does not provide embeddings, so we use other embedding model instead
+    if USE_OLLAMA_FOR_DEFAULT_EMBEDDING:
+        init_ollama_embedding()
+    else:
+        init_fastembed()
 
 
 def init_anthropic():
@@ -105,5 +109,8 @@ def init_anthropic():
 
     Settings.llm = Anthropic(model=model_map[os.getenv("ANTHROPIC_MODEL")])
 
-    # Anthropic does not provide embeddings, so we use FastEmbed instead
-    init_fastembed()
+    # Anthropic does not provide embeddings, so we use other embedding model instead
+    if USE_OLLAMA_FOR_DEFAULT_EMBEDDING:
+        init_ollama_embedding()
+    else:
+        init_fastembed()

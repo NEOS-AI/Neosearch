@@ -1,6 +1,0 @@
-ray.job\_submission.JobStatus.RUNNING
-=====================================
-
-.. currentmodule:: ray.job_submission
-
-.. autoattribute:: JobStatus.RUNNING

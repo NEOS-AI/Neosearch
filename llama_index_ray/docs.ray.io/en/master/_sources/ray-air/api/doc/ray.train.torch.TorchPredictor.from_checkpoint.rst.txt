@@ -1,6 +1,0 @@
-ray.train.torch.TorchPredictor.from\_checkpoint
-===============================================
-
-.. currentmodule:: ray.train.torch
-
-.. automethod:: TorchPredictor.from_checkpoint

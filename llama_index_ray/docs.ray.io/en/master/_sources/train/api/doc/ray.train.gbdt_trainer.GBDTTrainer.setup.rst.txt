@@ -1,6 +1,0 @@
-ray.train.gbdt\_trainer.GBDTTrainer.setup
-=========================================
-
-.. currentmodule:: ray.train.gbdt_trainer
-
-.. automethod:: GBDTTrainer.setup

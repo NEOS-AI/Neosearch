@@ -1,6 +1,0 @@
-﻿ray.data.from\_huggingface
-==========================
-
-.. currentmodule:: ray.data
-
-.. autofunction:: from_huggingface

@@ -1,6 +1,0 @@
-ray.train.predictor.Predictor.predict
-=====================================
-
-.. currentmodule:: ray.train.predictor
-
-.. automethod:: Predictor.predict

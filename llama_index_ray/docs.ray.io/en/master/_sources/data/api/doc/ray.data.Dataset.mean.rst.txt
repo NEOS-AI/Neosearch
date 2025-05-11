@@ -1,6 +1,0 @@
-ray.data.Dataset.mean
-=====================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.mean

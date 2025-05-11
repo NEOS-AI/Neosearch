@@ -1,6 +1,0 @@
-ray.train.lightgbm.LightGBMCheckpoint.to\_directory
-===================================================
-
-.. currentmodule:: ray.train.lightgbm
-
-.. automethod:: LightGBMCheckpoint.to_directory

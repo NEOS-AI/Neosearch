@@ -1,6 +1,0 @@
-ray.data.Dataset.write\_json
-============================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.write_json

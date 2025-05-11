@@ -1,6 +1,0 @@
-ray.data.Dataset.add\_column
-============================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.add_column

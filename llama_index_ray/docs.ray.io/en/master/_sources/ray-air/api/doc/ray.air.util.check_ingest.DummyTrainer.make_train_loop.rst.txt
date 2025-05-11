@@ -1,6 +1,0 @@
-ray.air.util.check\_ingest.DummyTrainer.make\_train\_loop
-=========================================================
-
-.. currentmodule:: ray.air.util.check_ingest
-
-.. automethod:: DummyTrainer.make_train_loop

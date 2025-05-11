@@ -1,6 +1,0 @@
-ray.data.Dataset.split
-======================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.split

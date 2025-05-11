@@ -1,6 +1,0 @@
-ray.data.preprocessors.PowerTransformer.fit
-===========================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: PowerTransformer.fit

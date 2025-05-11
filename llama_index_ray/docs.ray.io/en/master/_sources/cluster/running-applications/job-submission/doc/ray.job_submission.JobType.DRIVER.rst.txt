@@ -1,6 +1,0 @@
-ray.job\_submission.JobType.DRIVER
-==================================
-
-.. currentmodule:: ray.job_submission
-
-.. autoattribute:: JobType.DRIVER

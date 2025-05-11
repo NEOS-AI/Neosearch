@@ -1,6 +1,0 @@
-ray.job\_submission.JobStatus.SUCCEEDED
-=======================================
-
-.. currentmodule:: ray.job_submission
-
-.. autoattribute:: JobStatus.SUCCEEDED

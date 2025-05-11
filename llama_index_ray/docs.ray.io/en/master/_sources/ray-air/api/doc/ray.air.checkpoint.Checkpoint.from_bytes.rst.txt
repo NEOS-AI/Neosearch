@@ -1,6 +1,0 @@
-ray.air.checkpoint.Checkpoint.from\_bytes
-=========================================
-
-.. currentmodule:: ray.air.checkpoint
-
-.. automethod:: Checkpoint.from_bytes

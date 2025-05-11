@@ -1,6 +1,0 @@
-ray.data.Dataset.write\_webdataset
-==================================
-
-.. currentmodule:: ray.data
-
-.. automethod:: Dataset.write_webdataset

@@ -1,6 +1,0 @@
-ray.tune.syncer.Syncer.sync\_down
-=================================
-
-.. currentmodule:: ray.tune.syncer
-
-.. automethod:: Syncer.sync_down

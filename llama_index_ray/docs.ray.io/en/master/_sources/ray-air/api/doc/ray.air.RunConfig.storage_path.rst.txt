@@ -1,6 +1,0 @@
-ray.air.RunConfig.storage\_path
-===============================
-
-.. currentmodule:: ray.air
-
-.. autoattribute:: RunConfig.storage_path

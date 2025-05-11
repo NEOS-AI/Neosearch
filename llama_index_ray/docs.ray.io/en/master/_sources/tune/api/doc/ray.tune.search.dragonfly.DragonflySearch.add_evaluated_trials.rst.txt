@@ -1,6 +1,0 @@
-ray.tune.search.dragonfly.DragonflySearch.add\_evaluated\_trials
-================================================================
-
-.. currentmodule:: ray.tune.search.dragonfly
-
-.. automethod:: DragonflySearch.add_evaluated_trials

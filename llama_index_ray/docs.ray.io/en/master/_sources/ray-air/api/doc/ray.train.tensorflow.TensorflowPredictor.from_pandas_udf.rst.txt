@@ -1,6 +1,0 @@
-ray.train.tensorflow.TensorflowPredictor.from\_pandas\_udf
-==========================================================
-
-.. currentmodule:: ray.train.tensorflow
-
-.. automethod:: TensorflowPredictor.from_pandas_udf

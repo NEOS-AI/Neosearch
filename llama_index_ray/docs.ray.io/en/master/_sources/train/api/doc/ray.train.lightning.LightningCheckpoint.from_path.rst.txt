@@ -1,6 +1,0 @@
-ray.train.lightning.LightningCheckpoint.from\_path
-==================================================
-
-.. currentmodule:: ray.train.lightning
-
-.. automethod:: LightningCheckpoint.from_path

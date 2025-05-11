@@ -1,8 +1,0 @@
-﻿ray.air.Result
-==============
-
-.. currentmodule:: ray.air
-
-.. autoclass:: Result
-    :members:
-    :show-inheritance:

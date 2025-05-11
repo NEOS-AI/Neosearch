@@ -1,6 +1,0 @@
-ray.data.preprocessors.Normalizer.transform\_batch
-==================================================
-
-.. currentmodule:: ray.data.preprocessors
-
-.. automethod:: Normalizer.transform_batch

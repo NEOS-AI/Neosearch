@@ -1,6 +1,0 @@
-ray.train.torch.TorchCheckpoint.uri
-===================================
-
-.. currentmodule:: ray.train.torch
-
-.. autoproperty:: TorchCheckpoint.uri

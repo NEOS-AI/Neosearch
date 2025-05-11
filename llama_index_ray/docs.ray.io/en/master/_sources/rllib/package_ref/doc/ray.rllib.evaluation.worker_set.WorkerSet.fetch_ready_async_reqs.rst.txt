@@ -1,6 +1,0 @@
-ray.rllib.evaluation.worker\_set.WorkerSet.fetch\_ready\_async\_reqs
-====================================================================
-
-.. currentmodule:: ray.rllib.evaluation.worker_set
-
-.. automethod:: WorkerSet.fetch_ready_async_reqs

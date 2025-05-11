@@ -1,6 +1,0 @@
-﻿ray.air.session.report
-======================
-
-.. currentmodule:: ray.air.session
-
-.. autofunction:: report
