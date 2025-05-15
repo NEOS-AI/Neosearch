@@ -9,6 +9,10 @@ Chatbot will understand your query and provide you suitable results by using var
 
 ## Features
 
+For people who want investment agents, we provide a `financial search` support.
+![Financial QnA](./assets/imgs/financial-table-1.png)
+![Financial Table](./assets/imgs/financial-table-2.png)
+
 You could maximize or run the generated code in the code view.
 ![Code view](./assets/imgs/code_view.png)
 
