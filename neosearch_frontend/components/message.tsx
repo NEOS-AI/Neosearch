@@ -4,8 +4,10 @@ import type { ChatRequestOptions, Message } from 'ai';
 import cx from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import { memo, useMemo, useState } from 'react';
+import equal from 'fast-deep-equal';
 
 import type { Vote } from '@/lib/db/schema';
+import { cn } from '@/lib/utils';
 
 import { DocumentToolCall, DocumentToolResult } from './document';
 import {
@@ -18,13 +20,16 @@ import { Markdown } from './markdown';
 import { MessageActions } from './message-actions';
 import { PreviewAttachment } from './preview-attachment';
 import { Weather } from './weather';
-import equal from 'fast-deep-equal';
-import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MessageEditor } from './message-editor';
 import { DocumentPreview } from './document-preview';
 import { MessageReasoning } from './message-reasoning';
+import { StockChart } from './ui/stock-chart';
+import { News } from './ui/news';
+import { FinancialsTable } from './ui/financials-table';
+import { StockScreenerTable } from './ui/stock-screener-table';
+
 
 const PurePreviewMessage = ({
   chatId,
@@ -165,6 +170,34 @@ const PurePreviewMessage = ({
                             type="request-suggestions"
                             result={result}
                             isReadonly={isReadonly}
+                          />
+                        ) : toolName === 'getStockPrices' ? (
+                          <StockChart ticker={result.ticker} result={result} />
+                        ) : toolName === 'getNews' ? (
+                          <News data={result} />
+                        ) : toolName === 'getIncomeStatements' ? (
+                          <FinancialsTable
+                            data={result.income_statements}
+                            title="Income Statements"
+                          />
+                        ) : toolName === 'getBalanceSheets' ? (
+                          <FinancialsTable
+                            data={result.balance_sheets}
+                            title="Balance Sheets"
+                          />
+                        ) : toolName === 'getCashFlowStatements' ? (
+                          <FinancialsTable
+                            data={result.cash_flow_statements}
+                            title="Cash Flow Statements"
+                          />
+                        ) : toolName === 'getFinancialMetrics' ? (
+                          <FinancialsTable
+                            data={result.financial_metrics}
+                            title="Financial Metrics"
+                          />
+                        ) : toolName === 'searchStocksByFilters' ? (
+                          <StockScreenerTable
+                            data={result.search_results}
                           />
                         ) : (
                           <pre>{JSON.stringify(result, null, 2)}</pre>

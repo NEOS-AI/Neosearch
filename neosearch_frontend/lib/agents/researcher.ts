@@ -1,7 +1,16 @@
 import { CoreMessage, smoothStream, streamText } from 'ai'
+
 import { retrieveTool } from '../tools/retrieve'
 import { searchTool } from '../tools/search'
 import { videoSearchTool } from '../tools/video-search'
+import {
+  getNews,
+  getBalanceSheets,
+  getCashFlowStatements,
+  getFinancialMetrics,
+  getIncomeStatements,
+  getStockPrices
+} from '../tools/finantial-news'
 import { getModel } from '../search_utils/registry'
 
 
@@ -45,7 +54,13 @@ export function researcher({
       tools: {
         search: searchTool,
         retrieve: retrieveTool,
-        videoSearch: videoSearchTool
+        videoSearch: videoSearchTool,
+        getNews: getNews,
+        getBalanceSheets: getBalanceSheets,
+        getCashFlowStatements: getCashFlowStatements,
+        getFinancialMetrics: getFinancialMetrics,
+        getIncomeStatements: getIncomeStatements,
+        getStockPrices: getStockPrices
       },
       experimental_activeTools: searchMode
         ? ['search', 'retrieve', 'videoSearch']
