@@ -2,6 +2,12 @@
 
 ## Search
 
+- [Improving Recommendation Systems & Search in the Age of LLMs](https://eugeneyan.com//writing/recsys-llm/)
+
+### RAG
+
+- [RAG_Techniques](https://github.com/NirDiamant/RAG_Techniques)
+
 ### Vector Search
 
 - [벡터 검색 알고리즘 살펴보기(1): Similarity Search와 HNSW](https://pangyoalto.com/faiss-1-hnsw/)
@@ -20,3 +26,9 @@
     * Tavily was the Top-2 in terms of accuracy, but retrieved too many tokens
 
 ![search_bench.png](./imgs/search_bench.png)
+
+## Cache
+
+### Semantic Cache
+
+- [zilliztech/GPTCache](https://github.com/zilliztech/GPTCache)

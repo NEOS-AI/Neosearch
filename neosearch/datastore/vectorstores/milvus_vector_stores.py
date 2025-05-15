@@ -7,7 +7,7 @@ from neosearch.utils.singleton import Singleton
 from .base import BaseVectorStore
 
 
-class PgVectorStoreContainer(BaseVectorStore, metaclass=Singleton):
+class MilvusStoreContainer(BaseVectorStore, metaclass=Singleton):
     """
     A singleton class to hold the vector store instance.
 

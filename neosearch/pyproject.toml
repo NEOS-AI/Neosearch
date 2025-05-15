@@ -7,6 +7,10 @@ build-backend = "pdm.backend"
 
 
 [project]
+name = "neosearch"
+version = "0.2.16"
+description = "RAG search engine done right"
+readme = "README.md"
 authors = [
     {name = "Yeonwoo Sung", email = "neos960518@gmail.com"},
 ]
@@ -15,9 +19,8 @@ dependencies = [
     "fastapi==0.115.6",
     "python-dotenv<2.0.0,>=1.0.0",
     "pyyaml<7.0.0,>=6.0.1",
-    "llama-index==0.12.23",
-    "llama-index-core==0.12.23",
-    "llama-index-vector-stores-milvus==0.3.0",
+    "llama-index==0.12.35",
+    "llama-index-core==0.12.35",
     "llama-index-llms-ollama==0.4.1",
     "llama-index-embeddings-huggingface==0.4.0",
     "llama-index-vector-stores-pgvecto-rs==0.3.0",
@@ -52,8 +55,6 @@ dependencies = [
     "llama-index-llms-anthropic>=0.6.10",
     "llama-index-embeddings-ollama>=0.6.0",
     "llama-index-embeddings-fastembed>=0.3.1",
+    "llama-index-vector-stores-qdrant>=0.6.0",
+    "llama-index-vector-stores-milvus>=0.8.1",
 ]
-name = "neosearch"
-version = "0.2.15"
-description = "RAG search engine done right"
-readme = "README.md"

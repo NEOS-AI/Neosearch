@@ -16,6 +16,7 @@ import { VisibilityType } from './visibility-selector';
 import { useBlockSelector } from '@/hooks/use-block';
 import { toast } from 'sonner';
 
+
 export function Chat({
   id,
   initialMessages,
