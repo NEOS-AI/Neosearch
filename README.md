@@ -4,14 +4,14 @@
 
 AI-based search engine done right.
 
-Chatbot will understand your query and provide you suitable results by using various tools (code generation, weather search, etc).
-![Chat view](./assets/imgs/chat_view.png)
-
-## Features
+Agent could understand your query and provide you suitable results by using various tools (code generation, weather search, financial database, etc).
 
 For people who want investment agents, we provide a `financial search` support.
 ![Financial QnA](./assets/imgs/financial-table-1.png)
 ![Financial Table](./assets/imgs/financial-table-2.png)
+![Chat view](./assets/imgs/chat_view.png)
+
+## Features
 
 You could maximize or run the generated code in the code view.
 ![Code view](./assets/imgs/code_view.png)
