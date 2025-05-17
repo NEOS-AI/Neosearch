@@ -1,6 +1,6 @@
 'use client'
 
-import { CHAT_ID } from '@/lib/constants'
+import { CHAT_ID } from '@/lib/search_constants'
 import type { SearchResults as TypeSearchResults } from '@/lib/types'
 import { ToolInvocation } from 'ai'
 import { useChat } from 'ai/react'

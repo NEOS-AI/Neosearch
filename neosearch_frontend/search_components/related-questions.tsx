@@ -1,6 +1,6 @@
 'use client'
 
-import { CHAT_ID } from '@/lib/constants'
+import { CHAT_ID } from '@/lib/search_constants'
 import { JSONValue } from 'ai'
 import { useChat } from 'ai/react'
 import { ArrowRight, Repeat2 } from 'lucide-react'

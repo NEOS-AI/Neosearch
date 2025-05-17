@@ -3,6 +3,7 @@ import { Toaster } from 'sonner';
 import { Analytics } from '@vercel/analytics/next'
 
 import { ThemeProvider } from '@/components/theme-provider';
+import { SessionProvider } from 'next-auth/react';
 
 import './globals.css';
 
@@ -66,7 +67,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-center" />
-          {children}
+          <SessionProvider>{children}</SessionProvider>
           <Analytics />
         </ThemeProvider>
       </body>
