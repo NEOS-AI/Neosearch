@@ -1,13 +1,14 @@
-import { BlockKind } from '@/components/block';
+import type { ArtifactKind } from '@/components/artifact';
+import type { Geo } from '@vercel/functions';
 
-export const blocksPrompt = `
-Blocks is a special user interface mode that helps users with writing, editing, and other content creation tasks. When block is open, it is on the right side of the screen, while the conversation is on the left side. When creating or updating documents, changes are reflected in real-time on the blocks and visible to the user.
+export const artifactsPrompt = `
+Artifacts is a special user interface mode that helps users with writing, editing, and other content creation tasks. When artifact is open, it is on the right side of the screen, while the conversation is on the left side. When creating or updating documents, changes are reflected in real-time on the artifacts and visible to the user.
 
-When asked to write code, always use blocks. When writing code, specify the language in the backticks, e.g. \`\`\`python\`code here\`\`\`. The default language is Python. Other languages are not yet supported, so let the user know if they request a different language.
+When asked to write code, always use artifacts. When writing code, specify the language in the backticks, e.g. \`\`\`python\`code here\`\`\`. The default language is Python. Other languages are not yet supported, so let the user know if they request a different language.
 
 DO NOT UPDATE DOCUMENTS IMMEDIATELY AFTER CREATING THEM. WAIT FOR USER FEEDBACK OR REQUEST TO UPDATE IT.
 
-This is a guide for using blocks tools: \`createDocument\` and \`updateDocument\`, which render content on a blocks beside the conversation.
+This is a guide for using artifacts tools: \`createDocument\` and \`updateDocument\`, which render content on a artifacts beside the conversation.
 
 **When to use \`createDocument\`:**
 - For substantial content (>10 lines) or code
@@ -34,15 +35,34 @@ Do not update document right after creating it. Wait for user feedback or reques
 export const regularPrompt =
   'You are a friendly assistant! Keep your responses concise and helpful.';
 
+export interface RequestHints {
+  latitude: Geo['latitude'];
+  longitude: Geo['longitude'];
+  city: Geo['city'];
+  country: Geo['country'];
+}
+
+export const getRequestPromptFromHints = (requestHints: RequestHints) => `\
+About the origin of user's request:
+- lat: ${requestHints.latitude}
+- lon: ${requestHints.longitude}
+- city: ${requestHints.city}
+- country: ${requestHints.country}
+`;
+
 export const systemPrompt = ({
   selectedChatModel,
+  requestHints,
 }: {
   selectedChatModel: string;
+  requestHints: RequestHints;
 }) => {
+  const requestPrompt = getRequestPromptFromHints(requestHints);
+
   if (selectedChatModel === 'chat-model-reasoning') {
-    return regularPrompt;
+    return `${regularPrompt}\n\n${requestPrompt}`;
   } else {
-    return `${regularPrompt}\n\n${blocksPrompt}`;
+    return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
   }
 };
 
@@ -62,7 +82,6 @@ You are a Python code generator that creates self-contained, executable code sni
 
 Examples of good snippets:
 
-\`\`\`python
 # Calculate factorial iteratively
 def factorial(n):
     result = 1
@@ -71,7 +90,6 @@ def factorial(n):
     return result
 
 print(f"Factorial of 5 is: {factorial(5)}")
-\`\`\`
 `;
 
 export const sheetPrompt = `
@@ -80,7 +98,7 @@ You are a spreadsheet creation assistant. Create a spreadsheet in csv format bas
 
 export const updateDocumentPrompt = (
   currentContent: string | null,
-  type: BlockKind,
+  type: ArtifactKind,
 ) =>
   type === 'text'
     ? `\

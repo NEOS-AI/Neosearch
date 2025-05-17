@@ -1,6 +1,6 @@
 'use client'
 
-import { CHAT_ID } from '@/lib/constants'
+import { CHAT_ID } from '@/lib/search_constants'
 import { Model } from '@/lib/types/models'
 import { Message, useChat } from 'ai/react'
 import { useEffect } from 'react'

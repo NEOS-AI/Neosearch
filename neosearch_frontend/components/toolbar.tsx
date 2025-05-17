@@ -1,6 +1,6 @@
 'use client';
 
-import type { ChatRequestOptions, CreateMessage, Message } from 'ai';
+import type { Message } from 'ai';
 import cx from 'classnames';
 import {
   AnimatePresence,
@@ -25,21 +25,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { sanitizeUIMessages } from '@/lib/utils';
 
-import {
-  ArrowUpIcon,
-  CodeIcon,
-  LogsIcon,
-  MessageIcon,
-  PenIcon,
-  SparklesIcon,
-  StopIcon,
-  SummarizeIcon,
-} from './icons';
-import { blockDefinitions, BlockKind } from './block';
-import { BlockToolbarItem } from './create-block';
-import { UseChatHelpers } from 'ai/react';
+import { ArrowUpIcon, StopIcon, SummarizeIcon } from './icons';
+import { artifactDefinitions, ArtifactKind } from './artifact';
+import { ArtifactToolbarItem } from './create-artifact';
+import { UseChatHelpers } from '@ai-sdk/react';
 
 type ToolProps = {
   description: string;
@@ -49,10 +39,7 @@ type ToolProps = {
   isToolbarVisible?: boolean;
   setIsToolbarVisible?: Dispatch<SetStateAction<boolean>>;
   isAnimating: boolean;
-  append: (
-    message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  append: UseChatHelpers['append'];
   onClick: ({
     appendMessage,
   }: {
@@ -153,10 +140,7 @@ const ReadingLevelSelector = ({
 }: {
   setSelectedTool: Dispatch<SetStateAction<string | null>>;
   isAnimating: boolean;
-  append: (
-    message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  append: UseChatHelpers['append'];
 }) => {
   const LEVELS = [
     'Elementary',
@@ -267,13 +251,10 @@ export const Tools = ({
   isToolbarVisible: boolean;
   selectedTool: string | null;
   setSelectedTool: Dispatch<SetStateAction<string | null>>;
-  append: (
-    message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  append: UseChatHelpers['append'];
   isAnimating: boolean;
   setIsToolbarVisible: Dispatch<SetStateAction<boolean>>;
-  tools: Array<BlockToolbarItem>;
+  tools: Array<ArtifactToolbarItem>;
 }) => {
   const [primaryTool, ...secondaryTools] = tools;
 
@@ -319,21 +300,18 @@ const PureToolbar = ({
   isToolbarVisible,
   setIsToolbarVisible,
   append,
-  isLoading,
+  status,
   stop,
   setMessages,
-  blockKind,
+  artifactKind,
 }: {
   isToolbarVisible: boolean;
   setIsToolbarVisible: Dispatch<SetStateAction<boolean>>;
-  isLoading: boolean;
-  append: (
-    message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
-  stop: () => void;
-  setMessages: Dispatch<SetStateAction<Message[]>>;
-  blockKind: BlockKind;
+  status: UseChatHelpers['status'];
+  append: UseChatHelpers['append'];
+  stop: UseChatHelpers['stop'];
+  setMessages: UseChatHelpers['setMessages'];
+  artifactKind: ArtifactKind;
 }) => {
   const toolbarRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
@@ -372,22 +350,22 @@ const PureToolbar = ({
   }, []);
 
   useEffect(() => {
-    if (isLoading) {
+    if (status === 'streaming') {
       setIsToolbarVisible(false);
     }
-  }, [isLoading, setIsToolbarVisible]);
+  }, [status, setIsToolbarVisible]);
 
-  const blockDefinition = blockDefinitions.find(
-    (definition) => definition.kind === blockKind,
+  const artifactDefinition = artifactDefinitions.find(
+    (definition) => definition.kind === artifactKind,
   );
 
-  if (!blockDefinition) {
-    throw new Error('Block definition not found!');
+  if (!artifactDefinition) {
+    throw new Error('Artifact definition not found!');
   }
 
-  const toolsByBlockKind = blockDefinition.toolbar;
+  const toolsByArtifactKind = artifactDefinition.toolbar;
 
-  if (toolsByBlockKind.length === 0) {
+  if (toolsByArtifactKind.length === 0) {
     return null;
   }
 
@@ -409,7 +387,7 @@ const PureToolbar = ({
               : {
                   opacity: 1,
                   y: 0,
-                  height: toolsByBlockKind.length * 50,
+                  height: toolsByArtifactKind.length * 50,
                   transition: { delay: 0 },
                   scale: 1,
                 }
@@ -418,13 +396,13 @@ const PureToolbar = ({
         exit={{ opacity: 0, y: -20, transition: { duration: 0.1 } }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
         onHoverStart={() => {
-          if (isLoading) return;
+          if (status === 'streaming') return;
 
           cancelCloseTimer();
           setIsToolbarVisible(true);
         }}
         onHoverEnd={() => {
-          if (isLoading) return;
+          if (status === 'streaming') return;
 
           startCloseTimer();
         }}
@@ -436,7 +414,7 @@ const PureToolbar = ({
         }}
         ref={toolbarRef}
       >
-        {isLoading ? (
+        {status === 'streaming' ? (
           <motion.div
             key="stop-icon"
             initial={{ scale: 1 }}
@@ -445,7 +423,7 @@ const PureToolbar = ({
             className="p-3"
             onClick={() => {
               stop();
-              setMessages((messages) => sanitizeUIMessages(messages));
+              setMessages((messages) => messages);
             }}
           >
             <StopIcon />
@@ -466,7 +444,7 @@ const PureToolbar = ({
             selectedTool={selectedTool}
             setIsToolbarVisible={setIsToolbarVisible}
             setSelectedTool={setSelectedTool}
-            tools={toolsByBlockKind}
+            tools={toolsByArtifactKind}
           />
         )}
       </motion.div>
@@ -475,9 +453,9 @@ const PureToolbar = ({
 };
 
 export const Toolbar = memo(PureToolbar, (prevProps, nextProps) => {
-  if (prevProps.isLoading !== nextProps.isLoading) return false;
+  if (prevProps.status !== nextProps.status) return false;
   if (prevProps.isToolbarVisible !== nextProps.isToolbarVisible) return false;
-  if (prevProps.blockKind !== nextProps.blockKind) return false;
+  if (prevProps.artifactKind !== nextProps.artifactKind) return false;
 
   return true;
 });

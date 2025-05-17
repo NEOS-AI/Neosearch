@@ -1,7 +1,7 @@
 'use client'
 
 import { Badge } from '@/search_components/ui/badge'
-import { CHAT_ID } from '@/lib/constants'
+import { CHAT_ID } from '@/lib/search_constants'
 import { useChat } from 'ai/react'
 import { Check, Lightbulb, Loader2 } from 'lucide-react'
 import { CollapsibleMessage } from './collapsible-message'

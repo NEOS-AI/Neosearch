@@ -1,6 +1,6 @@
 'use client'
 
-import { CHAT_ID } from '@/lib/constants'
+import { CHAT_ID } from '@/lib/search_constants'
 import { cn } from '@/lib/search_utils'
 import { useChat } from 'ai/react'
 import { Copy } from 'lucide-react'
