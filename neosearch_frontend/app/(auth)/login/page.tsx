@@ -40,6 +40,9 @@ export default function Page() {
     } else if (state.status === 'success') {
       setIsSuccessful(true);
       updateSession();
+
+      // Redirect to main page with credentials
+      router.push('/');
       router.refresh();
     }
   }, [state.status]);

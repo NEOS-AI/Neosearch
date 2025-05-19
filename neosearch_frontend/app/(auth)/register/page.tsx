@@ -41,6 +41,9 @@ export default function Page() {
 
       setIsSuccessful(true);
       updateSession();
+
+      // Redirect to main page with auto-sign-in
+      router.push('/');
       router.refresh();
     }
   }, [state]);
