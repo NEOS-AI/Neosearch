@@ -12,7 +12,7 @@ authors = [
 requires-python = "<3.13,>=3.10"
 dependencies = [
     "sglang[all]<1.0.0.0,>=0.2.14.post2",
-    "torch==2.6.0",
+    "torch==2.7.1",
 ]
 name = "neosearch_sgllm"
 version = "0.1.0"
