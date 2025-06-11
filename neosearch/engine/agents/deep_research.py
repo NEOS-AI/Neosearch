@@ -55,7 +55,7 @@ def _get_query_generator_agent_for_deep_research_summary(
     results_formatted = [f"- {result}" for result in results]
     results_str = "\n".join(results_formatted)
 
-    web_search_results_formatted = [f"- {result}" for result in web_search_results]
+    web_search_results_formatted = [f"{i+1}. {result}" for i, result in enumerate(web_search_results)]
     web_search_results_str = "\n".join(web_search_results_formatted)
 
     prompt = str(DEEP_RESEARCH_SUMMARY_SYSTEM_PROMPT).format(
@@ -230,7 +230,11 @@ def background_research_task(task_id: str, user_msg: str):
 
             final_result, web_search_result = await run_research_agent_for_query(task_id, query)
             results.append(final_result)
-            web_search_results.append(web_search_result)
+
+            if isinstance(web_search_result, list):
+                web_search_results.extend(web_search_result)
+            else:
+                web_search_results.append(web_search_result)
 
         # summarize the results
         final_result = await summarize_deep_research(task_id, user_msg, results, web_search_results)
