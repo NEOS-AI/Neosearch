@@ -24,7 +24,7 @@ except ImportError:
 # FastAPI app (for ingress control)
 app: FastAPI = FastAPI(
     title="NeoSearch AI Embeddings",
-    version="0.3.0",
+    version="0.4.0",
 )
 
 logger = logging.getLogger(__name__)
