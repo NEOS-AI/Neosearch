@@ -3,6 +3,7 @@
 ## Search
 
 - [Improving Recommendation Systems & Search in the Age of LLMs](https://eugeneyan.com//writing/recsys-llm/)
+- [Search Query Understanding with LLMs: From Ideation to Production](https://engineeringblog.yelp.com/2025/02/search-query-understanding-with-LLMs.html)
 
 ### RAG
 
@@ -32,3 +33,7 @@
 ### Semantic Cache
 
 - [zilliztech/GPTCache](https://github.com/zilliztech/GPTCache)
+
+## Model Serving
+
+- [How We Scaled Bert To Serve 1+ Billion Daily Requests on CPUs](https://medium.com/@quocnle/how-we-scaled-bert-to-serve-1-billion-daily-requests-on-cpus-d99be090db26)
