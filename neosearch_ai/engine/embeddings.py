@@ -12,15 +12,19 @@ from pydantic import BaseModel
 
 # custom modules
 try:
-    from neosearch_ai.configs.embedding_param_manager import ServerParameterManager, RayParameterManager
+    from neosearch_ai.configs.embedding_param_manager import (
+        ServerParameterManager, RayParameterManager, EmbeddingModelConfig
+    )
 except ImportError:
-    from configs.embedding_param_manager import ServerParameterManager, RayParameterManager
+    from configs.embedding_param_manager import (
+        ServerParameterManager, RayParameterManager, EmbeddingModelConfig
+    )
 
 
 # FastAPI app (for ingress control)
 app: FastAPI = FastAPI(
     title="NeoSearch AI Embeddings",
-    version="0.3.0",
+    version="0.4.0",
 )
 
 logger = logging.getLogger(__name__)
@@ -28,6 +32,13 @@ logger = logging.getLogger(__name__)
 # Env variables for server
 SERVER_MANAGER = ServerParameterManager()
 RAY_MANAGER = RayParameterManager()
+
+# Embedding model configuration
+EMBEDDING_CONFIG = EmbeddingModelConfig(
+    force_torch_single_thread=os.getenv("FORCE_TORCH_SINGLE_THREAD", "False").lower() == "true",
+    dynamic_quantization=os.getenv("DYNAMIC_QUANTIZATION", "False").lower() == "true",
+    dynamic_quantization_dtype=os.getenv("DYNAMIC_QUANTIZATION_DTYPE", None),
+)
 
 
 class BatchEmbeddings(BaseModel):
@@ -60,6 +71,11 @@ class EmbeddingDeployment:
         **kwargs,
     ):
         num_threads = os.getenv("TORCH_NUM_THREADS", psutil.cpu_count(logical=False))
+        if EMBEDDING_CONFIG.force_torch_single_thread:
+            logger.info(
+                "FORCE_TORCH_SINGLE_THREAD is enabled. Setting torch to use a single thread."
+            )
+            num_threads = 1
         torch.set_num_threads(num_threads)
         logger.info(f"Torch is running on {num_threads} threads.")
 
@@ -73,6 +89,22 @@ class EmbeddingDeployment:
         self.model_name = model_name
         self.embedding_model = SentenceTransformer(model_name)
         self.embedding_model.to(self.device)
+
+        # Set precision if specified
+        if EMBEDDING_CONFIG.dynamic_quantization:
+            logger.info(
+                f"Dynamic quantization is enabled with dtype: {EMBEDDING_CONFIG.dynamic_quantization_dtype}"
+            )
+            if EMBEDDING_CONFIG.dynamic_quantization_dtype:
+                self.embedding_model = torch.quantization.quantize_dynamic(
+                    self.embedding_model,
+                    {torch.nn.Linear},
+                    dtype=getattr(torch, EMBEDDING_CONFIG.dynamic_quantization_dtype),
+                )
+            else:
+                self.embedding_model = torch.quantization.quantize_dynamic(
+                    self.embedding_model, {torch.nn.Linear}
+                )
 
         # thread pool executor for async embedding
         self.executor = ThreadPoolExecutor(max_workers=1)

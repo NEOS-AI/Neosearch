@@ -18,3 +18,10 @@ class RayParameterManager:
         self.num_gpus = int(os.environ.get("NUM_GPUS", torch.cuda.device_count()))
         self.min_replicas = int(os.environ.get("MIN_REPLICAS", 1))
         self.max_replicas = int(os.environ.get("MAX_REPLICAS", 1))
+
+
+@dataclass
+class EmbeddingModelConfig:
+    force_torch_single_thread: bool = False
+    dynamic_quantization: bool = False
+    dynamic_quantization_dtype: str | None = None
