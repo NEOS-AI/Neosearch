@@ -17,10 +17,10 @@ from llama_index.core.query_pipeline import QueryPipeline
 from llama_index.tools.wikipedia.base import WikipediaToolSpec
 from llama_index.tools.tavily_research.base import TavilyToolSpec
 from llama_index.core.base.base_retriever import BaseRetriever
+from llama_index.core.settings import Settings
 from asyncio import gather
 
 # custom modules
-from neosearch.settings import Settings
 from neosearch.utils.logging import Logger
 from neosearch.engine.prompts.crag_workflow import (
     CRAG_RELEVANCY_PROMPT_TEMPLATE,

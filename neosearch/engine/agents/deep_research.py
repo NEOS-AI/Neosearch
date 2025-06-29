@@ -1,5 +1,6 @@
 import asyncio
 import orjson
+from typing import Union
 from llama_index.core.agent.workflow import (
     FunctionAgent,
     AgentInput,
@@ -78,7 +79,11 @@ async def save_intermediate_event_to_db(task_id: str, event: dict):
     # save event to DB
     pass
 
-async def save_intermediate_result(task_id: str, result: str):
+async def save_intermediate_result(
+    task_id: str,
+    result: str,
+    web_search_result: Union[str, None] = None
+):
     # save event to DB
     pass
 
@@ -186,9 +191,20 @@ async def run_research_agent_for_query(task_id: str, query: str):
     state = await handler.ctx.get("state")
     final_result = state["report_content"]
     web_search_result = state["web_search_result"]
+    if not web_search_result:
+        web_search_result_str = None
+    elif not isinstance(web_search_result, str):
+        try:
+            web_search_result_str = orjson.dumps(web_search_result).decode("utf-8")
+        except orjson.JSONEncodeError:
+            web_search_result_str = str(web_search_result)
+    else:
+        web_search_result_str = web_search_result
 
     # save the intermediate result to DB
-    save_intermediate_result(task_id, final_result) #TODO web_search_result
+    save_intermediate_result(
+        task_id, final_result, web_search_result=web_search_result_str
+    )
 
     return final_result, web_search_result
 
