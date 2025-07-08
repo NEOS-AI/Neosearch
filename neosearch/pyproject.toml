@@ -20,7 +20,7 @@ dependencies = [
     "python-dotenv<2.0.0,>=1.0.0",
     "pyyaml<7.0.0,>=6.0.1",
     "llama-index==0.12.35",
-    "llama-index-core==0.12.35",
+    "llama-index-core==0.12.41",
     "llama-index-llms-ollama==0.4.1",
     "llama-index-embeddings-huggingface==0.4.0",
     "llama-index-vector-stores-pgvecto-rs==0.3.0",
