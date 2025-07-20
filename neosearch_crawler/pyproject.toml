@@ -15,7 +15,7 @@ dependencies = [
     "trafilatura[all]==1.8.0",
     "langchain==0.3.19",
     "llama-index-core==0.12.41",
-    "llama-index==0.12.35",
+    "llama-index==0.12.41",
     "llama-index-llms-openai==0.3.20",
     "llama-index-llms-replicate==0.4.0",
     "llama-index-embeddings-huggingface==0.5.1",
