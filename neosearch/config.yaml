@@ -1,4 +1,0 @@
-neosearch:
-  llm:
-    # ["anthropic", "openai", "ollama"]
-    type: ollama

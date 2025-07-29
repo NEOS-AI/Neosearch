@@ -1,56 +1,40 @@
-This is a [LlamaIndex](https://www.llamaindex.ai/) project using [FastAPI](https://fastapi.tiangolo.com/) bootstrapped with [`create-llama`](https://github.com/run-llama/LlamaIndexTS/tree/main/packages/create-llama).
+# Neosearch Frontend
 
-## Getting Started
+## Features
 
-First, setup the environment:
+- [Next.js](https://nextjs.org) App Router
+  - Advanced routing for seamless navigation and performance
+  - React Server Components (RSCs) and Server Actions for server-side rendering and increased performance
+- [AI SDK](https://sdk.vercel.ai/docs)
+  - Unified API for generating text, structured objects, and tool calls with LLMs
+  - Hooks for building dynamic chat and generative user interfaces
+  - Supports OpenAI (default), Anthropic, Cohere, and other model providers
+- [shadcn/ui](https://ui.shadcn.com)
+  - Styling with [Tailwind CSS](https://tailwindcss.com)
+  - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
+- Data Persistence
+  - [Vercel Postgres powered by Neon](https://vercel.com/storage/postgres) for saving chat history and user data
+  - [Vercel Blob](https://vercel.com/storage/blob) for efficient file storage
+- [NextAuth.js](https://github.com/nextauthjs/next-auth)
+  - Simple and secure authentication
 
-```
-poetry install
-poetry shell
-```
+## Model Providers
 
-By default, we use the OpenAI LLM (though you can customize, see `app/context.py`). As a result you need to specify an `OPENAI_API_KEY` in an .env file in this directory.
+This template ships with OpenAI `gpt-4o` as the default. However, with the [AI SDK](https://sdk.vercel.ai/docs), you can switch LLM providers to [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://sdk.vercel.ai/providers/ai-sdk-providers) with just a few lines of code.
 
-Example `.env` file:
+## Running locally
 
-```
-OPENAI_API_KEY=<openai_api_key>
-```
+You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js AI Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
 
-Second, generate the embeddings of the documents in the `./data` directory (if this folder exists - otherwise, skip this step):
+> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various OpenAI and authentication provider accounts.
 
-```
-python app/engine/generate.py
-```
+1. Install Vercel CLI: `npm i -g vercel`
+2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
+3. Download your environment variables: `vercel env pull`
 
-Third, run the development server:
-
-```
-python main.py
-```
-
-Then call the API endpoint `/api/chat` to see the result:
-
-```
-curl --location 'localhost:8000/api/chat' \
---header 'Content-Type: application/json' \
---data '{ "messages": [{ "role": "user", "content": "Hello" }] }'
-```
-
-You can start editing the API by modifying `app/api/routers/chat.py`. The endpoint auto-updates as you save the file.
-
-Open [http://localhost:8000/docs](http://localhost:8000/docs) with your browser to see the Swagger UI of the API.
-
-The API allows CORS for all origins to simplify development. You can change this behavior by setting the `ENVIRONMENT` environment variable to `prod`:
-
-```
-ENVIRONMENT=prod uvicorn main:app
+```bash
+pnpm install
+pnpm dev
 ```
 
-## Learn More
-
-To learn more about LlamaIndex, take a look at the following resources:
-
-- [LlamaIndex Documentation](https://docs.llamaindex.ai) - learn about LlamaIndex.
-
-You can check out [the LlamaIndex GitHub repository](https://github.com/run-llama/llama_index) - your feedback and contributions are welcome!
+Your app template should now be running on [localhost:3000](http://localhost:3000/).
