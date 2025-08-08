@@ -6,7 +6,7 @@ import {
 } from 'ai';
 
 import { auth } from '@/app/(auth)/auth';
-import { myProvider } from '@/lib/ai/models';
+import { myProvider } from '@/lib/ai/providers';
 import { systemPrompt } from '@/lib/ai/prompts';
 import {
   deleteChatById,
@@ -38,12 +38,14 @@ import {
 export const maxDuration = 60;
 
 export async function POST(request: Request) {
+  const resp_ = await request.json();
+  console.log('Received request:', resp_);
   const {
     id,
     messages,
+    message,
     selectedChatModel,
-  }: { id: string; messages: Array<Message>; selectedChatModel: string } =
-    await request.json();
+  }: { id: string; messages: Array<Message>; message: Message, selectedChatModel: string } = resp_;
 
   const session = await auth();
 
@@ -51,7 +53,13 @@ export async function POST(request: Request) {
     return new Response('Unauthorized', { status: 401 });
   }
 
-  const userMessage = getMostRecentUserMessage(messages);
+  let userMessage = message;
+  if (messages != null) {
+    userMessage = getMostRecentUserMessage(messages);
+  }
+  if (userMessage['attachments'] == null) {
+    userMessage['attachments'] = [];
+  }
 
   if (!userMessage) {
     return new Response('No user message found', { status: 400 });
